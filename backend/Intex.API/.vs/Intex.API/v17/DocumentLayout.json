@@ -3,12 +3,12 @@
   "WorkspaceRootPath": "C:\\Projects\\IntexII\\intex2\\backend\\Intex.API\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{933A6531-FB09-481B-BF81-9851CBE450FF}|Intex.API.csproj|c:\\projects\\intexii\\intex2\\backend\\intex.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{933A6531-FB09-481B-BF81-9851CBE450FF}|Intex.API.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{933A6531-FB09-481B-BF81-9851CBE450FF}|Intex.API.csproj|c:\\projects\\intexii\\intex2\\backend\\intex.api\\controllers\\moviecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{933A6531-FB09-481B-BF81-9851CBE450FF}|Intex.API.csproj|solutionrelative:controllers\\moviecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{933A6531-FB09-481B-BF81-9851CBE450FF}|Intex.API.csproj|c:\\projects\\intexii\\intex2\\backend\\intex.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{933A6531-FB09-481B-BF81-9851CBE450FF}|Intex.API.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{933A6531-FB09-481B-BF81-9851CBE450FF}|Intex.API.csproj|c:\\projects\\intexii\\intex2\\backend\\intex.api\\data\\moviedbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -34,7 +34,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 11,
+          "SelectedChildIndex": 7,
           "Children": [
             {
               "$type": "Bookmark",
@@ -70,7 +70,19 @@
               "RelativeToolTip": "Properties\\launchSettings.json",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAiAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-04-07T17:58:17.426Z",
+              "WhenOpened": "2025-04-07T17:58:17.426Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MovieController.cs",
+              "DocumentMoniker": "C:\\Projects\\IntexII\\intex2\\backend\\Intex.API\\Controllers\\MovieController.cs",
+              "RelativeDocumentMoniker": "Controllers\\MovieController.cs",
+              "ToolTip": "C:\\Projects\\IntexII\\intex2\\backend\\Intex.API\\Controllers\\MovieController.cs",
+              "RelativeToolTip": "Controllers\\MovieController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAF4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-07T17:31:04.914Z",
               "EditorCaption": ""
             },
             {
@@ -83,8 +95,7 @@
               "RelativeToolTip": "Services\\CustomUserClaimsPrincipalFactory.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-07T17:52:59.336Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-07T17:52:59.336Z"
             },
             {
               "$type": "Document",
@@ -96,8 +107,7 @@
               "RelativeToolTip": "Data\\ApplicationDbContext.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-07T17:39:50.707Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-07T17:39:50.707Z"
             },
             {
               "$type": "Document",
@@ -109,25 +119,11 @@
               "RelativeToolTip": "Data\\MovieDbContext.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-07T17:38:34.921Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-07T17:38:34.921Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "MovieController.cs",
-              "DocumentMoniker": "C:\\Projects\\IntexII\\intex2\\backend\\Intex.API\\Controllers\\MovieController.cs",
-              "RelativeDocumentMoniker": "Controllers\\MovieController.cs",
-              "ToolTip": "C:\\Projects\\IntexII\\intex2\\backend\\Intex.API\\Controllers\\MovieController.cs",
-              "RelativeToolTip": "Controllers\\MovieController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-07T17:31:04.914Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Projects\\IntexII\\intex2\\backend\\Intex.API\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",
