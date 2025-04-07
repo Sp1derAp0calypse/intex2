@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-function NavBar() {
+function UserNavBar() {
   return (
     <nav className="navbar fixed-top bg-white border-bottom px-4 py-3">
       <div className="container-fluid d-flex justify-content-between align-items-center">
@@ -9,8 +9,12 @@ function NavBar() {
             <h2 className="mb-0">CineNiche</h2>
           </a>
 
-          <a className="nav-link text-secondary" to="/about">
-            About
+          <a className="nav-link text-secondary" to="/">
+            Home
+          </a>
+
+          <a className="nav-link text-secondary" to="/myList">
+            My List
           </a>
 
           <form className="d-flex" style={{ maxWidth: "300px", width: "100%" }}>
@@ -26,10 +30,10 @@ function NavBar() {
         {/* Right section: Subscribe + Login */}
         <div className="d-flex align-items-center gap-4">
           <a className="nav-link text-secondary" to="/subscribe">
-            Subscribe
+            Settings
           </a>
-          <a className="nav-link text-secondary" to="/login">
-            Login
+          <a className="nav-link text-secondary" to="/account">
+            My account
           </a>
         </div>
       </div>
@@ -37,4 +41,4 @@ function NavBar() {
   );
 }
 
-export default NavBar;
+export default UserNavBar;
