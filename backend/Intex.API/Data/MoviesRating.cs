@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Intex.API.Controllers;
+namespace Intex.API.Data;
 
 public partial class MoviesRating
 {
