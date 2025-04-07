@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using Intex.API.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Intex.API.Controllers;
 
 public partial class MovieDbContext : DbContext
 {
+
     public MovieDbContext()
     {
     }
