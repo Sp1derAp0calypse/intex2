@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Intex.API.Data;
 using Intex.API.Services;
+using Intex.API.Controllers;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,11 +13,17 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Your API", Version = "v1" });
+});
 
 // input the db connection strings here: 
 builder.Services.AddDbContext<ApplicationDbContext>(options => 
     options.UseSqlite(builder.Configuration.GetConnectionString("IdentityConnection")));
+
+builder.Services.AddDbContext<RecommenderDbContext>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("RecommendationsConnection")));
 
 //builder.Services.AddDbContext<MovieDbContext>(options =>
 //    options.UseSqlite(builder.Configuration.GetConnectionString("MovieConnection")));
@@ -61,7 +69,11 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+        c.ConfigObject.AdditionalItems["withCredentials"] = true;  // This ensures Swagger sends cookies
+    });
 }
 
 app.UseCors("AllowFrontend");

@@ -12,10 +12,12 @@ namespace Intex.API.Controllers
     public class MovieController : ControllerBase
     {
         private MovieDbContext _movieContext;
+        private RecommenderDbContext _recommenderContext;
 
-        public MovieController(MovieDbContext temp)
+        public MovieController(MovieDbContext temp, RecommenderDbContext recommenderContext)
         {
             _movieContext = temp;
+            _recommenderContext = recommenderContext;
         }
 
         [HttpGet("allmovies")]
@@ -113,6 +115,33 @@ namespace Intex.API.Controllers
             return NoContent();
         }
 
+        [HttpGet("contentrecommendations/{title}")]
+        public IActionResult GetContentRecommended(string title)
+        {
+            var recommendation = _recommenderContext.ContentRecommendations
+                .FirstOrDefault(r => r.IfYouLiked.Equals(title, StringComparison.OrdinalIgnoreCase));
+
+            if (recommendation == null)
+            {
+                return NotFound(new { message = $"No recommendations found for '{title}'" });
+            }
+
+            // If a match is found, return the recommendations
+            var recommendedMovies = new
+            {
+                IfYouLiked = recommendation.IfYouLiked,
+                Recommendations = new string[]
+                {
+            recommendation.Recommendation1,
+            recommendation.Recommendation2,
+            recommendation.Recommendation3,
+            recommendation.Recommendation4,
+            recommendation.Recommendation5
+                }
+            };
+
+            return Ok(recommendedMovies);
+        }
 
     }
 }
