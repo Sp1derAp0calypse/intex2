@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { fetchMovies } from "./MoviesApi";
+import { fetchMovies } from "../api/MoviesApi";
 import Pagination from "./Pagination";
-import { Movie } from "./types/Movie";
+import { Movie } from "../types/Movie";
 
 function MovieList({ selectedCategories }: { selectedCategories: string[] }) {
   const [movies, setMovies] = useState<Movie[]>([]);
