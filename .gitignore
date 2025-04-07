@@ -1,0 +1,26 @@
+# vs code 
+.vscode/
+.vs/
+
+
+# Logs
+*.log
+logs/
+
+# Build results
+bin/
+obj/
+out/
+
+*.suo
+
+# Node/npm (if using front-end frameworks)
+node_modules/
+dist/
+
+# Environment files
+.env
+.env.*
+
+# Rider
+.idea/
