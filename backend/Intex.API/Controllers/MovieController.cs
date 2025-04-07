@@ -26,7 +26,7 @@ namespace Intex.API.Controllers
             // Apply category filtering if projectTypes are provided
             if (movieTypes != null && movieTypes.Any())
             {
-                query = query.Where(b => movieTypes.Contains(b.Genre));
+                //query = query.Where(b => movieTypes.Contains(b.Genre));
             }
 
             var totalNumMovies = query.Count(); // Count AFTER filtering
@@ -46,19 +46,19 @@ namespace Intex.API.Controllers
         }
 
 
-        [HttpGet("getmoviestypes")]
-        public IActionResult GetProjectTypes()
-        {
-            var movieTypes = _movieContext.Movies
-                .Select(p => p.Genre)
-                .Distinct()
-                .ToList();
+        //[HttpGet("getmoviestypes")]
+        //public IActionResult GetProjectTypes()
+        //{
+        //    //var movieTypes = _movieContext.Movies
+        //    //    .Select(p => p.Genre)
+        //    //    .Distinct()
+        //    //    .ToList();
 
-            return Ok(movieTypes);
-        }
+        //    return Ok(movieTypes);
+        //}
 
         [HttpPost("addmovie")]
-        public IActionResult AddMovie([FromBody] Movie newMovie)
+        public IActionResult AddMovie([FromBody] MoviesTitle newMovie)
         {
             _movieContext.Movies.Add(newMovie);
             _movieContext.SaveChanges();
@@ -67,7 +67,7 @@ namespace Intex.API.Controllers
 
 
         [HttpPut("updatemovie/{movieId}")]
-        public IActionResult UpdateMovie(int movieId, [FromBody] Movie updatedMovie)
+        public IActionResult UpdateMovie(int movieId, [FromBody] MoviesTitle updatedMovie)
         {
             var existingMovie = _movieContext.Movies.Find(movieId);
 
@@ -77,16 +77,16 @@ namespace Intex.API.Controllers
             }
 
             // Update the book fields
-            existingMovie.Title = updatedMovie.Title;
-            existingMovie.Director = updatedMovie.Director;
-            existingMovie.Type = updatedMovie.Type;
-            existingMovie.TheCast = updatedMovie.TheCast;
-            existingMovie.Country = updatedMovie.Country;
-            existingMovie.Release_year = updatedMovie.Release_year;
-            existingMovie.Rating = updatedMovie.Rating;
-            existingMovie.Duration = updatedMovie.Duration;
-            existingMovie.Description = updatedMovie.Description;
-            existingMovie.Genre = updatedMovie.Genre;
+            //existingMovie.Title = updatedMovie.Title;
+            //existingMovie.Director = updatedMovie.Director;
+            //existingMovie.Type = updatedMovie.Type;
+            //existingMovie.TheCast = updatedMovie.TheCast;
+            //existingMovie.Country = updatedMovie.Country;
+            //existingMovie.Release_year = updatedMovie.Release_year;
+            //existingMovie.Rating = updatedMovie.Rating;
+            //existingMovie.Duration = updatedMovie.Duration;
+            //existingMovie.Description = updatedMovie.Description;
+            //existingMovie.Genre = updatedMovie.Genre;
 
 
 
