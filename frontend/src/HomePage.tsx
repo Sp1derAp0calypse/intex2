@@ -7,7 +7,6 @@ function HomePage() {
     <>
       <NavBar />
       <MovieList />
-      <Footer />
     </>
   );
 }

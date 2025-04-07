@@ -1,17 +1,18 @@
 import { Link } from "react-router-dom";
+
 function NavBar() {
   return (
     <nav className="navbar fixed-top bg-white border-bottom px-4 py-3">
       <div className="container-fluid d-flex justify-content-between align-items-center">
         {/* Left section: Logo + About + Search */}
         <div className="d-flex align-items-center gap-4 flex-grow-1">
-          <a className="navbar-brand mb-0" to="/">
+          <Link className="navbar-brand mb-0" to="/">
             <h2 className="mb-0">CineNiche</h2>
-          </a>
+          </Link>
 
-          <a className="nav-link text-secondary" to="/about">
+          <Link className="nav-link text-secondary" to="/about">
             About
-          </a>
+          </Link>
 
           <form className="d-flex" style={{ maxWidth: "300px", width: "100%" }}>
             <input
@@ -25,12 +26,12 @@ function NavBar() {
 
         {/* Right section: Subscribe + Login */}
         <div className="d-flex align-items-center gap-4">
-          <a className="nav-link text-secondary" to="/subscribe">
+          <Link className="nav-link text-secondary" to="/subscribe">
             Subscribe
-          </a>
-          <a className="nav-link text-secondary" to="/login">
+          </Link>
+          <Link className="nav-link text-secondary" to="/login">
             Login
-          </a>
+          </Link>
         </div>
       </div>
     </nav>

@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 function Logout(props: { children: React.ReactNode }) {
   const navigate = useNavigate();
@@ -7,21 +7,21 @@ function Logout(props: { children: React.ReactNode }) {
     e.preventDefault();
 
     try {
-      const response = await fetch('https://localhost:5000/logout', {
-        method: 'POST',
-        credentials: 'include', // Ensure cookies are sent
+      const response = await fetch("https://localhost:5000/logout", {
+        method: "POST",
+        credentials: "include", // Ensure cookies are sent
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
       });
 
       if (response.ok) {
-        navigate('/login');
+        navigate("/login");
       } else {
-        console.error('Logout failed:', response.status);
+        console.error("Logout failed:", response.status);
       }
     } catch (error) {
-      console.error('Logout error:', error);
+      console.error("Logout error:", error);
     }
   };
 
