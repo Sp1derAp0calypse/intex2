@@ -6,7 +6,6 @@ namespace Intex.API.Controllers;
 
 public partial class MovieDbContext : DbContext
 {
-
     public MovieDbContext()
     {
     }
@@ -28,7 +27,6 @@ public partial class MovieDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-
         modelBuilder.Entity<MoviesRating>(entity =>
         {
             entity
@@ -99,7 +97,6 @@ public partial class MovieDbContext : DbContext
             entity.Property(e => e.UserId).HasColumnName("user_id");
             entity.Property(e => e.Zip).HasColumnName("zip");
         });
-
 
         OnModelCreatingPartial(modelBuilder);
     }
