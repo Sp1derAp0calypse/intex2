@@ -6,7 +6,13 @@ import { Movie } from "../types/Movie";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 
-function MovieList({ selectedCategories }: { selectedCategories: string[] }) {
+function MovieList({
+  selectedCategories,
+  searchTerm = "",
+}: {
+  selectedCategories: string[];
+  searchTerm?: string;
+}) {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [pageSize, setPageSize] = useState<number>(5);
   const [pageNum, setPageNum] = useState<number>(1);
@@ -20,7 +26,12 @@ function MovieList({ selectedCategories }: { selectedCategories: string[] }) {
     const loadMovies = async () => {
       try {
         setLoading(true);
-        const data = await fetchMovies(pageSize, pageNum, selectedCategories);
+        const data = await fetchMovies(
+          pageSize,
+          pageNum,
+          selectedCategories,
+          searchTerm
+        );
 
         setMovies(data.movies);
         setTotalPages(Math.ceil(data.totalNumMovies / pageSize));
@@ -32,7 +43,7 @@ function MovieList({ selectedCategories }: { selectedCategories: string[] }) {
     };
 
     loadMovies();
-  }, [pageSize, pageNum, selectedCategories]);
+  }, [pageSize, pageNum, selectedCategories, searchTerm]);
 
   if (loading) return <p>Loading Movies...</p>;
   if (error) return <p className="text-red-500">Error: {error}</p>;

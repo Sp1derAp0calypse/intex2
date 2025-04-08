@@ -9,18 +9,18 @@ function Footer() {
           © {new Date().getFullYear()} CineNiche. All rights reserved.
         </p>
         <p className="small">
-          <a href="/about" className="text-muted">
+          <Link to="/about" className="text-muted">
             About
-          </a>{" "}
+          </Link>{" "}
           ·
-          <a href="/privacy" className="text-muted mx-2">
+          <Link to="/privacy" className="text-muted mx-2">
             Privacy
-          </a>{" "}
+          </Link>
         </p>
       </div>
       <div className="mb-3">
         <a
-          href=""
+          href="https://www.instagram.com"
           className="text-muted mx-2"
           target="_blank"
           rel="noopener noreferrer"
@@ -28,7 +28,7 @@ function Footer() {
           <FaInstagram size={20} />
         </a>
         <a
-          href=""
+          href="https://www.facebook.com"
           className="text-muted mx-2"
           target="_blank"
           rel="noopener noreferrer"
@@ -36,7 +36,7 @@ function Footer() {
           <FaFacebookF size={20} />
         </a>
         <a
-          href=""
+          href="https://www.twitter.com"
           className="text-muted mx-2"
           target="_blank"
           rel="noopener noreferrer"
