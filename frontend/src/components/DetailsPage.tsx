@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Movie } from "../types/Movie";
 import { CollabRecommend } from "../types/CollabRecommend";
@@ -84,6 +84,10 @@ const DetailsPage = () => {
       setLoading(false);
     }
   }, [movie]);
+
+  if (loading) {
+    return <p>Loading movie details...</p>;
+  }
 
   return (
     <div>
