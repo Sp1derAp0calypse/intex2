@@ -1,7 +1,7 @@
 import { useState } from "react";
 import CategoryFilter from "../components/CategoryFilter";
 import MovieList from "../components/MovieList";
-import NavBar from "../components/NavBar";
+import UserNavBar from "../components/UserNavBar";
 
 function HomePage() {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
@@ -9,7 +9,7 @@ function HomePage() {
   return (
     <>
       <div className="container mt-4">
-        <NavBar />
+        <UserNavBar />
 
         <div className="row">
           <div className="col-md-3">

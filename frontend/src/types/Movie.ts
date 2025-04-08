@@ -1,4 +1,5 @@
 export interface Movie {
+  categories: any;
   showId?: string;
   type?: string;
   title?: string;
