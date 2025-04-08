@@ -10,17 +10,21 @@ const ApiUrl = "https://localhost:5000/Movie";
 export const fetchMovies = async (
   pageSize: number,
   pageNum: number,
-  selectedCategories: string[]
+  selectedCategories: string[],
+  searchTerm: string = ""
 ): Promise<FetchMoviesResponse> => {
   try {
     const categoryParams = selectedCategories
       .map((cat) => `movieTypes=${encodeURIComponent(cat)}`)
       .join(`&`);
+    const searchParam = searchTerm
+      ? `&searchTerm=${encodeURIComponent(searchTerm)}`
+      : "";
 
     const response = await fetch(
       `${ApiUrl}/allmovies?pageSize=${pageSize}&pageNum=${pageNum}${
         selectedCategories.length ? `&${categoryParams}` : ``
-      }`,
+      }${searchParam}`,
       {
         credentials: "include",
       }

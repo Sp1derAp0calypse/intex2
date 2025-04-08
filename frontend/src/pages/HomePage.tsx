@@ -1,17 +1,20 @@
 import { useState } from "react";
 import CategoryFilter from "../components/CategoryFilter";
 import MovieList from "../components/MovieList";
-import UserNavBar from "../components/UserNavBar";
-import Header from "../components/Header";
+import NavBar from "../components/NavBar";
+import { useLocation } from "react-router-dom";
 
 function HomePage() {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const searchTerm = queryParams.get("search") || "";
 
   return (
     <>
       <div className="container mt-4">
-        <UserNavBar />
-        <Header />
+        <NavBar />
+
         <div className="row">
           <div className="col-md-3">
             <CategoryFilter
@@ -20,7 +23,10 @@ function HomePage() {
             />
           </div>
           <div className="col-md-9">
-            <MovieList selectedCategories={selectedCategories} />
+            <MovieList
+              selectedCategories={selectedCategories}
+              searchTerm={searchTerm}
+            />
           </div>
         </div>
       </div>
