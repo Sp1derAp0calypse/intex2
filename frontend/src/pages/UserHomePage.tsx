@@ -1,4 +1,4 @@
-import UserNavBar from "./UserNavBar";
+import UserNavBar from "../components/UserNavBar";
 
 function UserHomePage() {
   return (
