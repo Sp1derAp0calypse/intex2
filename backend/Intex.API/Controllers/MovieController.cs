@@ -22,9 +22,14 @@ namespace Intex.API.Controllers
         }
 
         [HttpGet("allmovies")]
-        public IActionResult GetMovies(int pageSize = 5, int pageNum = 1, [FromQuery] List<string>? movieTypes = null)
+        public IActionResult GetMovies(int pageSize = 5, int pageNum = 1, [FromQuery] List<string>? movieTypes = null, [FromQuery] string? searchTerm = null)
         {
             var query = _movieContext.Movies.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(searchTerm))
+            {
+                query = query.Where(m => m.Title.Contains(searchTerm));
+            }
 
             // Apply genre filtering using reflection
             if (movieTypes != null && movieTypes.Any())

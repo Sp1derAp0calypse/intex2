@@ -1,54 +1,58 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Movie } from "../types/Movie";
 
 interface SearchBarProps {
-  movies: Movie[]; // You should be passing movies from the parent
-  setSearchTerm: (term: string) => void; // Function to set search term in the parent
+  movies: Movie[];
+  redirectTo: string; // e.g., "/"
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({ movies, setSearchTerm }) => {
+const SearchBar: React.FC<SearchBarProps> = ({ movies, redirectTo }) => {
   const [searchTerm, setSearchTermLocal] = useState("");
   const [filteredMovies, setFilteredMovies] = useState<Movie[]>([]);
   const [showDropdown, setShowDropdown] = useState(false);
+  const navigate = useNavigate();
 
-  // Filter movies based on search term
   useEffect(() => {
-    if (searchTerm.trim() === "") {
+    if (!searchTerm.trim()) {
       setFilteredMovies([]);
       setShowDropdown(false);
       return;
     }
 
-    // Filter movies by title
     const results = movies.filter((movie) =>
       movie.title?.toLowerCase().includes(searchTerm.toLowerCase())
     );
-
     setFilteredMovies(results);
     setShowDropdown(true);
   }, [searchTerm, movies]);
 
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setSearchTermLocal(value);
-    setSearchTerm(value); // Sync the search term with the parent
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchTerm.trim()) {
+      navigate(`${redirectTo}?search=${encodeURIComponent(searchTerm.trim())}`);
+      setShowDropdown(false);
+    }
   };
 
   const handleSearchClick = (title: string) => {
     setSearchTermLocal(title);
-    setSearchTerm(title); // Sync the state with the parent
-    setShowDropdown(false); // Close the dropdown when an item is selected
+    navigate(`${redirectTo}?search=${encodeURIComponent(title)}`);
+    setShowDropdown(false);
   };
 
   return (
-    <div style={{ maxWidth: "300px", width: "100%" }} className="position-relative">
+    <form
+      onSubmit={handleSubmit}
+      className="position-relative"
+      style={{ maxWidth: "300px", width: "100%" }}
+    >
       <input
         className="form-control"
         type="search"
         placeholder="Search"
-        aria-label="Search"
         value={searchTerm}
-        onChange={handleSearchChange}
+        onChange={(e) => setSearchTermLocal(e.target.value)}
         onFocus={() => setShowDropdown(true)}
       />
       {showDropdown && filteredMovies.length > 0 && (
@@ -64,7 +68,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ movies, setSearchTerm }) => {
           ))}
         </ul>
       )}
-    </div>
+    </form>
   );
 };
 
