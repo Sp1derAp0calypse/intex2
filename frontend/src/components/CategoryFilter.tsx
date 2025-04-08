@@ -13,7 +13,12 @@ function CategoryFilter({
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch("https:localhost:5000/Movie/getbooktypes");
+        const response = await fetch(
+          "https://localhost:5000/Movie/getmovietypes",
+          {
+            credentials: "include",
+          }
+        );
         const data = await response.json();
         console.log("Fetched categories", data);
         setCategories(data);
@@ -34,7 +39,7 @@ function CategoryFilter({
   return (
     <>
       <div className="category-filter">
-        <h5>Book Types</h5>
+        <h5>Movie Types</h5>
         <div className="category-list">
           {categories.map((c) => (
             <div key={c} className="category-item">

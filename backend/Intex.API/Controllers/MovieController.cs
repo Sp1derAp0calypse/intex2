@@ -13,10 +13,12 @@ namespace Intex.API.Controllers
     public class MovieController : ControllerBase
     {
         private MovieDbContext _movieContext;
+        private RecommenderDbContext _recommenderContext;
 
-        public MovieController(MovieDbContext temp)
+        public MovieController(MovieDbContext temp, RecommenderDbContext recommenderContext)
         {
             _movieContext = temp;
+            _recommenderContext = recommenderContext;
         }
 
         [HttpGet("allmovies")]
@@ -69,7 +71,7 @@ namespace Intex.API.Controllers
             return Ok(newObject);
         }
 
-        [HttpGet("getmoviestypes")]
+        [HttpGet("getmovietypes")]
         public IActionResult GetMovieTypes()
         {
             var genreProps = typeof(MoviesTitle).GetProperties()
