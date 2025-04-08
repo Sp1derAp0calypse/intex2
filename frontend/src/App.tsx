@@ -20,7 +20,7 @@ function App() {
             element={<MovieList selectedCategories={[]} />}
           />
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/subscribe" element={<RegisterPage />} />
+          <Route path="/register" element={<RegisterPage />} />
         </Routes>
       </main>
 
