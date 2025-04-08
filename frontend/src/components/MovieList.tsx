@@ -161,7 +161,7 @@ function MovieList({ selectedCategories }: { selectedCategories: string[] }) {
               <button
                 className="btn btn-primary mt-3"
                 onClick={() =>
-                  navigate(`/details/${m.title}/${m.showId}`, {
+                  navigate(`/Movie/details/${m.title}`, {
                     state: { movie: m },
                   })
                 }
