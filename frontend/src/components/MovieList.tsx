@@ -112,7 +112,9 @@ function MovieList({
         };
 
         const genres = Object.entries(genreMap)
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           .filter(([key]) => (m as any)[key] === 1)
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           .map(([_, label]) => label);
 
         return (
