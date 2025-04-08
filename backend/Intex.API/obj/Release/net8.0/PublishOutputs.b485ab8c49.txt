@@ -1,0 +1,11 @@
+C:\Users\sarface\Desktop\intex2\backend\Intex.API\publish\Intex.API.exe
+C:\Users\sarface\Desktop\intex2\backend\Intex.API\publish\appsettings.Development.json
+C:\Users\sarface\Desktop\intex2\backend\Intex.API\publish\appsettings.json
+C:\Users\sarface\Desktop\intex2\backend\Intex.API\publish\Intex.API.dll
+C:\Users\sarface\Desktop\intex2\backend\Intex.API\publish\Intex.API.deps.json
+C:\Users\sarface\Desktop\intex2\backend\Intex.API\publish\Intex.API.runtimeconfig.json
+C:\Users\sarface\Desktop\intex2\backend\Intex.API\publish\Intex.API.pdb
+C:\Users\sarface\Desktop\intex2\backend\Intex.API\publish\Microsoft.OpenApi.dll
+C:\Users\sarface\Desktop\intex2\backend\Intex.API\publish\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\sarface\Desktop\intex2\backend\Intex.API\publish\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\sarface\Desktop\intex2\backend\Intex.API\publish\Swashbuckle.AspNetCore.SwaggerUI.dll
