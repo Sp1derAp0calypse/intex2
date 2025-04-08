@@ -5,7 +5,7 @@ interface FetchMoviesResponse {
   totalNumMovies: number;
 }
 
-const ApiUrl = "https://localhost:5000/api/Movie";
+const ApiUrl = "https://localhost:5000/Movie";
 
 export const fetchMovies = async (
   pageSize: number,
@@ -14,13 +14,16 @@ export const fetchMovies = async (
 ): Promise<FetchMoviesResponse> => {
   try {
     const categoryParams = selectedCategories
-      .map((cat) => `movieGenres=${encodeURIComponent(cat)}`)
+      .map((cat) => `movieTypes=${encodeURIComponent(cat)}`)
       .join(`&`);
 
     const response = await fetch(
       `${ApiUrl}/allmovies?pageSize=${pageSize}&pageNum=${pageNum}${
         selectedCategories.length ? `&${categoryParams}` : ``
-      }`
+      }`,
+      {
+        credentials: "include",
+      }
     );
 
     if (!response.ok) {
@@ -42,6 +45,7 @@ export const addMovie = async (newMovie: Movie): Promise<Movie> => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(newMovie),
+      credentials: "include",
     });
 
     if (!response.ok) {
@@ -66,6 +70,7 @@ export const updateMovie = async (
         "Content-Type": "application/json",
       },
       body: JSON.stringify(updatedMovie),
+      credentials: "include",
     });
 
     if (!response.ok) {
@@ -83,6 +88,7 @@ export const deleteMovie = async (movieId: number): Promise<void> => {
   try {
     const response = await fetch(`${ApiUrl}/deletemovie/${movieId}`, {
       method: "DELETE",
+      credentials: "include",
     });
 
     if (!response.ok) {
