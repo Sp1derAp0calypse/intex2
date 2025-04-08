@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { Movie } from "../types/Movie";
-import { CollabRecommend } from "../types/CollabRecommend";
+import { useParams, Link } from "react-router-dom";
+import { Movie } from "../types/Movie.ts";
+import { CollabRecommend } from "../types/CollabRecommend.ts";
 import { ContentRecommend } from "../types/ContentRecommend.ts";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 const DetailsPage = () => {
   const { title } = useParams<{ title: string }>();
@@ -46,9 +47,14 @@ const DetailsPage = () => {
         );
         if (response.ok) {
           const collabData: CollabRecommend = await response.json();
-          setCollabRecommend(collabData); // Assuming Recommendations is an array
+          if (collabData.recommendations.length === 0) {
+            setCollabRecommend(null); // Clear recommendations if empty
+          } else {
+            setCollabRecommend(collabData); // Set new recommendations
+          }
         } else {
           console.error("Recommendations not found");
+          setCollabRecommend(null); // Clear recommendations on error
         }
       }
     };
@@ -93,11 +99,30 @@ const DetailsPage = () => {
     <div>
       <h1>Recommendations for {title}</h1>
 
+      {/* Movie Poster */}
+      {movie?.poster_url && (
+        <div className="mb-3 text-center">
+          <LazyLoadImage
+            src={movie.poster_url}
+            alt={movie.title}
+            effect="blur" // or "opacity" or none
+            className="img-fluid rounded"
+            style={{ maxHeight: "400px", objectFit: "contain" }}
+            onError={(e) => {
+              e.currentTarget.onerror = null; // prevent looping
+              e.currentTarget.src = "/placeholder.png"; // Fallback to placeholder if image fails to load
+            }}
+          />
+        </div>
+      )}
+
       <h2>Collaborative Recommendations</h2>
       {collabRecommend ? (
         <ul>
           {collabRecommend.recommendations.map((rec, index) => (
-            <li key={index}>{rec}</li>
+            <li key={index}>
+              <Link to={`/movie/details/${rec}`}>{rec}</Link>
+            </li>
           ))}
         </ul>
       ) : (
@@ -108,7 +133,9 @@ const DetailsPage = () => {
       {contentRecommend ? (
         <ul>
           {contentRecommend.recommendations.map((rec, index) => (
-            <li key={index}>{rec}</li>
+            <li key={index}>
+              <Link to={`/movie/details/${rec}`}>{rec}</Link>
+            </li>
           ))}
         </ul>
       ) : (
