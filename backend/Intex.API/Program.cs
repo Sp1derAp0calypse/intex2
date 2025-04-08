@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Intex.API.Data;
 using Intex.API.Services;
+using Intex.API.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,10 +18,10 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ApplicationDbContext>(options => 
     options.UseSqlite(builder.Configuration.GetConnectionString("IdentityConnection")));
 
-//builder.Services.AddDbContext<MovieDbContext>(options =>
-//    options.UseSqlite(builder.Configuration.GetConnectionString("MovieConnection")));
-// builder.Services.AddDbContext<RecommenderDbContext>(options =>
-//     options.UseSqlite(builder.Configuration.GetConnectionString("RecommendationsConnection")));
+builder.Services.AddDbContext<MovieDbContext>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("MovieConnection")));
+builder.Services.AddDbContext<RecommenderDbContext>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("RecommendationsConnection")));
 
 // using authorization 
 builder.Services.AddAuthorization();

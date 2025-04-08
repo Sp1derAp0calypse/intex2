@@ -5,8 +5,8 @@ namespace Intex.API.Controllers
 {
     public class RecommenderDbContext : DbContext
     {
-        public DbSet<ContentRecommend> ContentRecommendations { get; set; }
-        public DbSet<CollabRecommend> CollaborativeRecommendations { get; set; }
+        public DbSet<ContentRecommendations> Content { get; set; }
+        public DbSet<CollaborativeRecommendations> Collaborative { get; set; }
 
         public RecommenderDbContext(DbContextOptions<RecommenderDbContext> options)
             : base(options)
