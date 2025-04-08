@@ -42,4 +42,5 @@ export interface Movie {
   tvDramas?: number;
   talkShowsTvComedies?: number;
   thrillers?: number;
+  poster_url?: string;
 }
