@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using Intex.API.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -12,12 +13,10 @@ namespace Intex.API.Controllers
     public class MovieController : ControllerBase
     {
         private MovieDbContext _movieContext;
-        private RecommenderDbContext _recommenderContext;
 
-        public MovieController(MovieDbContext temp, RecommenderDbContext recommenderContext)
+        public MovieController(MovieDbContext temp)
         {
             _movieContext = temp;
-            _recommenderContext = recommenderContext;
         }
 
         [HttpGet("allmovies")]
@@ -25,13 +24,36 @@ namespace Intex.API.Controllers
         {
             var query = _movieContext.Movies.AsQueryable();
 
-            // Apply category filtering if projectTypes are provided
+            // Apply genre filtering using reflection
             if (movieTypes != null && movieTypes.Any())
             {
-                //query = query.Where(b => movieTypes.Contains(b.Genre));
+                // Combine OR conditions dynamically for any genre that has value == 1
+                var parameter = Expression.Parameter(typeof(MoviesTitle), "m");
+                Expression? combinedExpression = null;
+
+                foreach (var genre in movieTypes)
+                {
+                    var property = typeof(MoviesTitle).GetProperty(genre);
+                    if (property != null && property.PropertyType == typeof(int?))
+                    {
+                        var propertyAccess = Expression.Property(parameter, property);
+                        var genreValue = Expression.Constant(1, typeof(int?));
+                        var equality = Expression.Equal(propertyAccess, genreValue);
+
+                        combinedExpression = combinedExpression == null
+                            ? equality
+                            : Expression.OrElse(combinedExpression, equality);
+                    }
+                }
+
+                if (combinedExpression != null)
+                {
+                    var lambda = Expression.Lambda<Func<MoviesTitle, bool>>(combinedExpression, parameter);
+                    query = query.Where(lambda);
+                }
             }
 
-            var totalNumMovies = query.Count(); // Count AFTER filtering
+            var totalNumMovies = query.Count();
 
             var list = query
                 .Skip((pageNum - 1) * pageSize)
@@ -47,17 +69,17 @@ namespace Intex.API.Controllers
             return Ok(newObject);
         }
 
+        [HttpGet("getmoviestypes")]
+        public IActionResult GetMovieTypes()
+        {
+            var genreProps = typeof(MoviesTitle).GetProperties()
+                .Where(p => p.PropertyType == typeof(int?) && Char.IsUpper(p.Name[0]))
+                .Select(p => p.Name)
+                .ToList();
 
-        //[HttpGet("getmoviestypes")]
-        //public IActionResult GetProjectTypes()
-        //{
-        //    //var movieTypes = _movieContext.Movies
-        //    //    .Select(p => p.Genre)
-        //    //    .Distinct()
-        //    //    .ToList();
+            return Ok(genreProps);
+        }
 
-        //    return Ok(movieTypes);
-        //}
 
         [HttpPost("addmovie")]
         public IActionResult AddMovie([FromBody] MoviesTitle newMovie)
@@ -113,34 +135,6 @@ namespace Intex.API.Controllers
             _movieContext.SaveChanges();
 
             return NoContent();
-        }
-
-        [HttpGet("contentrecommendations/{title}")]
-        public IActionResult GetContentRecommended(string title)
-        {
-            var recommendation = _recommenderContext.ContentRecommendations
-                .FirstOrDefault(r => r.IfYouLiked.Equals(title, StringComparison.OrdinalIgnoreCase));
-
-            if (recommendation == null)
-            {
-                return NotFound(new { message = $"No recommendations found for '{title}'" });
-            }
-
-            // If a match is found, return the recommendations
-            var recommendedMovies = new
-            {
-                IfYouLiked = recommendation.IfYouLiked,
-                Recommendations = new string[]
-                {
-            recommendation.Recommendation1,
-            recommendation.Recommendation2,
-            recommendation.Recommendation3,
-            recommendation.Recommendation4,
-            recommendation.Recommendation5
-                }
-            };
-
-            return Ok(recommendedMovies);
         }
 
 
