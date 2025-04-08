@@ -22,10 +22,6 @@ function UserNavBar() {
     fetchMovies();
   }, []);
 
-  useEffect(() => {
-    console.log("Search term updated:", searchTerm);
-  }, [searchTerm]);
-
   return (
     <nav className="navbar fixed-top bg-white border-bottom px-4 py-3 z-10">
       <div className="container-fluid d-flex justify-content-between align-items-center">
