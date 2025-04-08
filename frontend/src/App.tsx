@@ -6,6 +6,7 @@ import NavBar from "./components/NavBar";
 import HomePage from "./pages/HomePage";
 import RegisterPage from "./pages/RegisterPage";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Privacy from "./components/Privacy";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/subscribe" element={<RegisterPage />} />
+          <Route path="/privacy" element={<Privacy />} />
         </Routes>
       </main>
 
