@@ -2,6 +2,7 @@ using System.Linq.Expressions;
 using Intex.API.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Intex.API.Controllers
 {
@@ -139,14 +140,9 @@ namespace Intex.API.Controllers
             return NoContent();
         }
 
-        [HttpGet("collaborativerecommendations")]
-        public IActionResult GetCollabRecommended([FromQuery] string title)
+        [HttpGet("collabrecommendations")]
+        public IActionResult GetCollabRecommended(string title)
         {
-            if (string.IsNullOrWhiteSpace(title))
-            {
-                return BadRequest(new { message = "Title cannot be empty" });
-            }
-
             // Search for content recommendations where 'If you liked' matches the provided title
             var recommendation = _recommenderContext.Collaborative
                 .AsEnumerable()
@@ -159,7 +155,7 @@ namespace Intex.API.Controllers
             }
 
             // If a match is found, return the recommendations
-            var recommendedMovies = new
+            var collabRecommend = new
             {
                 IfYouLiked = recommendation.IfYouLiked,
                 Recommendations = new string[]
@@ -172,18 +168,13 @@ namespace Intex.API.Controllers
                 }
             };
 
-            return Ok(recommendedMovies);
+            return Ok(collabRecommend);
 
         }
 
         [HttpGet("contentrecommendations")]
-        public IActionResult GetContentRecommended([FromQuery] string title)
+        public IActionResult GetContentRecommended(string title)
         {
-            if (string.IsNullOrWhiteSpace(title))
-            {
-                return BadRequest(new { message = "Title cannot be empty" });
-            }
-
             // Search for content recommendations where 'If you liked' matches the provided title
             var recommendation = _recommenderContext.Content
                 .AsEnumerable()
@@ -196,7 +187,7 @@ namespace Intex.API.Controllers
             }
 
             // If a match is found, return the recommendations
-            var recommendedMovies = new
+            var contentRecommend = new
             {
                 IfYouLiked = recommendation.IfYouLiked,
                 Recommendations = new string[]
@@ -209,8 +200,27 @@ namespace Intex.API.Controllers
                 }
             };
 
-            return Ok(recommendedMovies);
+            return Ok(contentRecommend);
 
         }
+
+        [HttpGet("getdetails/{title}")]
+        public IActionResult GetMovieDetails(string title)
+        {
+            // Search for the movie by title in the Movies table with case-insensitive comparison using LOWER
+            var movie = _movieContext.Movies
+                .FirstOrDefault(m => m.Title.ToLower() == title.ToLower());
+
+            // If no movie is found, return a 404 Not Found response
+            if (movie == null)
+            {
+                return NotFound(new { message = $"Movie with title '{title}' not found" });
+            }
+
+            // If the movie is found, return the movie details as JSON
+            Response.ContentType = "application/json";
+            return Ok(movie);
+        }
+
     }
 }
