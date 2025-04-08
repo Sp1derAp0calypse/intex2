@@ -154,7 +154,7 @@ function MovieList({ selectedCategories }: { selectedCategories: string[] }) {
                   style={{ maxHeight: "400px", objectFit: "contain" }}
                   onError={(e) => {
                     e.currentTarget.onerror = null; // prevent looping
-                    e.currentTarget.src = "/placeholder.jpg";
+                    e.currentTarget.src = "/placeholder.png";
                   }}
                 />
               </div>
