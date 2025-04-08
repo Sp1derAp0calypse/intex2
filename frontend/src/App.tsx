@@ -6,7 +6,7 @@ import NavBar from "./components/NavBar";
 import HomePage from "./pages/HomePage";
 import RegisterPage from "./pages/RegisterPage";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import DetailsPage from "./components/DetailsPage";
+import DetailsPage from "./pages/DetailsPage";
 import Privacy from "./components/Privacy";
 import UserHomePage from "./pages/UserHomePage";
 
