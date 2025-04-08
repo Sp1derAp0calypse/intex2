@@ -8,7 +8,9 @@ import RegisterPage from "./pages/RegisterPage";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import DetailsPage from "./pages/DetailsPage";
 import Privacy from "./components/Privacy";
+import AdminMoviesPage from "./pages/AdminMovieList";
 import UserHomePage from "./pages/UserHomePage";
+
 
 function App() {
   return (
@@ -27,6 +29,8 @@ function App() {
           <Route path="Movie/details/:title" element={<DetailsPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/privacy" element={<Privacy />} />
+
+          <Route path="/adminmovies" element={<AdminMoviesPage />} />
           <Route path="/userHomePage" element={<UserHomePage />} />
         </Routes>
       </main>

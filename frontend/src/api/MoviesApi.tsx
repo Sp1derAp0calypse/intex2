@@ -64,11 +64,11 @@ export const addMovie = async (newMovie: Movie): Promise<Movie> => {
 };
 
 export const updateMovie = async (
-  movieId: number,
+  showId: string,
   updatedMovie: Movie
 ): Promise<Movie> => {
   try {
-    const response = await fetch(`${ApiUrl}/updatemovie/${movieId}`, {
+    const response = await fetch(`${ApiUrl}/updatemovie/${showId}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -88,9 +88,9 @@ export const updateMovie = async (
   }
 };
 
-export const deleteMovie = async (movieId: number): Promise<void> => {
+export const deleteMovie = async (showId: string): Promise<void> => {
   try {
-    const response = await fetch(`${ApiUrl}/deletemovie/${movieId}`, {
+    const response = await fetch(`${ApiUrl}/deletemovie/${showId}`, {
       method: "DELETE",
       credentials: "include",
     });

@@ -92,33 +92,80 @@ namespace Intex.API.Controllers
         [HttpPost("addmovie")]
         public IActionResult AddMovie([FromBody] MoviesTitle newMovie)
         {
+            // Safely get max numeric ID from existing show_id values
+            var allIds = _movieContext.Movies
+                .Where(m => m.ShowId.StartsWith("s"))
+                .Select(m => m.ShowId)
+                .ToList();
+            var maxId = allIds
+                .Select(id => int.TryParse(id.Substring(1), out var num) ? num : 0)
+                .DefaultIfEmpty(0)
+                .Max();
+            // Generate new show_id
+            var newId = $"s{maxId + 1}";
+            newMovie.ShowId = newId;
+            // Save to DB
             _movieContext.Movies.Add(newMovie);
             _movieContext.SaveChanges();
             return Ok(newMovie);
         }
 
 
-        [HttpPut("updatemovie/{movieId}")]
-        public IActionResult UpdateMovie(int movieId, [FromBody] MoviesTitle updatedMovie)
+
+        [HttpPut("updatemovie/{showId}")]
+        public IActionResult UpdateMovie(string showId, [FromBody] MoviesTitle updatedMovie)
         {
-            var existingMovie = _movieContext.Movies.Find(movieId);
+            var existingMovie = _movieContext.Movies.Find(showId);
 
             if (existingMovie == null)
             {
-                return NotFound($"Project with ID {movieId} not found.");
+                return NotFound($"Project with ID {showId} not found.");
             }
 
             // Update the book fields
-            //existingMovie.Title = updatedMovie.Title;
-            //existingMovie.Director = updatedMovie.Director;
-            //existingMovie.Type = updatedMovie.Type;
-            //existingMovie.TheCast = updatedMovie.TheCast;
-            //existingMovie.Country = updatedMovie.Country;
-            //existingMovie.Release_year = updatedMovie.Release_year;
-            //existingMovie.Rating = updatedMovie.Rating;
-            //existingMovie.Duration = updatedMovie.Duration;
-            //existingMovie.Description = updatedMovie.Description;
-            //existingMovie.Genre = updatedMovie.Genre;
+            existingMovie.Title = updatedMovie.Title;
+            existingMovie.Director = updatedMovie.Director;
+            existingMovie.Type = updatedMovie.Type;
+            existingMovie.Cast = updatedMovie.Cast;
+            existingMovie.Country = updatedMovie.Country;
+            existingMovie.ReleaseYear = updatedMovie.ReleaseYear;
+            existingMovie.Rating = updatedMovie.Rating;
+            existingMovie.Duration = updatedMovie.Duration;
+            existingMovie.Description = updatedMovie.Description;
+            existingMovie.poster_url = updatedMovie.poster_url;
+
+            existingMovie.Action = updatedMovie.Action;
+            existingMovie.Adventure = updatedMovie.Adventure;
+            existingMovie.AnimeSeriesInternationalTvShows = updatedMovie.AnimeSeriesInternationalTvShows;
+            existingMovie.BritishTvShowsDocuseriesInternationalTvShows = updatedMovie.BritishTvShowsDocuseriesInternationalTvShows;
+            existingMovie.Children = updatedMovie.Children;
+            existingMovie.Comedies = updatedMovie.Comedies;
+            existingMovie.ComediesDramasInternationalMovies = updatedMovie.ComediesDramasInternationalMovies;
+            existingMovie.ComediesInternationalMovies = updatedMovie.ComediesInternationalMovies;
+            existingMovie.ComediesRomanticMovies = updatedMovie.ComediesRomanticMovies;
+            existingMovie.CrimeTvShowsDocuseries = updatedMovie.CrimeTvShowsDocuseries;
+            existingMovie.Documentaries = updatedMovie.Documentaries;
+            existingMovie.DocumentariesInternationalMovies = updatedMovie.DocumentariesInternationalMovies;
+            existingMovie.Docuseries = updatedMovie.Docuseries;
+            existingMovie.Dramas = updatedMovie.Dramas;
+            existingMovie.DramasInternationalMovies = updatedMovie.DramasInternationalMovies;
+            existingMovie.DramasRomanticMovies = updatedMovie.DramasRomanticMovies;
+            existingMovie.FamilyMovies = updatedMovie.FamilyMovies;
+            existingMovie.Fantasy = updatedMovie.Fantasy;
+            existingMovie.HorrorMovies = updatedMovie.HorrorMovies;
+            existingMovie.InternationalMoviesThrillers = updatedMovie.InternationalMoviesThrillers;
+            existingMovie.InternationalTvShowsRomanticTvShowsTvDramas = updatedMovie.InternationalTvShowsRomanticTvShowsTvDramas;
+            existingMovie.KidsTv = updatedMovie.KidsTv;
+            existingMovie.LanguageTvShows = updatedMovie.LanguageTvShows;
+            existingMovie.Musicals = updatedMovie.Musicals;
+            existingMovie.NatureTv = updatedMovie.NatureTv;
+            existingMovie.RealityTv = updatedMovie.RealityTv;
+            existingMovie.Spirituality = updatedMovie.Spirituality;
+            existingMovie.TvAction = updatedMovie.TvAction;
+            existingMovie.TvComedies = updatedMovie.TvComedies;
+            existingMovie.TvDramas = updatedMovie.TvDramas;
+            existingMovie.TalkShowsTvComedies = updatedMovie.TalkShowsTvComedies;
+            existingMovie.Thrillers = updatedMovie.Thrillers;
 
 
 
@@ -130,10 +177,10 @@ namespace Intex.API.Controllers
         }
 
 
-        [HttpDelete("deletemovie/{movieId}")]
-        public IActionResult DeleteBook(int movieId)
+        [HttpDelete("deletemovie/{showId}")]
+        public IActionResult DeleteBook(string showId)
         {
-            var movie = _movieContext.Movies.Find(movieId);
+            var movie = _movieContext.Movies.Find(showId);
 
             if (movie == null)
             {

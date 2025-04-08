@@ -64,11 +64,11 @@ function Register() {
       // Check if the response body is empty
       const data = await response.text(); // Get the raw response text first
 
-      if (!data) {
-        // Handle the case where the response body is empty
-        setError("Error: Empty response from server.");
-        return;
-      }
+      // if (!data) {
+      //   // Handle the case where the response body is empty
+      //   setError("Error: Empty response from server.");
+      //   return;
+      // }
 
       // Now try to parse the response as JSON
       const parsedData = JSON.parse(data);
