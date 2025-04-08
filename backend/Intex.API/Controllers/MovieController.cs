@@ -137,6 +137,78 @@ namespace Intex.API.Controllers
             return NoContent();
         }
 
+        [HttpGet("collaborativerecommendations")]
+        public IActionResult GetCollabRecommended([FromQuery] string title)
+        {
+            if (string.IsNullOrWhiteSpace(title))
+            {
+                return BadRequest(new { message = "Title cannot be empty" });
+            }
 
+            // Search for content recommendations where 'If you liked' matches the provided title
+            var recommendation = _recommenderContext.Collaborative
+                .AsEnumerable()
+                .FirstOrDefault(x => x.IfYouLiked.Equals(title, StringComparison.OrdinalIgnoreCase));
+
+            // If no match is found, return a NotFound response
+            if (recommendation == null)
+            {
+                return NotFound(new { message = $"No recommendations found for '{title}'" });
+            }
+
+            // If a match is found, return the recommendations
+            var recommendedMovies = new
+            {
+                IfYouLiked = recommendation.IfYouLiked,
+                Recommendations = new string[]
+                {
+            recommendation.Recommendation1,
+            recommendation.Recommendation2,
+            recommendation.Recommendation3,
+            recommendation.Recommendation4,
+            recommendation.Recommendation5
+                }
+            };
+
+            return Ok(recommendedMovies);
+
+        }
+
+        [HttpGet("contentrecommendations")]
+        public IActionResult GetContentRecommended([FromQuery] string title)
+        {
+            if (string.IsNullOrWhiteSpace(title))
+            {
+                return BadRequest(new { message = "Title cannot be empty" });
+            }
+
+            // Search for content recommendations where 'If you liked' matches the provided title
+            var recommendation = _recommenderContext.Content
+                .AsEnumerable()
+                .FirstOrDefault(x => x.IfYouLiked.Equals(title, StringComparison.OrdinalIgnoreCase));
+
+            // If no match is found, return a NotFound response
+            if (recommendation == null)
+            {
+                return NotFound(new { message = $"No recommendations found for '{title}'" });
+            }
+
+            // If a match is found, return the recommendations
+            var recommendedMovies = new
+            {
+                IfYouLiked = recommendation.IfYouLiked,
+                Recommendations = new string[]
+                {
+            recommendation.Recommendation1,
+            recommendation.Recommendation2,
+            recommendation.Recommendation3,
+            recommendation.Recommendation4,
+            recommendation.Recommendation5
+                }
+            };
+
+            return Ok(recommendedMovies);
+
+        }
     }
 }
