@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace Intex.API.Controllers;
+namespace Intex.API.Data;
 
 public partial class MovieDbContext : DbContext
 {
