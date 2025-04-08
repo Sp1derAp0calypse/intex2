@@ -8,8 +8,8 @@
 logs/
 
 # Build results
-bin/
-obj/
+/bin/
+/obj/
 out/
 
 *.suo

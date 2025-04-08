@@ -1,4 +1,5 @@
 import { FaFacebookF, FaTwitter, FaInstagram } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 function Footer() {
   return (
@@ -15,10 +16,6 @@ function Footer() {
           <a href="/privacy" className="text-muted mx-2">
             Privacy
           </a>{" "}
-          ·
-          <a href="/terms" className="text-muted">
-            Terms
-          </a>
         </p>
       </div>
       <div className="mb-3">

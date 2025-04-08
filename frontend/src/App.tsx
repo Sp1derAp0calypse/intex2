@@ -7,6 +7,7 @@ import HomePage from "./pages/HomePage";
 import RegisterPage from "./pages/RegisterPage";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import DetailsPage from "./components/DetailsPage";
+import Privacy from "./components/Privacy";
 
 function App() {
   return (
@@ -23,6 +24,8 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/subscribe" element={<RegisterPage />} />
           <Route path="Movie/details/:title" element={<DetailsPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/privacy" element={<Privacy />} />
         </Routes>
       </main>
 

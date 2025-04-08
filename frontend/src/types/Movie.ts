@@ -1,4 +1,5 @@
 export interface Movie {
+  categories: any;
   showId?: string;
   type?: string;
   title?: string;
@@ -41,4 +42,5 @@ export interface Movie {
   tvDramas?: number;
   talkShowsTvComedies?: number;
   thrillers?: number;
+  poster_url?: string;
 }

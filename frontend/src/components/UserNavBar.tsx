@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Movie } from "../types/Movie";
+import SearchBar from "./SearchBar"; // Import the SearchBar component
 
 function UserNavBar() {
-  const [searchTerm, setSearchTerm] = useState("");
   const [movies, setMovies] = useState<Movie[]>([]);
-  const [filteredMovies, setFilteredMovies] = useState<Movie[]>([]);
-  const [showDropdown, setShowDropdown] = useState(false);
+  const [searchTerm, setSearchTerm] = useState<string>("");
 
+  // Fetch movies on component mount
   useEffect(() => {
     const fetchMovies = async () => {
       try {
@@ -15,7 +15,7 @@ function UserNavBar() {
           credentials: "include",
         });
         const data = await response.json();
-        setMovies(data);
+        setMovies(data.movies); // Assuming the API returns the movies under the 'movies' key
       } catch (error) {
         console.error("Error fetching movies:", error);
       }
@@ -23,26 +23,6 @@ function UserNavBar() {
 
     fetchMovies();
   }, []);
-
-  useEffect(() => {
-    if (searchTerm.trim() === "") {
-      setFilteredMovies([]);
-      setShowDropdown(false);
-      return;
-    }
-
-    const results = movies.filter((movie) =>
-      movie.title?.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-
-    setFilteredMovies(results.slice(0, 5)); // Show only top 5 results
-    setShowDropdown(true);
-  }, [searchTerm, movies]);
-
-  const handleSearchClick = (title: string) => {
-    setSearchTerm(title);
-    setShowDropdown(false);
-  };
 
   return (
     <nav className="navbar fixed-top bg-white border-bottom px-4 py-3 z-10">
@@ -61,34 +41,8 @@ function UserNavBar() {
             My List
           </Link>
 
-          <div
-            style={{ maxWidth: "300px", width: "100%" }}
-            className="position-relative"
-          >
-            <input
-              className="form-control"
-              type="search"
-              placeholder="Search"
-              aria-label="Search"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              onFocus={() => setShowDropdown(true)}
-            />
-
-            {showDropdown && filteredMovies.length > 0 && (
-              <ul className="list-group position-absolute w-100 mt-1 shadow z-50">
-                {filteredMovies.map((movie) => (
-                  <li
-                    key={movie.showId}
-                    className="list-group-item list-group-item-action"
-                    onClick={() => handleSearchClick(movie.title || "")}
-                  >
-                    {movie.title}
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
+          {/* Use the SearchBar component */}
+          <SearchBar movies={movies} setSearchTerm={setSearchTerm} />
         </div>
 
         {/* Right section: Settings + Account */}

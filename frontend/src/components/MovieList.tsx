@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { fetchMovies } from "../api/MoviesApi";
 import Pagination from "./Pagination";
 import { Movie } from "../types/Movie";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/blur.css";
 
 function MovieList({ selectedCategories }: { selectedCategories: string[] }) {
   const [movies, setMovies] = useState<Movie[]>([]);
@@ -143,6 +145,19 @@ function MovieList({ selectedCategories }: { selectedCategories: string[] }) {
                 </li>
               </ul>
 
+              <div className="mb-3 text-center">
+                <LazyLoadImage
+                  src={m.poster_url}
+                  alt={m.title}
+                  effect="blur" // or "opacity" or none
+                  className="img-fluid rounded"
+                  style={{ maxHeight: "400px", objectFit: "contain" }}
+                  onError={(e) => {
+                    e.currentTarget.onerror = null; // prevent looping
+                    e.currentTarget.src = "/placeholder.png";
+                  }}
+                />
+              </div>
               <button
                 className="btn btn-primary mt-3"
                 onClick={() =>
