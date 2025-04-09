@@ -12,7 +12,7 @@ function WelcomePage() {
         {/* Hero Section */}
         <div
           className="hero-background text-white flex items-center justify-center"
-          style={{ backgroundImage: `url('/placeholderHome.png')` }}
+          style={{ backgroundImage: `url('/placeholdeHomeNew.png')` }}
         >
           {/* Overlay */}
           <div className="absolute inset-0 bg-black bg-opacity-60" />
@@ -20,15 +20,21 @@ function WelcomePage() {
           {/* Content */}
           <div className="relative z-10 text-center max-w-2xl px-4">
             <h1 className="text-4xl md:text-5xl font-bold mb-4">
-              Watch and explore rare movies, niche documents, international
-              films and more!
+              WATCH AND EXPLORE RARE MOVIES
             </h1>
+            <h3 className="text-lg mb-6">
+              Stream cult classics, indie favorites, and international films,
+              all handpicked for our collection.
+            </h3>
+            <br />
+
             <p className="text-lg mb-6">Starts at $7.99. Cancel anytime.</p>
+            <br />
             <p className="mb-4">
               Ready to watch? Click on get started to create or login to your
               account.
             </p>
-
+            <br />
             <button
               type="submit"
               onClick={handleClick}
