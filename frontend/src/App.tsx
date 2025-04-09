@@ -11,9 +11,14 @@ import Privacy from "./components/Privacy";
 import AdminMoviesPage from "./pages/AdminMovieList";
 import UserHomePage from "./pages/UserHomePage";
 import CookieConsent from "react-cookie-consent";
+
 import NewNavBar from "./components/NewNavBar";
 import NewHomePage from "./pages/NewHomePage";
 import RequireAdmin from "./components/RequireAdmin";
+
+
+import WelcomePage from "./pages/WelcomPage";
+import WelcomeNavBar from "./components/WelcomeNavBar";
 
 // import { useEffect } from "react";
 
@@ -30,20 +35,27 @@ function App() {
   //   }
   // }, []);
   return (
-    <>
-      <Router>
-        <NewNavBar />
-        <Routes>
-          <Route path="/" element={<NewHomePage />} />
-          <Route
-            path="/movielist"
-            element={<MovieList selectedCategories={[]} />}
-          />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/subscribe" element={<RegisterPage />} />
-          <Route path="Movie/details/:title" element={<DetailsPage />} />
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="/privacy" element={<Privacy />} />
+
+    <Router>
+      <WelcomeNavBar />
+      <Routes>
+        <Route path="/" element={<WelcomePage />} />
+        <Route
+          path="/movielist"
+          element={<MovieList selectedCategories={[]} />}
+        />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/subscribe" element={<RegisterPage />} />
+        <Route path="Movie/details/:title" element={<DetailsPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/privacy" element={<Privacy />} />
+
+        <Route path="/adminmovies" element={<RequireAdmin><AdminMoviesPage /></RequireAdmin>} />
+        <Route path="/userHomePage" element={<UserHomePage />} />
+      </Routes>
+      <CookieConsent>
+        This website uses cookies to enhance the user experience.
+      </CookieConsent>
 
           <Route path="/adminmovies" element={<AdminMoviesPage />} />
           <Route path="/userHomePage" element={<UserHomePage />} />
