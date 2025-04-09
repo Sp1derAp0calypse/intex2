@@ -4,6 +4,8 @@ using Intex.API.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Text.RegularExpressions;
+
 
 namespace Intex.API.Controllers
 {
@@ -80,8 +82,13 @@ namespace Intex.API.Controllers
         public IActionResult GetMovieTypes()
         {
             var genreProps = typeof(MoviesTitle).GetProperties()
-                .Where(p => p.PropertyType == typeof(int?) && Char.IsUpper(p.Name[0]))
-                .Select(p => p.Name)
+                .Where(p =>
+                    p.PropertyType == typeof(int?) &&
+                    p.Name != "ReleaseYear" &&
+                    Char.IsUpper(p.Name[0]))
+                .Select(p =>
+                    Regex.Replace(p.Name, "(\\B[A-Z])", " $1")  // insert spaces
+                        .Replace("Tv", "TV"))                   // fix "TV" capitalization
                 .ToList();
 
             return Ok(genreProps);
