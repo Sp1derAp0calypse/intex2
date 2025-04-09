@@ -4,6 +4,7 @@ import { Movie } from "../types/Movie.ts";
 import { CollabRecommend } from "../types/CollabRecommend.ts";
 import { ContentRecommend } from "../types/ContentRecommend.ts";
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import AuthorizeView from "../components/AuthorizeView.tsx";
 
 const DetailsPage = () => {
   const { title } = useParams<{ title: string }>();
@@ -97,50 +98,52 @@ const DetailsPage = () => {
 
   return (
     <div>
-      <h1>Recommendations for {title}</h1>
+      <AuthorizeView>
+        <h1>Recommendations for {title}</h1>
 
-      {/* Movie Poster */}
-      {movie?.poster_url && (
-        <div className="mb-3 text-center">
-          <LazyLoadImage
-            src={movie.poster_url}
-            alt={movie.title}
-            effect="blur" // or "opacity" or none
-            className="img-fluid rounded"
-            style={{ maxHeight: "400px", objectFit: "contain" }}
-            onError={(e) => {
-              e.currentTarget.onerror = null; // prevent looping
-              e.currentTarget.src = "/placeholder.png"; // Fallback to placeholder if image fails to load
-            }}
-          />
-        </div>
-      )}
+        {/* Movie Poster */}
+        {movie?.poster_url && (
+          <div className="mb-3 text-center">
+            <LazyLoadImage
+              src={movie.poster_url}
+              alt={movie.title}
+              effect="blur" // or "opacity" or none
+              className="img-fluid rounded"
+              style={{ maxHeight: "400px", objectFit: "contain" }}
+              onError={(e) => {
+                e.currentTarget.onerror = null; // prevent looping
+                e.currentTarget.src = "/placeholder.png"; // Fallback to placeholder if image fails to load
+              }}
+            />
+          </div>
+        )}
 
-      <h2>Collaborative Recommendations</h2>
-      {collabRecommend ? (
-        <ul>
-          {collabRecommend.recommendations.map((rec, index) => (
-            <li key={index}>
-              <Link to={`/movie/details/${rec}`}>{rec}</Link>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p>No collaborative recommendations available</p>
-      )}
+        <h2>Collaborative Recommendations</h2>
+        {collabRecommend ? (
+          <ul>
+            {collabRecommend.recommendations.map((rec, index) => (
+              <li key={index}>
+                <Link to={`/movie/details/${rec}`}>{rec}</Link>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>No collaborative recommendations available</p>
+        )}
 
-      <h2>Content Recommendations</h2>
-      {contentRecommend ? (
-        <ul>
-          {contentRecommend.recommendations.map((rec, index) => (
-            <li key={index}>
-              <Link to={`/movie/details/${rec}`}>{rec}</Link>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p>No content recommendations available</p>
-      )}
+        <h2>Content Recommendations</h2>
+        {contentRecommend ? (
+          <ul>
+            {contentRecommend.recommendations.map((rec, index) => (
+              <li key={index}>
+                <Link to={`/movie/details/${rec}`}>{rec}</Link>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>No content recommendations available</p>
+        )}
+      </AuthorizeView>
     </div>
   );
 };

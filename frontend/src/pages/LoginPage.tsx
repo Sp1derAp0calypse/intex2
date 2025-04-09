@@ -42,6 +42,7 @@ function LoginPage() {
       : "https://localhost:5000/login?useSessionCookies=true";
 
     try {
+      // Step 1: Log the user in
       const response = await fetch(loginUrl, {
         method: "POST",
         credentials: "include", // ✅ Ensures cookies are sent & received
@@ -49,7 +50,7 @@ function LoginPage() {
         body: JSON.stringify({ email, password }),
       });
 
-      // Ensure we only parse JSON if there is content
+      // Optional: Parse response if body exists
       let data = null;
       const contentLength = response.headers.get("content-length");
       if (contentLength && parseInt(contentLength, 10) > 0) {
@@ -60,10 +61,28 @@ function LoginPage() {
         throw new Error(data?.message || "Invalid email or password.");
       }
 
-      navigate("/movielist");
+      // Step 2: Fetch current user's roles
+      const roleResponse = await fetch("https://localhost:5000/pingauth", {
+        method: "GET",
+        credentials: "include", // Important for accessing secure identity info
+      });
+
+      if (!roleResponse.ok) {
+        throw new Error("Failed to determine user role.");
+      }
+
+      const userData = await roleResponse.json();
+      const roles = userData.roles || [];
+
+      // Step 3: Redirect based on role
+      if (roles.includes("Administrator")) {
+        navigate("/adminmovies");
+      } else {
+        navigate("/userHomePage");
+      }
     } catch (error: any) {
       setError(error.message || "Error logging in.");
-      console.error("Fetch attempt failed:", error);
+      console.error("Login process failed:", error);
     }
   };
 
