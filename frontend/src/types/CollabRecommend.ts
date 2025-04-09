@@ -1,4 +1,7 @@
 export interface CollabRecommend {
   ifYouLiked: string;
-  recommendations: string[];
+  recommendations: {
+    title: string;
+    posterUrl: string;
+  }[];
 }

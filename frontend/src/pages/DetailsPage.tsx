@@ -96,51 +96,105 @@ const DetailsPage = () => {
   }
 
   return (
-    <div>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        gap: "20px",
+        padding: "20px",
+      }}
+    >
       <h1>Recommendations for {title}</h1>
-
       {/* Movie Poster */}
-      {movie?.poster_url && (
-        <div className="mb-3 text-center">
-          <LazyLoadImage
-            src={movie.poster_url}
-            alt={movie.title}
-            effect="blur" // or "opacity" or none
-            className="img-fluid rounded"
-            style={{ maxHeight: "400px", objectFit: "contain" }}
-            onError={(e) => {
-              e.currentTarget.onerror = null; // prevent looping
-              e.currentTarget.src = "/placeholder.png"; // Fallback to placeholder if image fails to load
-            }}
-          />
-        </div>
-      )}
-
-      <h2>Collaborative Recommendations</h2>
-      {collabRecommend ? (
-        <ul>
-          {collabRecommend.recommendations.map((rec, index) => (
-            <li key={index}>
-              <Link to={`/movie/details/${rec}`}>{rec}</Link>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p>No collaborative recommendations available</p>
-      )}
-
+      <div className="text-center">
+        <LazyLoadImage
+          src={movie?.poster_url || "/placeholder.png"} // Use fallback image if poster_url is null
+          alt={movie?.title || "Placeholder Title"} // Use a fallback alt text if movie.title is null
+          effect="blur" // or "opacity" or none
+          className="img-fluid rounded"
+          style={{
+            width: "100%",
+            height: "auto",
+            maxHeight: "400px",
+            objectFit: "contain",
+          }}
+          onError={(e) => {
+            e.currentTarget.onerror = null; // prevent looping
+            e.currentTarget.src = "/placeholder.png"; // Fallback to placeholder if image fails to load
+          }}
+        />
+      </div>
       <h2>Content Recommendations</h2>
-      {contentRecommend ? (
-        <ul>
-          {contentRecommend.recommendations.map((rec, index) => (
-            <li key={index}>
-              <Link to={`/movie/details/${rec}`}>{rec}</Link>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p>No content recommendations available</p>
-      )}
+      {/* Render Content Recommendations */}
+      <div style={{ display: "flex", flexWrap: "wrap", gap: "15px" }}>
+        {contentRecommend ? (
+          contentRecommend.recommendations
+            .filter((rec) => rec !== null) // Filter out null values
+            .map((rec, index) => (
+              <div
+                key={index}
+                style={{ maxWidth: "200px", textAlign: "center" }}
+              >
+                {/* Render Poster Image as a Link */}
+                {rec?.posterUrl && (
+                  <Link to={`/movie/details/${rec.title}`}>
+                    <LazyLoadImage
+                      src={rec.posterUrl}
+                      alt={rec.title}
+                      effect="blur"
+                      className="img-fluid rounded"
+                      style={{
+                        width: "100%",
+                        height: "auto",
+                        objectFit: "contain",
+                      }}
+                      onError={(e) => {
+                        e.currentTarget.onerror = null;
+                        e.currentTarget.src = "/placeholder.png"; // Fallback to placeholder
+                      }}
+                    />
+                  </Link>
+                )}
+              </div>
+            ))
+        ) : (
+          <p>No content recommendations available</p>
+        )}
+      </div>
+      <h2>Collaborative Recommendations</h2>
+      {/* Render Collaborative Recommendations */}
+      <div style={{ display: "flex", flexWrap: "wrap", gap: "15px" }}>
+        {collabRecommend ? (
+          collabRecommend.recommendations
+            .filter((rec) => rec !== null) // Filter out null values
+            .map((rec, index) => (
+              <div
+                key={index}
+                style={{ maxWidth: "200px", textAlign: "center" }}
+              >
+                <Link to={`/movie/details/${rec.title}`}>
+                  <LazyLoadImage
+                    src={rec.posterUrl}
+                    alt={rec.title}
+                    effect="blur"
+                    className="img-fluid rounded"
+                    style={{
+                      width: "100%",
+                      height: "auto",
+                      objectFit: "contain",
+                    }}
+                    onError={(e) => {
+                      e.currentTarget.onerror = null;
+                      e.currentTarget.src = "/placeholder.png"; // Fallback to placeholder
+                    }}
+                  />
+                </Link>
+              </div>
+            ))
+        ) : (
+          <p>No collaborative recommendations available</p>
+        )}
+      </div>
     </div>
   );
 };
