@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import "./NavBar.css";
+import "../css/NavBar.css";
 import CineNicheLogo from "../assets/CineNicheLogo.png";
 
 function WelcomeNavBar() {
@@ -8,7 +8,7 @@ function WelcomeNavBar() {
       <div className="navbar-container">
         {/* Left */}
         <div className="navbar-logo-container flex-grow-1">
-          <Link to="/" className="navbar-brand">
+          <Link to="/landingPage" className="navbar-brand">
             <img
               src={CineNicheLogo}
               alt="CineNiche Logo"
