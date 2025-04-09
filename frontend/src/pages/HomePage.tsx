@@ -1,8 +1,9 @@
 import { useState } from "react";
 import CategoryFilter from "../components/CategoryFilter";
 import MovieList from "../components/MovieList";
-import NavBar from "../components/NavBar";
+//import NavBar from "../components/NavBar";
 import { useLocation } from "react-router-dom";
+import NewNavBar from "../components/NewNavBar";
 
 function HomePage() {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
@@ -13,7 +14,7 @@ function HomePage() {
   return (
     <>
       <div className="container mt-4">
-        <NavBar />
+        <NewNavBar />
 
         <div className="row">
           <div className="col-md-3">

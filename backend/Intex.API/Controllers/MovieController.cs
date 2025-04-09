@@ -24,8 +24,19 @@ namespace Intex.API.Controllers
         }
 
         [HttpGet("allmovies")]
+        
         public IActionResult GetMovies(int pageSize = 5, int pageNum = 1, [FromQuery] List<string>? movieTypes = null, [FromQuery] string? searchTerm = null)
         {
+            string? favMovies = Request.Cookies["FavMovies"];
+            Console.WriteLine("----COOKIE----\n"+favMovies);
+            HttpContext.Response.Cookies.Append("FavMovies", searchTerm ?? "", new CookieOptions()
+            {
+                HttpOnly = true,
+                //Secure = true,
+                //SameSite = SameSiteMode.Strict,
+                Expires = DateTimeOffset.Now.AddMinutes(1),
+            });
+            
             var query = _movieContext.Movies.AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(searchTerm))
