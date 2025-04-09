@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Intex.API.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -32,7 +32,7 @@ namespace Intex.API.Migrations
                     Id = table.Column<string>(type: "TEXT", nullable: false),
                     UserName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
-                    Email = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
+                    Email = table.Column<string>(type: "TEXT", maxLength: 256, nullable: false),
                     NormalizedEmail = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
                     EmailConfirmed = table.Column<bool>(type: "INTEGER", nullable: false),
                     PasswordHash = table.Column<string>(type: "TEXT", nullable: true),
@@ -48,6 +48,7 @@ namespace Intex.API.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                    table.UniqueConstraint("AK_AspNetUsers_Email", x => x.Email);
                 });
 
             migrationBuilder.CreateTable(
@@ -156,6 +157,39 @@ namespace Intex.API.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "MoviesUser",
+                columns: table => new
+                {
+                    UserId = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", nullable: true),
+                    Phone = table.Column<string>(type: "TEXT", nullable: true),
+                    Email = table.Column<string>(type: "TEXT", nullable: true),
+                    Age = table.Column<int>(type: "INTEGER", nullable: true),
+                    Gender = table.Column<string>(type: "TEXT", nullable: true),
+                    Netflix = table.Column<int>(type: "INTEGER", nullable: true),
+                    AmazonPrime = table.Column<int>(type: "INTEGER", nullable: true),
+                    Disney = table.Column<int>(type: "INTEGER", nullable: true),
+                    Paramount = table.Column<int>(type: "INTEGER", nullable: true),
+                    Max = table.Column<int>(type: "INTEGER", nullable: true),
+                    Hulu = table.Column<int>(type: "INTEGER", nullable: true),
+                    AppleTv = table.Column<int>(type: "INTEGER", nullable: true),
+                    Peacock = table.Column<int>(type: "INTEGER", nullable: true),
+                    City = table.Column<string>(type: "TEXT", nullable: true),
+                    State = table.Column<string>(type: "TEXT", nullable: true),
+                    Zip = table.Column<int>(type: "INTEGER", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MoviesUser", x => x.UserId);
+                    table.ForeignKey(
+                        name: "FK_MoviesUser_AspNetUsers_Email",
+                        column: x => x.Email,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Email");
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -192,6 +226,11 @@ namespace Intex.API.Migrations
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MoviesUser_Email",
+                table: "MoviesUser",
+                column: "Email");
         }
 
         /// <inheritdoc />
@@ -211,6 +250,9 @@ namespace Intex.API.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "MoviesUser");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
