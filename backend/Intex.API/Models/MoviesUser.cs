@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity;
 
 namespace Intex.API.Models;
 
@@ -38,4 +39,5 @@ public partial class MoviesUser
     public string? State { get; set; }
 
     public int? Zip { get; set; }
+
 }

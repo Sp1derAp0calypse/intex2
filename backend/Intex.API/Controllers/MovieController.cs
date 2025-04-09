@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Text.RegularExpressions;
+using Intex.API.Models;
+using System.Security.Claims;
 
 
 namespace Intex.API.Controllers
@@ -13,7 +15,6 @@ namespace Intex.API.Controllers
     [Route("[controller]")]
     [ApiController]
     [Authorize]
-
     public class MovieController : ControllerBase
     {
         private MovieDbContext _movieContext;
@@ -22,6 +23,7 @@ namespace Intex.API.Controllers
         {
             _movieContext = temp;
         }
+
 
         [HttpGet("allmovies")]
         
