@@ -3,25 +3,16 @@ import { Link } from "react-router-dom";
 
 function Footer() {
   return (
-    <footer className="bg-light text-center text-muted py-4 mt-5 border-top">
-      <div className="container">
-        <p className="mb-1">
-          © {new Date().getFullYear()} CineNiche. All rights reserved.
-        </p>
-        <p className="small">
-          <Link to="/about" className="text-muted">
-            About
-          </Link>{" "}
-          ·
-          <Link to="/privacy" className="text-muted mx-2">
-            Privacy
-          </Link>
+    <footer className="footer">
+      <div>
+        <p>© {new Date().getFullYear()} CineNiche. All rights reserved.</p>
+        <p>
+          <Link to="/privacy">Privacy and Terms</Link>
         </p>
       </div>
-      <div className="mb-3">
+      <div>
         <a
           href="https://www.instagram.com"
-          className="text-muted mx-2"
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -29,7 +20,6 @@ function Footer() {
         </a>
         <a
           href="https://www.facebook.com"
-          className="text-muted mx-2"
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -37,7 +27,6 @@ function Footer() {
         </a>
         <a
           href="https://www.twitter.com"
-          className="text-muted mx-2"
           target="_blank"
           rel="noopener noreferrer"
         >

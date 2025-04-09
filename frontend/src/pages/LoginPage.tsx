@@ -61,7 +61,6 @@ function LoginPage() {
         throw new Error(data?.message || "Invalid email or password.");
       }
 
-
       // Step 2: Fetch current user's roles
       const roleResponse = await fetch("https://localhost:5000/pingauth", {
         method: "GET",
@@ -81,7 +80,6 @@ function LoginPage() {
       } else {
         navigate("/userHomePage");
       }
-
     } catch (error: any) {
       setError(error.message || "Error logging in.");
       console.error("Login process failed:", error);

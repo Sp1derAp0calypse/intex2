@@ -30,29 +30,29 @@ function App() {
   return (
     <Router>
       <WelcomeNavBar />
-
-      <Routes>
-        <Route path="/" element={<WelcomePage />} />
-        <Route
-          path="/movielist"
-          element={<MovieList selectedCategories={[]} />}
-        />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/subscribe" element={<RegisterPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/privacy" element={<Privacy />} />
-        <Route path="/Movie/details/:title" element={<DetailsPage />} />
-        <Route
-          path="/adminmovies"
-          element={
-            <RequireAdmin>
-              <AdminMoviesPage />
-            </RequireAdmin>
-          }
-        />
-        <Route path="/userHomePage" element={<UserHomePage />} />
-      </Routes>
-
+      <div className="app-wrapper" style={{ flexGrow: 1 }}>
+        <Routes>
+          <Route path="/" element={<WelcomePage />} />
+          <Route
+            path="/movielist"
+            element={<MovieList selectedCategories={[]} />}
+          />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/subscribe" element={<RegisterPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/privacy" element={<Privacy />} />
+          <Route path="/Movie/details/:title" element={<DetailsPage />} />
+          <Route
+            path="/adminmovies"
+            element={
+              <RequireAdmin>
+                <AdminMoviesPage />
+              </RequireAdmin>
+            }
+          />
+          <Route path="/userHomePage" element={<UserHomePage />} />
+        </Routes>
+      </div>
       <CookieConsent>
         This website uses cookies to enhance the user experience.
       </CookieConsent>
