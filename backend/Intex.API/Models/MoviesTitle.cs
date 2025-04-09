@@ -89,5 +89,5 @@ public partial class MoviesTitle
 
     public int? Thrillers { get; set; }
 
-    public string? PosterUrl { get; set; }
+    public string? poster_url { get; set; }
 }

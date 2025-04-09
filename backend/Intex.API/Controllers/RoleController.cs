@@ -2,12 +2,13 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using Intex.API.Data;
+using Intex.API.Models;
 
 namespace Intex.API.Controllers;
 
 [Route("[controller]")]
 [ApiController]
-//[Authorize(Roles = "Administrator")]
+[Authorize(Roles = "Administrator")]
 public class RoleController : Controller
 {
     private readonly RoleManager<IdentityRole> _roleManager;
