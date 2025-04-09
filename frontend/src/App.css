@@ -36,10 +36,10 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  min-height: 50vh; /* 👈 make it taller than screen */
+  min-height: 8vh; /* 👈 make it taller than screen */
   position: relative;
-  padding-top: 6rem;
-  padding-bottom: 6rem;
+  padding-top: 16rem;
+  padding-bottom: 16rem;
 }
 @keyframes logo-spin {
   from {
@@ -70,7 +70,6 @@ footer {
   padding: 2rem 1rem;
   text-align: center;
   font-size: 14px;
-  border-top: 1px solid #333;
 }
 
 footer a {
