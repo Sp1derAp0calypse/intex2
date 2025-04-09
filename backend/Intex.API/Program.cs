@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Intex.API.Data;
 using Intex.API.Services;
-using Intex.API.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -44,6 +43,14 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
 });
 
+// builder.Services.Configure<CookiePolicyOptions>(options =>
+// {
+//     options.CheckConsentNeeded = context => false; // No opt-in required
+//     options.MinimumSameSitePolicy = SameSiteMode.None;
+// });
+
+
+
 
 builder.Services.AddCors(options =>
 {
@@ -56,7 +63,21 @@ builder.Services.AddCors(options =>
                 .AllowAnyMethod();
         });
 });
+
+builder.Services.AddHttpsRedirection(options =>
+{
+    options.RedirectStatusCode = StatusCodes.Status308PermanentRedirect;
+    options.HttpsPort = 443;
+});
+
 var app = builder.Build();
+
+app.UseHttpsRedirection();
+
+if (!app.Environment.IsDevelopment())
+{
+    app.UseHsts();
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -65,9 +86,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseCors("AllowFrontend");
-app.UseHttpsRedirection();
 
+app.UseCors("AllowFrontend");
+app.UseCookiePolicy();
 app.UseAuthentication();
 app.UseAuthorization();
 
@@ -85,7 +106,7 @@ app.MapPost("/logout", async (HttpContext context, SignInManager<IdentityUser> s
         Secure = true,
         SameSite = SameSiteMode.None
     });
-
+    
     return Results.Ok(new { message = "Logout successful" });
 }).RequireAuthorization();
 
@@ -102,3 +123,4 @@ app.MapGet("/pingauth", (ClaimsPrincipal user) =>
 }).RequireAuthorization();
 
 app.Run();
+
