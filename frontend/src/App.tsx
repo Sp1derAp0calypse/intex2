@@ -10,7 +10,7 @@ import DetailsPage from "./pages/DetailsPage";
 import Privacy from "./components/Privacy";
 import AdminMoviesPage from "./pages/AdminMovieList";
 import UserHomePage from "./pages/UserHomePage";
-
+import RequireAdmin from "./components/RequireAdmin";
 
 function App() {
   return (
@@ -30,7 +30,14 @@ function App() {
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/privacy" element={<Privacy />} />
 
-          <Route path="/adminmovies" element={<AdminMoviesPage />} />
+          <Route
+            path="/adminmovies"
+            element={
+              <RequireAdmin>
+                <AdminMoviesPage />
+              </RequireAdmin>
+            }
+          />
           <Route path="/userHomePage" element={<UserHomePage />} />
         </Routes>
       </main>

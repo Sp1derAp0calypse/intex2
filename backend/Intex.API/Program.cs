@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Intex.API.Data;
 using Intex.API.Services;
 using Intex.API.Controllers;
+using RootkitAuth.API.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,14 +21,19 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddDbContext<MovieDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("MovieConnection")));
+
 builder.Services.AddDbContext<RecommenderDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("RecommendationsConnection")));
 
 // using authorization 
 builder.Services.AddAuthorization();
 
-builder.Services.AddIdentityApiEndpoints<IdentityUser>()
-    .AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
+
+//builder.Services.AddIdentityApiEndpoints<IdentityUser>()
+//    .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.Configure<IdentityOptions>(options =>
 {
@@ -54,10 +60,14 @@ builder.Services.AddCors(options =>
         {
             policy.WithOrigins("http://localhost:3000") // Replace with your frontend URL
                 .AllowCredentials() // Required to allow cookies
+                .AllowAnyMethod()
                 .AllowAnyHeader()
-                .AllowAnyMethod();
+                .WithExposedHeaders("Content-Security-Policy");
         });
 });
+
+builder.Services.AddSingleton<IEmailSender<IdentityUser>, NoOpEmailSender<IdentityUser>>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -69,7 +79,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors("AllowFrontend");
 app.UseHttpsRedirection();
-
 app.UseAuthentication();
 app.UseAuthorization();
 
@@ -81,7 +90,7 @@ app.MapPost("/logout", async (HttpContext context, SignInManager<IdentityUser> s
     await signInManager.SignOutAsync();
 
     // Ensure authentication cookie is removed
-    context.Response.Cookies.Delete(key: ".AspNetCore.Identity.Application", new CookieOptions
+    context.Response.Cookies.Delete(".AspNetCore.Identity.Application", new CookieOptions
     {
         HttpOnly = true,
         Secure = true,
@@ -92,15 +101,33 @@ app.MapPost("/logout", async (HttpContext context, SignInManager<IdentityUser> s
 }).RequireAuthorization();
 
 
-app.MapGet("/pingauth", (ClaimsPrincipal user) =>
+app.MapGet("/pingauth", async (ClaimsPrincipal user, UserManager<IdentityUser> userManager) =>
 {
+    Console.WriteLine($"User authenticated? {user.Identity?.IsAuthenticated}");
+
     if (!user.Identity?.IsAuthenticated ?? false)
+    {
+        Console.WriteLine("Unauthorized request to /pingauth");
+        return Results.Unauthorized();
+    }
+
+    var email = user.FindFirstValue(ClaimTypes.Email) ?? "unknown@example.com";
+    Console.WriteLine($"Authenticated User Email: {email}");
+
+    var identityUser = await userManager.FindByEmailAsync(email);
+    if (identityUser == null)
     {
         return Results.Unauthorized();
     }
 
-    var email = user.FindFirstValue(ClaimTypes.Email) ?? "unknown@example.com"; // Ensure it's never null
-    return Results.Json(new { email = email }); // Return as JSON
+    var roles = await userManager.GetRolesAsync(identityUser);
+
+    return Results.Json(new
+    {
+        email = email,
+        roles = roles
+    });
 }).RequireAuthorization();
+
 
 app.Run();
