@@ -4873,31 +4873,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\alext_x0p\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "/Users/gegeenee/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Projects\\IntexII\\intex2\\backend\\Intex.API\\Intex.API.csproj",
+      "projectUniqueName": "/Users/gegeenee/Desktop/Intex2/intex2/backend/Intex.API/Intex.API.csproj",
       "projectName": "Intex.API",
-      "projectPath": "C:\\Projects\\IntexII\\intex2\\backend\\Intex.API\\Intex.API.csproj",
-      "packagesPath": "C:\\Users\\alext_x0p\\.nuget\\packages\\",
-      "outputPath": "C:\\Projects\\IntexII\\intex2\\backend\\Intex.API\\obj\\",
+      "projectPath": "/Users/gegeenee/Desktop/Intex2/intex2/backend/Intex.API/Intex.API.csproj",
+      "packagesPath": "/Users/gegeenee/.nuget/packages/",
+      "outputPath": "/Users/gegeenee/Desktop/Intex2/intex2/backend/Intex.API/obj/",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\alext_x0p\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "/Users/gegeenee/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -4915,8 +4908,7 @@
         "enableAudit": "true",
         "auditLevel": "low",
         "auditMode": "direct"
-      },
-      "SdkAnalysisLevel": "9.0.100"
+      }
     },
     "frameworks": {
       "net8.0": {
@@ -4974,7 +4966,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.101/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.406/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
