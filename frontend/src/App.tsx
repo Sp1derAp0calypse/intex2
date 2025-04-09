@@ -11,8 +11,8 @@ import Privacy from "./components/Privacy";
 import AdminMoviesPage from "./pages/AdminMovieList";
 import UserHomePage from "./pages/UserHomePage";
 import CookieConsent from "react-cookie-consent";
-import NewNavBar from "./components/NewNavBar";
-import NewHomePage from "./pages/NewHomePage";
+import NewNavBar from "./components/WelcomeNavBar";
+import NewHomePage from "./pages/WelcomPage";
 // import { useEffect } from "react";
 
 function App() {

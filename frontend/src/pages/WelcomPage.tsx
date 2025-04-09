@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import NewNavBar from "../components/NewNavBar";
+import NewNavBar from "../components/WelcomeNavBar";
 
 function NewHomePage() {
   const navigate = useNavigate();
