@@ -1,3 +1,4 @@
+using System;
 using System.Linq.Expressions;
 using Intex.API.Data;
 using Microsoft.AspNetCore.Authorization;
@@ -16,17 +17,26 @@ namespace Intex.API.Controllers
     public class MovieController : ControllerBase
     {
         private MovieDbContext _movieContext;
-        private RecommenderDbContext _recommenderContext;
 
-        public MovieController(MovieDbContext temp, RecommenderDbContext recommenderContext)
+        public MovieController(MovieDbContext temp)
         {
             _movieContext = temp;
-            _recommenderContext = recommenderContext;
         }
 
         [HttpGet("allmovies")]
+        
         public IActionResult GetMovies(int pageSize = 5, int pageNum = 1, [FromQuery] List<string>? movieTypes = null, [FromQuery] string? searchTerm = null)
         {
+            string? favMovies = Request.Cookies["FavMovies"];
+            Console.WriteLine("----COOKIE----\n"+favMovies);
+            HttpContext.Response.Cookies.Append("FavMovies", searchTerm ?? "", new CookieOptions()
+            {
+                HttpOnly = true,
+                //Secure = true,
+                //SameSite = SameSiteMode.Strict,
+                Expires = DateTimeOffset.Now.AddMinutes(1),
+            });
+            
             var query = _movieContext.Movies.AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(searchTerm))
@@ -203,9 +213,14 @@ namespace Intex.API.Controllers
         public IActionResult GetCollabRecommended(string title)
         {
             // Search for content recommendations where 'If you liked' matches the provided title
-            var recommendation = _recommenderContext.Collaborative
+            var recommendation = _movieContext.Collaboratives
                 .AsEnumerable()
                 .FirstOrDefault(x => x.IfYouLiked.Equals(title, StringComparison.OrdinalIgnoreCase));
+
+            var movie = _movieContext.Movies
+                .FirstOrDefault(m => m.Title.ToLower() == title.ToLower()); // Use ToLower for case-insensitive comparison
+
+            var moviePoster = movie?.poster_url; // Get the poster_url of the movie
 
             // If no match is found, return a NotFound response
             if (recommendation == null)
@@ -213,55 +228,106 @@ namespace Intex.API.Controllers
                 return NotFound(new { message = $"No recommendations found for '{title}'" });
             }
 
-            // If a match is found, return the recommendations
+            // Prepare the list of recommended movies
+            var recommendedMovies = new List<object>();
+
+            foreach (var recommendedTitle in new string[]
+            {
+        recommendation.Collaborative1,
+        recommendation.Collaborative2,
+        recommendation.Collaborative3,
+        recommendation.Collaborative4,
+        recommendation.Collaborative5
+            })
+            {
+                if (!string.IsNullOrWhiteSpace(recommendedTitle)) // Ensure that the title is not null or empty
+                {
+                    var recommendedMovie = _movieContext.Movies
+                        .FirstOrDefault(m => m.Title.ToLower() == recommendedTitle.ToLower()); // Use ToLower for case-insensitive comparison
+
+                    if (recommendedMovie != null) // Check if the recommended movie is found
+                    {
+                        recommendedMovies.Add(new
+                        {
+                            Title = recommendedMovie.Title,
+                            PosterUrl = recommendedMovie.poster_url ?? "/placeholder.png" // Provide a fallback if poster URL is missing
+                        });
+                    }
+                }
+            }
+
+            // If no recommendations found, return a NotFound response
+            if (recommendedMovies.Count == 0)
+            {
+                return NotFound(new { message = "No collaborative recommendations found" });
+            }
+
+            // Construct the response object with the content recommendations and the associated posters
             var collabRecommend = new
             {
                 IfYouLiked = recommendation.IfYouLiked,
-                Recommendations = new string[]
-                {
-            recommendation.Recommendation1,
-            recommendation.Recommendation2,
-            recommendation.Recommendation3,
-            recommendation.Recommendation4,
-            recommendation.Recommendation5
-                }
+                Recommendations = recommendedMovies
             };
 
             return Ok(collabRecommend);
-
         }
+
 
         [HttpGet("contentrecommendations")]
         public IActionResult GetContentRecommended(string title)
         {
             // Search for content recommendations where 'If you liked' matches the provided title
-            var recommendation = _recommenderContext.Content
+            var recommendation = _movieContext.Contents
                 .AsEnumerable()
                 .FirstOrDefault(x => x.IfYouLiked.Equals(title, StringComparison.OrdinalIgnoreCase));
 
-            // If no match is found, return a NotFound response
+            // Search for the movie to get its poster_url using ToLower for case-insensitive comparison
+            var movie = _movieContext.Movies
+                .FirstOrDefault(m => m.Title.ToLower() == title.ToLower()); // Use ToLower for case-insensitive comparison
+
+            var moviePoster = movie?.poster_url; // Get the poster_url of the movie
+
+            // If no match is found for the content recommendations, return a NotFound response
             if (recommendation == null)
             {
                 return NotFound(new { message = $"No recommendations found for '{title}'" });
             }
 
-            // If a match is found, return the recommendations
+            // Fetch the posters for each recommended movie
+            var recommendedPosters = new List<string>();
+            foreach (var recommendedTitle in new string[]
+            {
+        recommendation.Recommendation1,
+        recommendation.Recommendation2,
+        recommendation.Recommendation3,
+        recommendation.Recommendation4,
+        recommendation.Recommendation5
+            })
+            {
+                var recommendedMovie = _movieContext.Movies
+                    .FirstOrDefault(m => m.Title.ToLower() == recommendedTitle.ToLower()); // Use ToLower for case-insensitive comparison
+
+                // If movie is found, get the poster URL; otherwise, use a placeholder
+                recommendedPosters.Add(recommendedMovie?.poster_url ?? "/placeholder.png");
+            }
+
+            // Construct the response object with the content recommendations and the associated posters
             var contentRecommend = new
             {
                 IfYouLiked = recommendation.IfYouLiked,
-                Recommendations = new string[]
+                Recommendations = new[]
                 {
-            recommendation.Recommendation1,
-            recommendation.Recommendation2,
-            recommendation.Recommendation3,
-            recommendation.Recommendation4,
-            recommendation.Recommendation5
-                }
+            new { Title = recommendation.Recommendation1, PosterUrl = recommendedPosters[0] },
+            new { Title = recommendation.Recommendation2, PosterUrl = recommendedPosters[1] },
+            new { Title = recommendation.Recommendation3, PosterUrl = recommendedPosters[2] },
+            new { Title = recommendation.Recommendation4, PosterUrl = recommendedPosters[3] },
+            new { Title = recommendation.Recommendation5, PosterUrl = recommendedPosters[4] }
+        }
             };
 
             return Ok(contentRecommend);
-
         }
+
 
         [HttpGet("getdetails/{title}")]
         public IActionResult GetMovieDetails(string title)
