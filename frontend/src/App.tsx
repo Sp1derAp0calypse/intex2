@@ -12,6 +12,7 @@ import CookieConsent from "react-cookie-consent";
 import RequireAdmin from "./components/RequireAdmin";
 import WelcomePage from "./pages/WelcomPage";
 import WelcomeNavBar from "./components/WelcomeNavBar";
+import LandingPage from "./pages/LandingPage";
 
 // import { useEffect } from "react";
 
@@ -51,6 +52,7 @@ function App() {
             }
           />
           <Route path="/userHomePage" element={<UserHomePage />} />
+          <Route path="/landingPage" element={<LandingPage />} />
         </Routes>
       </div>
       <CookieConsent>

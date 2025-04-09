@@ -349,5 +349,33 @@ namespace Intex.API.Controllers
             return Ok(movie);
         }
 
+        [HttpGet("genre")]
+        public IActionResult GetByGenre(string genre, int count = 5)
+        {
+            var prop = typeof(MoviesTitle).GetProperty(genre);
+            if (prop == null || prop.PropertyType != typeof(int?))
+            {
+                return BadRequest("Invalid genre property.");
+            }
+            var query = _movieContext.Movies
+                .Where(m => (int?)prop.GetValue(m) == 1)
+                .Where(m => m.poster_url != null)
+                .Take(count)
+                .Select(m => new
+                {
+                    Title = m.Title,
+                    PosterUrl = m.poster_url
+                })
+                .ToList();
+            return Ok(query);
+        }
+
+
+
+
+
+
+
+
     }
 }
