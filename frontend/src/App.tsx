@@ -11,8 +11,8 @@ import Privacy from "./components/Privacy";
 import AdminMoviesPage from "./pages/AdminMovieList";
 import UserHomePage from "./pages/UserHomePage";
 import CookieConsent from "react-cookie-consent";
-import NewNavBar from "./components/NewNavBar";
-import NewHomePage from "./pages/NewHomePage";
+import WelcomePage from "./pages/WelcomPage";
+import WelcomeNavBar from "./components/WelcomeNavBar";
 // import { useEffect } from "react";
 
 function App() {
@@ -29,9 +29,9 @@ function App() {
   // }, []);
   return (
     <Router>
-      <NewNavBar />
+      <WelcomeNavBar />
       <Routes>
-        <Route path="/" element={<NewHomePage />} />
+        <Route path="/" element={<WelcomePage />} />
         <Route
           path="/movielist"
           element={<MovieList selectedCategories={[]} />}
