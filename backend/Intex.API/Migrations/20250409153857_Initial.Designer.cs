@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Intex.API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250407175745_Initial")]
+    [Migration("20250409153857_Initial")]
     partial class Initial
     {
         /// <inheritdoc />

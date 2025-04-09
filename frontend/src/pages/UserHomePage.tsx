@@ -3,6 +3,7 @@ import { useState } from "react";
 import UserNavBar from "../components/UserNavBar";
 import CategoryFilter from "../components/CategoryFilter";
 import MovieList from "../components/MovieList";
+import AuthorizeView from "../components/AuthorizeView";
 
 function UserHomePage() {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
@@ -12,24 +13,26 @@ function UserHomePage() {
 
   return (
     <>
-      <div className="container mt-4">
-        <UserNavBar />
+      <AuthorizeView>
+        <div className="container mt-4">
+          <UserNavBar />
 
-        <div className="row">
-          <div className="col-md-3">
-            <CategoryFilter
-              selectedCategories={selectedCategories}
-              setSelectedCategories={setSelectedCategories}
-            />
-          </div>
-          <div className="col-md-9">
-            <MovieList
-              selectedCategories={selectedCategories}
-              searchTerm={searchTerm}
-            />
+          <div className="row">
+            <div className="col-md-3">
+              <CategoryFilter
+                selectedCategories={selectedCategories}
+                setSelectedCategories={setSelectedCategories}
+              />
+            </div>
+            <div className="col-md-9">
+              <MovieList
+                selectedCategories={selectedCategories}
+                searchTerm={searchTerm}
+              />
+            </div>
           </div>
         </div>
-      </div>
+      </AuthorizeView>
     </>
   );
 }

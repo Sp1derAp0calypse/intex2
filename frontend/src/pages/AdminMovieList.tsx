@@ -4,6 +4,7 @@ import { deleteMovie, fetchMovies } from "../api/MoviesApi";
 import Pagination from "../components/Pagination";
 import NewMovieForm from "../components/NewMovieForm";
 import EditMovieForm from "../components/EditMovieForm";
+import AuthorizeView from "../components/AuthorizeView";
 
 const AdminMoviesPage = () => {
   const [movies, setMovies] = useState<Movie[]>([]);
@@ -70,105 +71,107 @@ const AdminMoviesPage = () => {
 
   return (
     <>
-      <h1>Admin - Movie List</h1>
+      <AuthorizeView>
+        <h1>Admin - Movie List</h1>
 
-      {!showForm && (
-        <button
-          className="btn btn-success mb-3"
-          onClick={() => setShowForm(true)}
-        >
-          Add Movie
-        </button>
-      )}
+        {!showForm && (
+          <button
+            className="btn btn-success mb-3"
+            onClick={() => setShowForm(true)}
+          >
+            Add Movie
+          </button>
+        )}
 
-      {showForm && (
-        <NewMovieForm
-          onSuccess={() => {
-            setShowForm(false);
-            fetchMovies(pageSize, pageNum, []).then((data) =>
-              setMovies(data.movies)
-            );
-          }}
-          onCancel={() => setShowForm(false)}
-        />
-      )}
+        {showForm && (
+          <NewMovieForm
+            onSuccess={() => {
+              setShowForm(false);
+              fetchMovies(pageSize, pageNum, []).then((data) =>
+                setMovies(data.movies)
+              );
+            }}
+            onCancel={() => setShowForm(false)}
+          />
+        )}
 
-      {editingMovie && (
-        <EditMovieForm
-          movie={editingMovie}
-          onSuccess={() => {
-            setEditingMovie(null);
-            fetchMovies(pageSize, pageNum, []).then((data) =>
-              setMovies(data.movies)
-            );
-          }}
-          onCancel={() => setEditingMovie(null)}
-        />
-      )}
+        {editingMovie && (
+          <EditMovieForm
+            movie={editingMovie}
+            onSuccess={() => {
+              setEditingMovie(null);
+              fetchMovies(pageSize, pageNum, []).then((data) =>
+                setMovies(data.movies)
+              );
+            }}
+            onCancel={() => setEditingMovie(null)}
+          />
+        )}
 
-      <table className="table table-bordered table-striped">
-        <thead className="table-dark">
-          <tr>
-            <th>ID</th>
-            <th>Title</th>
-            <th>Type</th>
-            <th>Director</th>
-            <th>Cast</th>
-            <th>Country</th>
-            <th>Release Year</th>
-            <th>Rating</th>
-            <th>Duration</th>
-            <th>Description</th>
-            <th>Genres</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {movies.map((m) => (
-            <tr key={m.showId}>
-              <td>{m.showId}</td>
-              <td>{m.title}</td>
-              <td>{m.type}</td>
-              <td>{m.director}</td>
-              <td>{m.cast}</td>
-              <td>{m.country}</td>
-              <td>{m.releaseYear}</td>
-              <td>{m.rating}</td>
-              <td>{m.duration}</td>
-              <td>{m.description}</td>
-              <td>{getGenres(m)}</td>
-              <td>
-                <button
-                  className="btn btn-primary btn-sm w-100 mb-1"
-                  onClick={() => {
-                    setEditingMovie(m);
-                    window.scrollTo({ top: 0, behavior: "smooth" });
-                  }}
-                >
-                  Edit
-                </button>
-                <button
-                  className="btn btn-danger btn-sm w-100 mb-1"
-                  onClick={() => handleDelete(m.showId)}
-                >
-                  Delete
-                </button>
-              </td>
+        <table className="table table-bordered table-striped">
+          <thead className="table-dark">
+            <tr>
+              <th>ID</th>
+              <th>Title</th>
+              <th>Type</th>
+              <th>Director</th>
+              <th>Cast</th>
+              <th>Country</th>
+              <th>Release Year</th>
+              <th>Rating</th>
+              <th>Duration</th>
+              <th>Description</th>
+              <th>Genres</th>
+              <th></th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {movies.map((m) => (
+              <tr key={m.showId}>
+                <td>{m.showId}</td>
+                <td>{m.title}</td>
+                <td>{m.type}</td>
+                <td>{m.director}</td>
+                <td>{m.cast}</td>
+                <td>{m.country}</td>
+                <td>{m.releaseYear}</td>
+                <td>{m.rating}</td>
+                <td>{m.duration}</td>
+                <td>{m.description}</td>
+                <td>{getGenres(m)}</td>
+                <td>
+                  <button
+                    className="btn btn-primary btn-sm w-100 mb-1"
+                    onClick={() => {
+                      setEditingMovie(m);
+                      window.scrollTo({ top: 0, behavior: "smooth" });
+                    }}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className="btn btn-danger btn-sm w-100 mb-1"
+                    onClick={() => handleDelete(m.showId)}
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
 
-      <Pagination
-        currentPage={pageNum}
-        totalPages={totalPages}
-        pageSize={pageSize}
-        onPageChange={setPageNum}
-        onPageSizeChange={(newSize) => {
-          setPageSize(newSize);
-          setPageNum(1);
-        }}
-      />
+        <Pagination
+          currentPage={pageNum}
+          totalPages={totalPages}
+          pageSize={pageSize}
+          onPageChange={setPageNum}
+          onPageSizeChange={(newSize) => {
+            setPageSize(newSize);
+            setPageNum(1);
+          }}
+        />
+      </AuthorizeView>
     </>
   );
 };
