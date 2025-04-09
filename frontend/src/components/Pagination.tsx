@@ -5,7 +5,6 @@ interface PaginationProps {
   onPageChange: (newPage: number) => void;
   onPageSizeChange: (newSize: number) => void;
 }
-
 const Pagination = ({
   currentPage,
   totalPages,
@@ -13,21 +12,42 @@ const Pagination = ({
   onPageChange,
   onPageSizeChange,
 }: PaginationProps) => {
+  const maxVisiblePages = 5;
+
+  const getPageNumbers = () => {
+    let start = Math.max(currentPage - Math.floor(maxVisiblePages / 2), 1);
+    let end = start + maxVisiblePages - 1;
+
+    if (end > totalPages) {
+      end = totalPages;
+      start = Math.max(end - maxVisiblePages + 1, 1);
+    }
+
+    const pages = [];
+    for (let i = start; i <= end; i++) {
+      pages.push(i);
+    }
+    return pages;
+  };
+
+  const pageNumbers = getPageNumbers();
+
   return (
-    <div className="flex item-center justify-center mt-4">
+    <div className="flex items-center justify-center mt-4 flex-wrap gap-2">
       <button
         disabled={currentPage === 1}
         onClick={() => onPageChange(currentPage - 1)}
       >
         Previous
       </button>
-      {[...Array(totalPages)].map((_, index) => (
+
+      {pageNumbers.map((page) => (
         <button
-          key={index + 1}
-          onClick={() => onPageChange(index + 1)}
-          disabled={currentPage === index + 1}
+          key={page}
+          onClick={() => onPageChange(page)}
+          disabled={currentPage === page}
         >
-          {index + 1}
+          {page}
         </button>
       ))}
 
@@ -38,16 +58,16 @@ const Pagination = ({
         Next
       </button>
 
-      <br />
-      <label>
+      <label className="ml-4">
         Results per page:
         <select
           value={pageSize}
           onChange={(p) => {
             onPageSizeChange(Number(p.target.value));
-            onPageChange(1);
+            onPageChange(1); // reset to page 1 when page size changes
           }}
         >
+          <option value="10">10</option>
           <option value="25">25</option>
           <option value="50">50</option>
           <option value="100">100</option>
