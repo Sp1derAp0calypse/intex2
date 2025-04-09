@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Identity;
 
 namespace Intex.API.Models;
 
 public partial class MoviesUser
 {
+    [Key]
     public int? UserId { get; set; }
 
     public string? Name { get; set; }
