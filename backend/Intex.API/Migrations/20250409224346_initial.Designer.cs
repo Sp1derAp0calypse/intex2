@@ -11,14 +11,75 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Intex.API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250409153857_Initial")]
-    partial class Initial
+    [Migration("20250409224346_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.3");
+
+            modelBuilder.Entity("Intex.API.Models.MoviesUser", b =>
+                {
+                    b.Property<int>("UserId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("Age")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("AmazonPrime")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("AppleTv")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("City")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("Disney")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Gender")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("Hulu")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("Max")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("Netflix")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("Paramount")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("Peacock")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Phone")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("State")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("Zip")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("UserId");
+
+                    b.HasIndex("Email");
+
+                    b.ToTable("MoviesUser");
+                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
@@ -82,6 +143,7 @@ namespace Intex.API.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("TEXT");
 
@@ -210,6 +272,15 @@ namespace Intex.API.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("Intex.API.Models.MoviesUser", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                        .WithMany()
+                        .HasForeignKey("Email")
+                        .HasPrincipalKey("Email")
+                        .OnDelete(DeleteBehavior.NoAction);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
