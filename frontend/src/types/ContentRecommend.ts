@@ -1,4 +1,7 @@
 export interface ContentRecommend {
   ifYouLiked: string;
-  recommendations: string[];
+  recommendations: {
+    title: string;
+    posterUrl: string;
+  }[];
 }

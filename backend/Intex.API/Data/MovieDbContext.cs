@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Intex.API.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Intex.API.Data;
@@ -15,7 +16,11 @@ public partial class MovieDbContext : DbContext
     {
     }
 
-    public virtual DbSet<MoviesRating> MoviesRatings { get; set; }
+    public virtual DbSet<Collaborative> Collaboratives { get; set; }
+
+    public virtual DbSet<Content> Contents { get; set; }
+
+    public virtual DbSet<MoviesRating> MoviesRatings { get; set; }  
 
     public virtual DbSet<MoviesTitle> Movies { get; set; }
 
@@ -27,6 +32,39 @@ public partial class MovieDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Collaborative>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("Collaborative");
+
+            entity.Property(e => e.Collaborative1).HasColumnName("Collaborative 1");
+            entity.Property(e => e.Collaborative2).HasColumnName("Collaborative 2");
+            entity.Property(e => e.Collaborative3).HasColumnName("Collaborative 3");
+            entity.Property(e => e.Collaborative4).HasColumnName("Collaborative 4");
+            entity.Property(e => e.Collaborative5).HasColumnName("Collaborative 5");
+            entity.Property(e => e.IfYouLiked).HasColumnName("If you liked");
+        });
+
+        modelBuilder.Entity<Content>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("Content");
+
+            entity.HasIndex(e => e.Index, "ix_Content_index");
+
+            entity.Property(e => e.IfYouLiked).HasColumnName("If you liked");
+            entity.Property(e => e.Index)
+                .HasColumnType("BIGINT")
+                .HasColumnName("index");
+            entity.Property(e => e.Recommendation1).HasColumnName("Recommendation 1");
+            entity.Property(e => e.Recommendation2).HasColumnName("Recommendation 2");
+            entity.Property(e => e.Recommendation3).HasColumnName("Recommendation 3");
+            entity.Property(e => e.Recommendation4).HasColumnName("Recommendation 4");
+            entity.Property(e => e.Recommendation5).HasColumnName("Recommendation 5");
+        });
+
         modelBuilder.Entity<MoviesRating>(entity =>
         {
             entity
@@ -65,6 +103,7 @@ public partial class MovieDbContext : DbContext
             entity.Property(e => e.KidsTv).HasColumnName("Kids' TV");
             entity.Property(e => e.LanguageTvShows).HasColumnName("Language TV Shows");
             entity.Property(e => e.NatureTv).HasColumnName("Nature TV");
+            entity.Property(e => e.poster_url).HasColumnName("poster_url");
             entity.Property(e => e.Rating).HasColumnName("rating");
             entity.Property(e => e.RealityTv).HasColumnName("Reality TV");
             entity.Property(e => e.ReleaseYear).HasColumnName("release_year");
