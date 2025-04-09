@@ -58,7 +58,10 @@ const SearchBar: React.FC<SearchBarProps> = ({ movies, redirectTo }) => {
   };
 
   return (
-    <div className="position-relative" style={{ maxWidth: "350px", width: "100%" }}>
+    <div
+      className="position-relative"
+      style={{ maxWidth: "350px", width: "100%" }}
+    >
       <form
         onSubmit={handleSubmit}
         style={{
@@ -68,7 +71,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ movies, redirectTo }) => {
           borderRadius: "50px", // ✅ fully rounded
           padding: "6px 12px",
           gap: "8px",
-          position: "relative"
+          position: "relative",
         }}
       >
         {/* Hamburger menu inside the search bar */}
@@ -86,7 +89,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ movies, redirectTo }) => {
                 borderRadius: "12px",
                 boxShadow: "0 4px 12px rgba(0,0,0,0.2)",
                 padding: "8px 0",
-                minWidth: "120px"
+                minWidth: "120px",
               }}
             >
               <div
@@ -95,8 +98,12 @@ const SearchBar: React.FC<SearchBarProps> = ({ movies, redirectTo }) => {
                   setMenuOpen(false);
                   navigate("/movies");
                 }}
-                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#999")}
-                onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#B3B3B3")}
+                onMouseEnter={(e) =>
+                  (e.currentTarget.style.backgroundColor = "#999")
+                }
+                onMouseLeave={(e) =>
+                  (e.currentTarget.style.backgroundColor = "#B3B3B3")
+                }
               >
                 Movies
               </div>
@@ -109,8 +116,12 @@ const SearchBar: React.FC<SearchBarProps> = ({ movies, redirectTo }) => {
                   setMenuOpen(false);
                   navigate("/tvshows");
                 }}
-                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#999")}
-                onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#B3B3B3")}
+                onMouseEnter={(e) =>
+                  (e.currentTarget.style.backgroundColor = "#999")
+                }
+                onMouseLeave={(e) =>
+                  (e.currentTarget.style.backgroundColor = "#B3B3B3")
+                }
               >
                 Series
               </div>
@@ -130,7 +141,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ movies, redirectTo }) => {
             border: "none",
             outline: "none",
             color: "#000",
-            flex: 1
+            flex: 1,
           }}
         />
 
@@ -148,7 +159,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ movies, redirectTo }) => {
             boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
             padding: "4px 0",
             maxHeight: "200px",
-            overflowY: "auto"
+            overflowY: "auto",
           }}
         >
           {filteredMovies.map((movie) => (
@@ -160,8 +171,12 @@ const SearchBar: React.FC<SearchBarProps> = ({ movies, redirectTo }) => {
                 cursor: "pointer",
                 color: "#000",
               }}
-              onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#999")}
-              onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#B3B3B3")}
+              onMouseEnter={(e) =>
+                (e.currentTarget.style.backgroundColor = "#999")
+              }
+              onMouseLeave={(e) =>
+                (e.currentTarget.style.backgroundColor = "#B3B3B3")
+              }
             >
               {movie.title}
             </li>
