@@ -25,12 +25,12 @@ namespace Intex.API.Controllers
         }
 
 
+        // The route for fetching movies with optional search and genre filtering
         [HttpGet("allmovies")]
-        
         public IActionResult GetMovies(int pageSize = 10, int pageNum = 1, [FromQuery] List<string>? movieTypes = null, [FromQuery] string? searchTerm = null)
         {
             string? favMovies = Request.Cookies["FavMovies"];
-            Console.WriteLine("----COOKIE----\n"+favMovies);
+            Console.WriteLine("----COOKIE----\n" + favMovies);
             HttpContext.Response.Cookies.Append("FavMovies", searchTerm ?? "", new CookieOptions()
             {
                 HttpOnly = true,
@@ -38,33 +38,74 @@ namespace Intex.API.Controllers
                 //SameSite = SameSiteMode.Strict,
                 Expires = DateTimeOffset.Now.AddMinutes(1),
             });
-            
+
             var query = _movieContext.Movies.AsQueryable();
 
+            // Apply search term filtering
             if (!string.IsNullOrWhiteSpace(searchTerm))
             {
                 query = query.Where(m => m.Title.Contains(searchTerm));
             }
 
-            // Apply genre filtering using reflection
+            // Apply genre filtering using manual genre mapping
             if (movieTypes != null && movieTypes.Any())
             {
                 // Combine OR conditions dynamically for any genre that has value == 1
                 var parameter = Expression.Parameter(typeof(MoviesTitle), "m");
                 Expression? combinedExpression = null;
 
+                // Manual genre mapping to columns
+                var genreColumnMappings = new Dictionary<string, string>
+        {
+            { "Anime Series International TV Shows", "AnimeSeriesInternationalTvShows" },
+            { "British TV Shows Docuseries International TV Shows", "BritishTvShowsDocuseriesInternationalTvShows" },
+            { "Children", "Children" },
+            { "Comedies", "Comedies" },
+            { "Comedies Dramas International Movies", "ComediesDramasInternationalMovies" },
+            { "Comedies International Movies", "ComediesInternationalMovies" },
+            { "Comedies Romantic Movies", "ComediesRomanticMovies" },
+            { "Crime TV Shows Docuseries", "CrimeTvShowsDocuseries" },
+            { "Documentaries", "Documentaries" },
+            { "Documentaries International Movies", "DocumentariesInternationalMovies" },
+            { "Docuseries", "Docuseries" },
+            { "Dramas", "Dramas" },
+            { "Dramas International Movies", "DramasInternationalMovies" },
+            { "Dramas Romantic Movies", "DramasRomanticMovies" },
+            { "Family Movies", "FamilyMovies" },
+            { "Fantasy", "Fantasy" },
+            { "Horror Movies", "HorrorMovies" },
+            { "International Movies Thrillers", "InternationalMoviesThrillers" },
+            { "International TV Shows Romantic TV Shows TV Dramas", "InternationalTvShowsRomanticTvShowsTvDramas" },
+            { "Kids TV", "KidsTv" },
+            { "Language TV Shows", "LanguageTvShows" },
+            { "Musicals", "Musicals" },
+            { "Nature TV", "NatureTv" },
+            { "Reality TV", "RealityTv" },
+            { "Spirituality", "Spirituality" },
+            { "TV Action", "TvAction" },
+            { "TV Comedies", "TvComedies" },
+            { "TV Dramas", "TvDramas" },
+            { "Talk Shows TV Comedies", "TalkShowsTvComedies" },
+            { "Thrillers", "Thrillers" }
+        };
+
+                // Apply filtering for each genre that has been selected
                 foreach (var genre in movieTypes)
                 {
-                    var property = typeof(MoviesTitle).GetProperty(genre);
-                    if (property != null && property.PropertyType == typeof(int?))
+                    if (genreColumnMappings.ContainsKey(genre))
                     {
-                        var propertyAccess = Expression.Property(parameter, property);
-                        var genreValue = Expression.Constant(1, typeof(int?));
-                        var equality = Expression.Equal(propertyAccess, genreValue);
+                        var columnName = genreColumnMappings[genre];
+                        var property = typeof(MoviesTitle).GetProperty(columnName);
+                        if (property != null && property.PropertyType == typeof(int?))
+                        {
+                            var propertyAccess = Expression.Property(parameter, property);
+                            var genreValue = Expression.Constant(1, typeof(int?));
+                            var equality = Expression.Equal(propertyAccess, genreValue);
 
-                        combinedExpression = combinedExpression == null
-                            ? equality
-                            : Expression.OrElse(combinedExpression, equality);
+                            combinedExpression = combinedExpression == null
+                                ? equality
+                                : Expression.OrElse(combinedExpression, equality);
+                        }
                     }
                 }
 
@@ -75,13 +116,16 @@ namespace Intex.API.Controllers
                 }
             }
 
+            // Get the total number of movies after applying filters
             var totalNumMovies = query.Count();
 
+            // Get the paginated list of movies
             var list = query
                 .Skip((pageNum - 1) * pageSize)
                 .Take(pageSize)
                 .ToList();
 
+            // Return the response with the movies and the total number of movies
             var newObject = new
             {
                 Movies = list,
@@ -91,21 +135,49 @@ namespace Intex.API.Controllers
             return Ok(newObject);
         }
 
+        // The route to get a list of available movie types (genres)
         [HttpGet("getmovietypes")]
         public IActionResult GetMovieTypes()
         {
-            var genreProps = typeof(MoviesTitle).GetProperties()
-                .Where(p =>
-                    p.PropertyType == typeof(int?) &&
-                    p.Name != "ReleaseYear" &&
-                    Char.IsUpper(p.Name[0]))
-                .Select(p =>
-                    Regex.Replace(p.Name, "(\\B[A-Z])", " $1")  // insert spaces
-                        .Replace("Tv", "TV"))                   // fix "TV" capitalization
-                .ToList();
+            // Manual genre column mappings to return
+            var genreColumnMappings = new Dictionary<string, string>
+    {
+        { "Anime Series International TV Shows", "AnimeSeriesInternationalTvShows" },
+        { "British TV Shows Docuseries International TV Shows", "BritishTvShowsDocuseriesInternationalTvShows" },
+        { "Children", "Children" },
+        { "Comedies", "Comedies" },
+        { "Comedies Dramas International Movies", "ComediesDramasInternationalMovies" },
+        { "Comedies International Movies", "ComediesInternationalMovies" },
+        { "Comedies Romantic Movies", "ComediesRomanticMovies" },
+        { "Crime TV Shows Docuseries", "CrimeTvShowsDocuseries" },
+        { "Documentaries", "Documentaries" },
+        { "Documentaries International Movies", "DocumentariesInternationalMovies" },
+        { "Docuseries", "Docuseries" },
+        { "Dramas", "Dramas" },
+        { "Dramas International Movies", "DramasInternationalMovies" },
+        { "Dramas Romantic Movies", "DramasRomanticMovies" },
+        { "Family Movies", "FamilyMovies" },
+        { "Fantasy", "Fantasy" },
+        { "Horror Movies", "HorrorMovies" },
+        { "International Movies Thrillers", "InternationalMoviesThrillers" },
+        { "International TV Shows Romantic TV Shows TV Dramas", "InternationalTvShowsRomanticTvShowsTvDramas" },
+        { "Kids TV", "KidsTv" },
+        { "Language TV Shows", "LanguageTvShows" },
+        { "Musicals", "Musicals" },
+        { "Nature TV", "NatureTv" },
+        { "Reality TV", "RealityTv" },
+        { "Spirituality", "Spirituality" },
+        { "TV Action", "TvAction" },
+        { "TV Comedies", "TvComedies" },
+        { "TV Dramas", "TvDramas" },
+        { "Talk Shows TV Comedies", "TalkShowsTvComedies" },
+        { "Thrillers", "Thrillers" }
+    };
 
-            return Ok(genreProps);
+            // Return the genre names as the list
+            return Ok(genreColumnMappings.Keys.ToList());
         }
+
 
 
         [HttpPost("addmovie")]
