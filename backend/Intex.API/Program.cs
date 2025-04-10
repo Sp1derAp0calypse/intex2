@@ -76,8 +76,8 @@ builder.Services.AddCors(options =>
             policy
               .WithOrigins(
                 "http://localhost:3000", 
-              "white-beach-0e9046f1e.6.azurestaticapps.net", 
-              "cinaniche.com") // Replace with your frontend URL
+              "https://white-beach-0e9046f1e.6.azurestaticapps.net", 
+              "https://cinaniche.com") // Replace with your frontend URL
                 .AllowCredentials() // Required to allow cookies
                 .AllowAnyMethod()
                 .AllowAnyHeader()
@@ -97,6 +97,8 @@ builder.Services.AddHttpsRedirection(options =>
 
 var app = builder.Build();
 
+app.UseCors("AllowFrontend");
+
 app.UseHttpsRedirection();
 
 if (!app.Environment.IsDevelopment())
@@ -111,8 +113,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-
-app.UseCors("AllowFrontend");
 app.UseCookiePolicy();
 
 app.UseAuthentication();
