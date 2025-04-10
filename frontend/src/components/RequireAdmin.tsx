@@ -9,9 +9,12 @@ const RequireAdmin = ({ children }: { children: JSX.Element }) => {
   useEffect(() => {
     const checkAdmin = async () => {
       try {
-        const response = await fetch("https://localhost:5000/pingauth", {
-          credentials: "include",
-        });
+        const response = await fetch(
+          "https://intex2-315-backend-gxdsgxfwavhyc8ax.eastus-01.azurewebsites.net/pingauth",
+          {
+            credentials: "include",
+          }
+        );
 
         if (!response.ok) throw new Error("Unauthorized");
 
