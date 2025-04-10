@@ -72,7 +72,7 @@ const AdminMoviesPage = () => {
   return (
     <>
       <AuthorizeView>
-        <h1>Admin - Movie List</h1>
+        <h1 style={{ color: "white" }}>Admin - Movie List</h1>
 
         {!showForm && (
           <button

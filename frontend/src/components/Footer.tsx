@@ -1,4 +1,3 @@
-import { FaFacebookF, FaTwitter, FaInstagram } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 function Footer() {
@@ -11,27 +10,7 @@ function Footer() {
         </p>
       </div>
       <div>
-        <a
-          href="https://www.instagram.com"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <FaInstagram size={20} />
-        </a>
-        <a
-          href="https://www.facebook.com"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <FaFacebookF size={20} />
-        </a>
-        <a
-          href="https://www.twitter.com"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <FaTwitter size={20} />
-        </a>
+        <a></a>
       </div>
     </footer>
   );

@@ -5,6 +5,7 @@ import Pagination from "./Pagination";
 import { Movie } from "../types/Movie";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
+import "../css/MovieList.css";
 
 function MovieList({
   selectedCategories,
@@ -58,27 +59,48 @@ function MovieList({
       return titleB.localeCompare(titleA);
     }
   });
+
   return (
-    <div className="container mt-4">
-      <h2 className="mb-3">Movies</h2>
+    <div className="movie-scroll-row">
+      <h2 className="mb-3 text-white text-center">All CineNiche Movies</h2>
+      <div className="mb-3">
+        <label className="form-label me-2">Sort by Title:</label>
+        <select
+          className="form-select d-inline-block w-auto"
+          value={sortOrder}
+          onChange={(e) => setSortOrder(e.target.value)}
+        >
+          <option value="asc">A-Z</option>
+          <option value="desc">Z-A</option>
+        </select>
+      </div>
 
       <div className="d-flex overflow-auto gap-3 pb-3">
         {sortedMovies.map((m) => (
           <div
             key={m.showId}
-            className="card text-center"
-            style={{ minWidth: "200px", maxWidth: "300px", flex: "0 0 auto" }}
+            className="bg-transparent border-0"
+            style={{
+              minWidth: "200px",
+              maxWidth: "200px",
+              padding: 0,
+              margin: 0,
+              cursor: "pointer",
+            }}
+            onClick={() =>
+              navigate(`/Movie/details/${m.title}`, { state: { movie: m } })
+            }
           >
-            {/* Poster goes outside .card-body to fill the card */}
             <LazyLoadImage
               src={m.poster_url}
               alt={m.title}
               effect="blur"
-              className="rounded-top"
+              className="rounded"
               style={{
                 width: "100%",
-                height: "350px",
+                height: "320px",
                 objectFit: "cover",
+                borderRadius: "8px",
                 display: "block",
               }}
               onError={(e) => {
@@ -86,34 +108,22 @@ function MovieList({
                 e.currentTarget.src = "/placeholder.png";
               }}
             />
-
-            <div className="card-body p-2">
-              <h6 className="card-title">{m.title}</h6>
-              <button
-                className="btn btn-primary btn-sm"
-                onClick={() =>
-                  navigate(`/Movie/details/${m.title}`, {
-                    state: { movie: m },
-                  })
-                }
-              >
-                View Details
-              </button>
-            </div>
           </div>
         ))}
       </div>
 
-      <Pagination
-        currentPage={pageNum}
-        totalPages={totalPages}
-        pageSize={pageSize}
-        onPageChange={setPageNum}
-        onPageSizeChange={(newSize) => {
-          setPageSize(newSize);
-          setPageNum(1);
-        }}
-      />
+      <div className="d-flex justify-content-center mt-4">
+        <Pagination
+          currentPage={pageNum}
+          totalPages={totalPages}
+          pageSize={pageSize}
+          onPageChange={setPageNum}
+          onPageSizeChange={(newSize) => {
+            setPageSize(newSize);
+            setPageNum(1);
+          }}
+        />
+      </div>
     </div>
   );
 }
