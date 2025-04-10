@@ -8,7 +8,6 @@ import AuthorizeView from "../components/AuthorizeView.tsx";
 import MovieDetailsCard from "../components/MovieDetailsCard.tsx";
 import Rating from "../components/Rating.tsx";
 import NavBar from "../components/NavBar.tsx";
-import Back from "../components/Back.tsx";
 
 const DetailsPage = () => {
   const { title } = useParams<{ title: string }>();
@@ -104,55 +103,46 @@ const DetailsPage = () => {
   }
 
   return (
-    <div>
-      <NavBar />
-      <Back />
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "20px",
-          padding: "20px",
-        }}
-      >
-        <AuthorizeView>
-          <h1 style={{ color: "white" }}>{title}</h1>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        gap: "20px",
+        padding: "20px",
+      }}
+    >
+      <AuthorizeView>
+        <NavBar />
+        <h1 style={{ color: "white" }}>{title}</h1>
 
-          <div
-            style={{
-              display: "flex",
-              gap: "40px",
-              alignItems: "flex-start",
-              flexWrap: "wrap", // keeps it mobile-friendly
-              marginBottom: "30px",
-            }}
-          >
-            {/* Movie Poster on the left */}
-            <div style={{ flexShrink: 0 }}>
-              <LazyLoadImage
-                src={movie?.poster_url || "/placeholder.png"}
-                alt={movie?.title || "Placeholder Title"}
-                effect="blur"
-                className="img-fluid rounded"
-                style={{
-                  width: "380px",
-                  height: "520px",
-                  objectFit: "cover",
-                  borderRadius: "12px",
-                  boxShadow: "0 4px 16px rgba(0, 0, 0, 0.5)",
-                }}
-                onError={(e) => {
-                  e.currentTarget.onerror = null;
-                  e.currentTarget.src = "/placeholder.png";
-                }}
-              />
-            </div>
-
-            {movie && (
-              <div style={{ maxWidth: "1200px", flex: "1 1 auto" }}>
-                <MovieDetailsCard movie={movie} />
-              </div>
-            )}
+        <div
+          style={{
+            display: "flex",
+            gap: "40px",
+            alignItems: "flex-start",
+            flexWrap: "wrap", // keeps it mobile-friendly
+            marginBottom: "30px",
+          }}
+        >
+          {/* Movie Poster on the left */}
+          <div style={{ flexShrink: 0 }}>
+            <LazyLoadImage
+              src={movie?.poster_url || "/placeholder.png"}
+              alt={movie?.title || "Placeholder Title"}
+              effect="blur"
+              className="img-fluid rounded"
+              style={{
+                width: "380px",
+                height: "520px",
+                objectFit: "cover",
+                borderRadius: "12px",
+                boxShadow: "0 4px 16px rgba(0, 0, 0, 0.5)",
+              }}
+              onError={(e) => {
+                e.currentTarget.onerror = null;
+                e.currentTarget.src = "/placeholder.png";
+              }}
+            />
           </div>
 
           {movie && (

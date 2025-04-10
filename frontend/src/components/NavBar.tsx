@@ -11,7 +11,7 @@ function NavBar() {
   const profileRef = useRef<HTMLDivElement | null>(null);
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState<string>("");
-
+  const [hovered, setHovered] = useState(false);
 
   // Fetch movies for the search bar
   useEffect(() => {
@@ -63,7 +63,7 @@ function NavBar() {
         {/* Left: Logo */}
         <div className="logo">
           <Link
-            to="/"
+            to="/landingPage"
             className="navbar-brand mb-0 d-flex align-items-center"
             style={{ height: "100%", position: "relative", zIndex: 2 }}
           >
@@ -78,6 +78,21 @@ function NavBar() {
                 position: "fixed",
               }}
             />
+          </Link>
+        </div>
+
+        <div style={{ marginLeft: "180px" }}>
+          <Link
+            className="nav-button"
+            style={{
+              backgroundColor: hovered ? "#c8af6f" : "#c9a449",
+              color: "black",
+            }}
+            to="/userHomePage"
+            onMouseEnter={() => setHovered(true)}
+            onMouseLeave={() => setHovered(false)}
+          >
+            All Movies
           </Link>
         </div>
 

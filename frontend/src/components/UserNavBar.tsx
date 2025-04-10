@@ -21,44 +21,35 @@ function UserNavBar({
   setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
 }) {
   const [movies, setMovies] = useState<Movie[]>([]);
-  const [profileMenuOpen, setProfileMenuOpen] = useState(false); // Profile dropdown state
-
-  const profileRef = useRef<HTMLDivElement | null>(null);
-  const navigate = useNavigate();
   const [categories, setCategories] = useState<string[]>([]);
   const [genreDropdownOpen, setGenreDropdownOpen] = useState(false);
+  const [profileMenuOpen, setProfileMenuOpen] = useState(false);
+  const profileRef = useRef<HTMLDivElement | null>(null);
+  const navigate = useNavigate();
 
-  // Fetch movies for the search bar
+  // Fetch movies & categories
   useEffect(() => {
     const fetchAllMovies = async () => {
       try {
-        const res = await fetch(
-          // "https://intex2-315-backend-gxdsgxfwavhyc8ax.eastus-01.azurewebsites.net/Movie/allmovies",
-          "https://localhost:5000/Movie/allmovies",
-          {
-            credentials: "include",
-          }
-        );
+        const res = await fetch("https://localhost:5000/Movie/allmovies", {
+          credentials: "include",
+        });
         const data = await res.json();
         setMovies(data.movies);
       } catch (error) {
-        console.error("Failed to fetch movies for search bar:", error);
+        console.error("Failed to fetch movies:", error);
       }
     };
 
     const fetchCategories = async () => {
       try {
-        const response = await fetch(
-          // "https://intex2-315-backend-gxdsgxfwavhyc8ax.eastus-01.azurewebsites.net/Movie/getmovietypes",
-          "https://localhost:5000/Movie/getmovietypes",
-          {
-            credentials: "include",
-          }
-        );
-        const data = await response.json();
+        const res = await fetch("https://localhost:5000/Movie/getmovietypes", {
+          credentials: "include",
+        });
+        const data = await res.json();
         setCategories(data);
       } catch (error) {
-        console.error("Error fetching categories", error);
+        console.error("Failed to fetch categories:", error);
       }
     };
 
@@ -66,7 +57,7 @@ function UserNavBar({
     fetchCategories();
   }, [selectedCategories]);
 
-  // Close profile dropdown when clicking outside
+  // Close profile dropdown on outside click
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -82,21 +73,18 @@ function UserNavBar({
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
   return (
     <nav
       className="navbar fixed-top px-4 py-0 text-white"
-      style={{ backgroundColor: "#1a1a1a33", height: "70px" }}
+      style={{ backgroundColor: "#1a1a1a33", height: "90px" }}
     >
       <div
-        className="container-fluid d-flex justify-content-between align-items-center w-100"
+        className="container-fluid d-flex justify-between align-items-center w-100"
         style={{ height: "100%" }}
       >
-        {/* Left Section: Logo + Genre Dropdown */}
-        <div
-          className="d-flex align-items-center gap-4"
-          style={{ height: "100%" }}
-        >
-          {/* Logo */}
+        {/* Left: Logo only */}
+        <div className="d-flex align-items-center" style={{ height: "100%" }}>
           <Link
             to="/landingPage"
             className="navbar-brand mb-0 d-flex align-items-center"
@@ -107,22 +95,27 @@ function UserNavBar({
               alt="CineNiche Logo"
               style={{
                 height: "55px",
-                marginTop: "0px",
                 objectFit: "contain",
                 zIndex: 2,
                 position: "fixed",
               }}
             />
           </Link>
+        </div>
 
-          {/* Genre Filter Dropdown */}
-          <div
-            className="dropdown"
-            style={{ position: "relative", marginLeft: "350px" }}
-          >
+        {/* Center: Genre + Sort + SearchBar, shifted right */}
+        <div className="d-flex align-items-center gap-3 ms-auto me-auto">
+          {/* Genre Dropdown */}
+          <div className="dropdown" style={{ position: "relative" }}>
             <button
               className="btn btn-secondary dropdown-toggle"
               onClick={() => setGenreDropdownOpen(!genreDropdownOpen)}
+              style={{
+                backgroundColor: "#c9a449",
+                color: "black",
+                border: "#c9a449",
+                width: "auto",
+              }}
             >
               Genres
             </button>
@@ -143,9 +136,9 @@ function UserNavBar({
                 }}
               >
                 {categories.map((c) => (
-                  <div className="form-check" key={c}>
+                  <div className="form-check ps-1" key={c}>
                     <input
-                      className="form-check-input"
+                      className="custom-yellow-checkbox me-2"
                       type="checkbox"
                       id={`genre-${c}`}
                       value={c}
@@ -167,24 +160,28 @@ function UserNavBar({
               </div>
             )}
           </div>
-        </div>
-        <div className="ms-3">
-          <label className="text-white me-2">Sort:</label>
-          <select
-            className="btn btn-secondary btn-sm d-inline-block w-auto"
-            value={sortOrder}
-            onChange={(e) => setSortOrder(e.target.value)}
-          >
-            <option value="asc">A-Z</option>
-            <option value="desc">Z-A</option>
-          </select>
-        </div>
 
-        {/* Center Section: Search Bar */}
-        <div className="flex-grow-2 d-flex justify-content-center">
+          {/* Sort */}
+          <div>
+            <select
+              className="btn btn-secondary btn-sm d-inline-block w-auto"
+              value={sortOrder}
+              onChange={(e) => setSortOrder(e.target.value)}
+              style={{
+                backgroundColor: "#c9a449",
+                color: "black",
+                border: "#c9a449",
+                width: "auto",
+              }}
+            >
+              <option value="asc">A-Z</option>
+              <option value="desc">Z-A</option>
+            </select>
+          </div>
+
+          {/* Search */}
           <div
             style={{
-              marginRight: "100px",
               minWidth: "300px",
               maxWidth: "600px",
               width: "100%",
@@ -199,31 +196,25 @@ function UserNavBar({
           </div>
         </div>
 
-        {/* Right Section: Profile Menu + Recommendations Link */}
+        {/* Right: Recommendations + Profile */}
         <div
           ref={profileRef}
           className="d-flex align-items-center gap-4 position-relative"
         >
-          {/* Movie Recommendations Button */}
           <button
             className="btn btn-outline-light"
             onClick={() => navigate("/landingPage")}
           >
-            Movie Recommendations
+            Home
           </button>
 
-          {/* Profile Icon */}
           <FaUserCircle
             className="cursor-pointer"
-            style={{
-              color: "#B3B3B3",
-              fontSize: "28px",
-            }}
+            style={{ color: "#B3B3B3", fontSize: "28px" }}
             title="Profile"
             onClick={() => setProfileMenuOpen(!profileMenuOpen)}
           />
 
-          {/* Profile Dropdown */}
           {profileMenuOpen && (
             <div
               className="position-absolute top-100 end-0 mt-2 z-3"
@@ -236,7 +227,7 @@ function UserNavBar({
               }}
             >
               <div
-                className="px-3 py-2 cursor-pointer"
+                className="px-3 py-2 cursor-pointer text-black"
                 onClick={() => {
                   setProfileMenuOpen(false);
                   navigate("/login");
