@@ -61,7 +61,11 @@ const SearchBar: React.FC<SearchBarProps> = ({
   };
 
   return (
-    <div className="position-relative" style={{ maxWidth: "350px", width: "100%" }} ref={menuRef}>
+    <div
+      className="position-relative"
+      style={{ maxWidth: "350px", width: "100%" }}
+      ref={menuRef}
+    >
       <form
         onSubmit={handleSubmit}
         style={{
@@ -89,28 +93,6 @@ const SearchBar: React.FC<SearchBarProps> = ({
         />
 
         <FaSearch style={{ color: "#333", fontSize: "16px" }} />
-
-        {searchTerm && (
-          <button
-            type="button"
-            onClick={() => {
-              setSearchTerm("");
-              navigate(redirectTo);
-              setShowDropdown(false);
-            }}
-            style={{
-              marginLeft: "8px",
-              border: "none",
-              background: "transparent",
-              color: "#333",
-              fontSize: "16px",
-              cursor: "pointer",
-            }}
-            title="Clear Search"
-          >
-            ✕
-          </button>
-        )}
       </form>
 
       {showDropdown && filteredMovies.length > 0 && (

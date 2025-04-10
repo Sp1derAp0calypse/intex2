@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, SetStateAction } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Movie } from "../types/Movie";
 import SearchBar from "./SearchBar";
@@ -8,7 +8,6 @@ import CineNicheLogo from "../assets/CineNicheLogo.png";
 function NavBar() {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [profileMenuOpen, setProfileMenuOpen] = useState(false); // Profile dropdown state
-
   const profileRef = useRef<HTMLDivElement | null>(null);
   const navigate = useNavigate();
 
@@ -82,7 +81,13 @@ function NavBar() {
 
         {/* Center: Only the search bar now (hamburger menu is inside SearchBar) */}
         <div className="d-flex align-items-center gap-3 flex-grow-1 justify-content-center">
-          <SearchBar movies={movies} redirectTo="/UserHomePage" />
+          <SearchBar
+            movies={movies}
+            redirectTo="/userHomePage"
+            searchTerm={""}
+            setSearchTerm={function (value: SetStateAction<string>): void {
+            throw new Error("Function not implemented.");
+          } } />
         </div>
 
         {/* Right: Profile icon and dropdown */}

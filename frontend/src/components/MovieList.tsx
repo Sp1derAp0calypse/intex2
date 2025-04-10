@@ -119,9 +119,9 @@ function MovieList({
         backgroundColor: "#000",
       }}
     >
-      <h2 className="text-white mb-4" style={{ fontWeight: 600 }}>
+      <h1 className="text-white mb-4" style={{ fontWeight: 600 }}>
         All CineNiche Movies
-      </h2>
+      </h1>
 
       <div className="d-flex justify-content-center">
         <div
