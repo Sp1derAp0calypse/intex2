@@ -1,94 +1,95 @@
 /* NavBar.css */
 
 .navbar-custom {
-    background-color: #1a1a1a;
-    height: 70px;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 10;
-    padding: 0 1rem;
-    color: white;
-  }
-  
-  .navbar-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 100%;
-    width: 100%;
-    max-width: 1200px; /* optional: keeps layout nice on wide screens */
-    margin: 0 auto; /* ✅ centers the container horizontally */
-    padding-left: 1rem; /* ✅ pushes content slightly inward */
-    padding-right: 1rem;
-    flex-wrap: nowrap; 
-  }
-  
-  .navbar-logo-container {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
-  
-  .navbar-logo-img {
-    height: 20px;
-    object-fit: contain;
-    display: block;
-  }
-  
-  .navbar-searchbar {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    flex-grow: 1;
-    justify-content: center;
-  }
-  
-  .navbar-profile {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    position: relative;
-    flex-shrink: 0;
-  }
-  
-  .navbar-profile-icon {
-    color: #b3b3b3;
-    font-size: 28px;
-    cursor: pointer;
-  }
-  
-  .navbar-dropdown {
-    position: absolute;
-    top: 100%;
-    right: 0;
-    margin-top: 0.5rem;
-    z-index: 3;
-    background-color: #b3b3b3;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    min-width: 120px;
-    padding: 8px 0;
-  }
-  
-  .navbar-dropdown-item {
-    padding: 0.5rem 1rem;
-    font-size: 14px;
-    cursor: pointer;
-  }
-  
-  .navbar-dropdown-item:hover {
-    background-color: #999;
-  }  
+  background-color: #1a1a1a;
+  height: 70px;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 10;
+  padding: 0 1rem;
+  color: white;
+}
 
-  @media (max-width: 768px) {
-    .navbar-logo-img {
-      height: 60px;
-    }
-  
-    .nav-link {
-      font-size: 14px;
-      white-space: nowrap;
-      min-width: 60px;
-    }
+.navbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  max-width: 1200px; /* optional: keeps layout nice on wide screens */
+  margin: 0 auto; /* ✅ centers the container horizontally */
+  padding-left: 1rem; /* ✅ pushes content slightly inward */
+  padding-right: 1rem;
+  flex-wrap: nowrap;
+}
+
+.navbar-logo-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  height: 100%;
+}
+
+.navbar-logo-img {
+  height: 100px;
+  object-fit: contain;
+  display: block;
+}
+
+.navbar-searchbar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-grow: 1;
+  justify-content: center;
+}
+
+.navbar-profile {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.navbar-profile-icon {
+  color: #b3b3b3;
+  font-size: 28px;
+  cursor: pointer;
+}
+
+.navbar-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 0.5rem;
+  z-index: 3;
+  background-color: #b3b3b3;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  min-width: 120px;
+  padding: 8px 0;
+}
+
+.navbar-dropdown-item {
+  padding: 0.5rem 1rem;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.navbar-dropdown-item:hover {
+  background-color: #999;
+}
+
+@media (max-width: 768px) {
+  .navbar-logo-img {
+    height: 60px;
   }
+
+  .nav-link {
+    font-size: 14px;
+    white-space: nowrap;
+    min-width: 60px;
+  }
+}
