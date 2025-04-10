@@ -11,7 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 var movieDbUser = Environment.GetEnvironmentVariable("DB_USER");
 var movieDbPassword = Environment.GetEnvironmentVariable("DB_PASSWORD");
-var movieConnectionString = builder.Configuration.GetConnectionString("MovieString")
+var movieConnectionString = builder.Configuration.GetConnectionString("MovieString");
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
