@@ -11,7 +11,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 var movieDbUser = Environment.GetEnvironmentVariable("DB_USER");
 var movieDbPassword = Environment.GetEnvironmentVariable("DB_PASSWORD");
-var movieConnectionString = builder.Configuration.GetConnectionString("MovieString");
+var baseMovieConnectionString = builder.Configuration.GetConnectionString("MovieString");
+
+// Construct the full connection string
+var movieConnectionString = $"{baseMovieConnectionString};User ID={movieDbUser};Password={movieDbPassword}";
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -74,8 +77,8 @@ builder.Services.AddCors(options =>
             policy
               .WithOrigins(
                 "http://localhost:3000", 
-              "https://white-beach-0e9046f1e.6.azurestaticapps.net", 
-              "https://cinaniche.com") // Replace with your frontend URL
+                "https://white-beach-0e9046f1e.6.azurestaticapps.net", 
+                "https://cinaniche.com") // Replace with your frontend URL
                 .AllowCredentials() // Required to allow cookies
                 .AllowAnyMethod()
                 .AllowAnyHeader()
