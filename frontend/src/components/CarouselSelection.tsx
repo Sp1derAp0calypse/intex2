@@ -1,5 +1,5 @@
-
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { JSX } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
 
 // Define types for individual carousel items
 interface CarouselItem {
@@ -14,7 +14,10 @@ interface CarouselSectionProps {
 }
 
 // This component renders a titled carousel of images horizontally
-export default function CarouselSection({ title, items }: CarouselSectionProps): JSX.Element {
+export default function CarouselSection({
+  title,
+  items,
+}: CarouselSectionProps): JSX.Element {
   return (
     <div className="my-8 px-4">
       {/* Section title */}
