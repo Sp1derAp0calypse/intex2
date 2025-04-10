@@ -1,28 +1,53 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { fetchMovies } from "../api/MoviesApi";
-import Pagination from "./Pagination";
 import { Movie } from "../types/Movie";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
-import "../css/MovieList.css";
 
 function MovieList({
   selectedCategories,
   searchTerm = "",
+  sortOrder = "asc",
 }: {
   selectedCategories: string[];
   searchTerm?: string;
+  sortOrder?: string;
 }) {
   const [movies, setMovies] = useState<Movie[]>([]);
-  const [pageSize, setPageSize] = useState<number>(5);
-  const [pageNum, setPageNum] = useState<number>(1);
-  const [totalPages, setTotalPages] = useState<number>(0);
-  const [sortOrder, setSortOrder] = useState<string>("asc");
+  const [pageNum, setPageNum] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const sentinelRef = useRef<HTMLDivElement | null>(null);
+  const observerRef = useRef<IntersectionObserver | null>(null);
   const navigate = useNavigate();
+  const pageSize = 18;
+  const [hasRestored, setHasRestored] = useState(false);
 
+  useEffect(() => {
+    if (hasRestored) return; // skip reset if we just restored
+    setPageNum(1);
+    setMovies([]);
+  }, [selectedCategories, searchTerm, sortOrder, hasRestored]);
+
+  useEffect(() => {
+    const saved = sessionStorage.getItem("savedMovies");
+    const savedPage = sessionStorage.getItem("savedPageNum");
+    const savedScroll = sessionStorage.getItem("scrollY");
+
+    if (saved && savedPage && !hasRestored) {
+      setMovies(JSON.parse(saved));
+      setPageNum(Number(savedPage));
+      setHasRestored(true);
+
+      setTimeout(() => {
+        if (savedScroll) window.scrollTo(0, parseInt(savedScroll));
+      }, 0);
+    }
+  }, [hasRestored]);
+
+  // Fetch movies when pageNum or filters change
   useEffect(() => {
     const loadMovies = async () => {
       try {
@@ -34,96 +59,122 @@ function MovieList({
           searchTerm
         );
 
-        setMovies(data.movies);
+        setMovies((prev) =>
+          pageNum === 1 ? data.movies : [...prev, ...data.movies]
+        );
         setTotalPages(Math.ceil(data.totalNumMovies / pageSize));
-      } catch (error) {
-        setError((error as Error).message);
+      } catch (err) {
+        setError((err as Error).message);
       } finally {
         setLoading(false);
       }
     };
 
     loadMovies();
-  }, [pageSize, pageNum, selectedCategories, searchTerm]);
+  }, [pageNum, selectedCategories, searchTerm]);
 
-  if (loading) return <p>Loading Movies...</p>;
-  if (error) return <p className="text-red-500">Error: {error}</p>;
+  // Reset movie list when filters or sort change
+  useEffect(() => {
+    if (hasRestored) return; // skip reset if we just restored
+    setPageNum(1);
+    setMovies([]);
+  }, [selectedCategories, searchTerm, sortOrder, hasRestored]);
 
+  // Infinite scroll observer
+  useEffect(() => {
+    const sentinel = sentinelRef.current;
+    if (!sentinel) return;
+
+    if (observerRef.current) observerRef.current.disconnect();
+
+    observerRef.current = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting && pageNum < totalPages && !loading) {
+        setPageNum((prev) => prev + 1);
+      }
+    });
+
+    observerRef.current.observe(sentinel);
+
+    return () => observerRef.current?.disconnect();
+  }, [sentinelRef, pageNum, totalPages, loading]);
+
+  // Apply sorting
   const sortedMovies = [...movies].sort((a, b) => {
-    const titleA = a.title || "";
-    const titleB = b.title || "";
-
-    if (sortOrder === "asc") {
-      return titleA.localeCompare(titleB);
-    } else {
-      return titleB.localeCompare(titleA);
-    }
+    const titleA = a.title?.toLowerCase() || "";
+    const titleB = b.title?.toLowerCase() || "";
+    return sortOrder === "asc"
+      ? titleA.localeCompare(titleB)
+      : titleB.localeCompare(titleA);
   });
 
+  // UI
+  if (loading && movies.length === 0) return <p>Loading Movies...</p>;
+  if (error) return <p className="text-danger">Error: {error}</p>;
+
   return (
-    <div className="movie-scroll-row">
-      <h2 className="mb-3 text-white text-center">All CineNiche Movies</h2>
-      <div className="mb-3">
-        <label className="form-label me-2">Sort by Title:</label>
-        <select
-          className="form-select d-inline-block w-auto"
-          value={sortOrder}
-          onChange={(e) => setSortOrder(e.target.value)}
+    <div
+      style={{
+        textAlign: "center",
+        padding: "2rem 1rem",
+        backgroundColor: "#000",
+      }}
+    >
+      <h2 className="text-white mb-4" style={{ fontWeight: 600 }}>
+        All CineNiche Movies
+      </h2>
+
+      <div className="d-flex justify-content-center">
+        <div
+          className="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-6 g-4"
+          style={{ maxWidth: "1200px", width: "100%" }}
         >
-          <option value="asc">A-Z</option>
-          <option value="desc">Z-A</option>
-        </select>
+          {sortedMovies
+            .filter((m) => m.poster_url && m.poster_url.trim() !== "")
+            .map((m) => (
+              <div
+                key={m.showId}
+                className="col d-flex justify-content-center"
+                style={{ cursor: "pointer" }}
+                onClick={() => {
+                  sessionStorage.setItem("scrollY", window.scrollY.toString());
+                  sessionStorage.setItem("savedPageNum", pageNum.toString());
+                  sessionStorage.setItem("savedMovies", JSON.stringify(movies));
+                  sessionStorage.setItem(
+                    "savedCategories",
+                    JSON.stringify(selectedCategories)
+                  );
+                  sessionStorage.setItem("savedSortOrder", sortOrder || "asc");
+                  sessionStorage.setItem("savedSearch", searchTerm || "");
+                  navigate(`/Movie/details/${m.title}`, {
+                    state: { movie: m },
+                  });
+                }}
+              >
+                <LazyLoadImage
+                  src={m.poster_url}
+                  alt={m.title}
+                  effect="blur"
+                  className="rounded"
+                  style={{
+                    width: "100%",
+                    maxWidth: "180px",
+                    height: "320px",
+                    objectFit: "cover",
+                    borderRadius: "8px",
+                    display: "block",
+                  }}
+                  onError={(e) => {
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.src = "/placeholder.png";
+                  }}
+                />
+              </div>
+            ))}
+        </div>
       </div>
 
-      <div className="d-flex overflow-auto gap-3 pb-3">
-        {sortedMovies.map((m) => (
-          <div
-            key={m.showId}
-            className="bg-transparent border-0"
-            style={{
-              minWidth: "200px",
-              maxWidth: "200px",
-              padding: 0,
-              margin: 0,
-              cursor: "pointer",
-            }}
-            onClick={() =>
-              navigate(`/Movie/details/${m.title}`, { state: { movie: m } })
-            }
-          >
-            <LazyLoadImage
-              src={m.poster_url}
-              alt={m.title}
-              effect="blur"
-              className="rounded"
-              style={{
-                width: "100%",
-                height: "320px",
-                objectFit: "cover",
-                borderRadius: "8px",
-                display: "block",
-              }}
-              onError={(e) => {
-                e.currentTarget.onerror = null;
-                e.currentTarget.src = "/placeholder.png";
-              }}
-            />
-          </div>
-        ))}
-      </div>
-
-      <div className="d-flex justify-content-center mt-4">
-        <Pagination
-          currentPage={pageNum}
-          totalPages={totalPages}
-          pageSize={pageSize}
-          onPageChange={setPageNum}
-          onPageSizeChange={(newSize) => {
-            setPageSize(newSize);
-            setPageNum(1);
-          }}
-        />
-      </div>
+      {/* Infinite scroll trigger */}
+      <div ref={sentinelRef} style={{ height: "60px" }}></div>
     </div>
   );
 }

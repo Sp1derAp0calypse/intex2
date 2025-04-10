@@ -1,7 +1,6 @@
 import "./App.css";
 import Footer from "./components/Footer";
 import LoginPage from "./pages/LoginPage";
-import MovieList from "./components/MovieList";
 import RegisterPage from "./pages/RegisterPage";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import DetailsPage from "./pages/DetailsPage";
@@ -34,10 +33,6 @@ function App() {
       <div className="app-wrapper" style={{ flexGrow: 1 }}>
         <Routes>
           <Route path="/" element={<WelcomePage />} />
-          <Route
-            path="/movielist"
-            element={<MovieList selectedCategories={[]} />}
-          />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/subscribe" element={<RegisterPage />} />
           <Route path="/register" element={<RegisterPage />} />

@@ -142,7 +142,7 @@ const DetailsPage = () => {
           </div>
 
           {movie && (
-            <div style={{ maxWidth: "1200px", flex: "1 1 auto" }}>
+            <div style={{ maxWidth: "1100px", flex: "1 1 auto" }}>
               <MovieDetailsCard movie={movie} />
             </div>
           )}
