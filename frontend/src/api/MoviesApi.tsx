@@ -6,7 +6,7 @@ interface FetchMoviesResponse {
 }
 
 const ApiUrl =
-  "https://intex2-315-backend-gxdsgxfwavhyc8ax.eastus-01.azurewebsites.net";
+  "https://intex2-315-backend-gxdsgxfwavhyc8ax.eastus-01.azurewebsites.net/Movies";
 
 export const fetchMovies = async (
   pageSize: number,
