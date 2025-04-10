@@ -376,13 +376,38 @@ namespace Intex.API.Controllers
             return Ok(query);
         }
 
+        [HttpGet("recommended-titles")]
+        public async Task<IActionResult> GetRecommendedTitles()
+        {
+            // Get the logged-in user's email (this might come from session, cookie, or headers)
+            var email = User.FindFirstValue(ClaimTypes.Email);
 
+            // Step 1: Validate the user and get the user_id from the SQLite auth database
+            var user = await _movieContext.MoviesUsers
+                .FirstOrDefaultAsync(u => u.Email == email);
 
+            if (user == null)
+                return NotFound("User not found.");
 
+            var userId = user.UserId;
 
+            // Step 2: Find all show_ids where rating > 3 for this user in the Movies database
+            var showIds = await _movieContext.MoviesRatings
+                .Where(r => r.UserId == userId && r.Rating > 3)
+                .Select(r => r.ShowId)
+                .Distinct()
+                .ToListAsync();
 
+            if (!showIds.Any())
+                return NotFound("No highly-rated movies found for this user.");
 
+            // Step 3: Retrieve movie details from the movies_title table based on show_ids
+            var movieTitles = _movieContext.Movies
+                .Where(t => showIds.Contains(t.ShowId));
 
-
+            // Step 4: Return the movie titles as a response
+            Response.ContentType = "application/json";
+            return Ok(movieTitles);
+        }
     }
 }

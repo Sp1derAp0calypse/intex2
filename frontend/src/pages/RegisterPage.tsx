@@ -38,7 +38,8 @@ function Register() {
       setError("");
       // post data to the /register api
       fetch(
-        "https://intex2-315-backend-gxdsgxfwavhyc8ax.eastus-01.azurewebsites.net/register",
+        // "https://intex2-315-backend-gxdsgxfwavhyc8ax.eastus-01.azurewebsites.net/register",
+        "https://localhost:5000/register",
         {
           method: "POST",
           headers: {
