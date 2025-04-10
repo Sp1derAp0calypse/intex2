@@ -1,5 +1,6 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import FaqList from "../components/FaqList";
+import CineNicheLogo from "../assets/CineNicheLogo.png";
 function WelcomePage() {
   const navigate = useNavigate();
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -8,6 +9,27 @@ function WelcomePage() {
   };
   return (
     <>
+      <div className="custom-header">
+        {/* Left - Logo */}
+        <div className="header-logo">
+          <img
+            src={CineNicheLogo}
+            alt="CineNiche Logo"
+            className="header-logo-img"
+          />
+        </div>
+
+        {/* Right - Buttons */}
+        <div className="header-buttons">
+          <Link className="nav-link text-white" to="/subscribe">
+            Subscribe
+          </Link>
+          <Link className="nav-link text-white" to="/login">
+            Login
+          </Link>
+        </div>
+      </div>
+
       <div className="add-wrapper">
         {/* Hero Section */}
         <div
@@ -22,10 +44,10 @@ function WelcomePage() {
             <h1 className="text-4xl md:text-5xl font-bold mb-4">
               WATCH AND EXPLORE RARE MOVIES
             </h1>
-            <h3 className="text-lg mb-6">
+            <h4 className="text-lg mb-6">
               Stream cult classics, indie favorites, and international films,
               all handpicked for our collection.
-            </h3>
+            </h4>
             <br />
 
             <p className="text-lg mb-6">Starts at $7.99. Cancel anytime.</p>
@@ -40,7 +62,7 @@ function WelcomePage() {
               onClick={handleClick}
               style={{
                 backgroundColor: "#c9a449", // Your logo yellow
-                color: "white",
+                color: "black",
                 padding: "0.75rem 1.5rem",
                 borderRadius: "0.375rem",
                 fontWeight: 600,
