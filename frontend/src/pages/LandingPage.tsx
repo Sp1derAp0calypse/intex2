@@ -94,6 +94,7 @@ const RecommendedTitles = () => {
               marginBottom: "30px",
             }}
           >
+            <NavBar />
             {/* Movie Poster on the left */}
             {/* <div style={{ flexShrink: 0 }}>
               <LazyLoadImage

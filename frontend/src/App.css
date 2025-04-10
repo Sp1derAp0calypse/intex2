@@ -189,3 +189,86 @@ footer .social-icons a {
   color: black;
   border-color: #c9a449;
 }
+
+.login-wrapper {
+  background: url('/your-background.jpg') no-repeat center center / cover;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-card {
+  background-color: rgba(0, 0, 0, 0.75); /* transparent black */
+  padding: 2.5rem;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 400px;
+  color: white;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+}
+
+.login-card h5 {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.login-card input.form-control {
+  background-color: #333;
+  border: 1px solid #555;
+  color: white;
+}
+
+.login-card input.form-control:focus {
+  background-color: #333;
+  border-color: #c9a449;
+  color: white;
+  box-shadow: 0 0 0 0.2rem rgba(201, 164, 73, 0.25);
+}
+
+.login-card label {
+  color: #aaa;
+}
+
+.login-card .btn-google,
+.login-card .btn-facebook {
+  background-color: #333;
+  border: none;
+  color: white;
+}
+
+.login-card .btn-google:hover,
+.login-card .btn-facebook:hover {
+  background-color: #444;
+}
+
+/* Make checkbox yellow */
+.custom-yellow-checkbox {
+  appearance: none;
+  -webkit-appearance: none;
+  background-color: transparent;
+  border: 2px solid #c9a449;
+  width: 18px;
+  height: 18px;
+  border-radius: 3px;
+  position: relative;
+  cursor: pointer;
+  outline: none;
+}
+
+.custom-yellow-checkbox:checked {
+  background-color: #c9a449;
+}
+
+.custom-yellow-checkbox:checked::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 5px;
+  width: 4px;
+  height: 9px;
+  border: solid black;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
