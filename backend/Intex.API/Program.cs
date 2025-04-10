@@ -12,8 +12,8 @@ var builder = WebApplication.CreateBuilder(args);
 var movieDbUser = Environment.GetEnvironmentVariable("DB_USER");
 var movieDbPassword = Environment.GetEnvironmentVariable("DB_PASSWORD");
 var movieConnectionString = builder.Configuration.GetConnectionString("MovieString")
-    .Replace("DB_USER}", movieDbUser)
-    .Replace("PASSWORD}", movieDbPassword);
+    .Replace("{DB_USER}", movieDbUser)
+    .Replace("{PASSWORD}", movieDbPassword);
 
 Console.WriteLine($"DB_USER: {movieDbUser}");
 Console.WriteLine($"DB_PASSWORD: {movieDbPassword}");
