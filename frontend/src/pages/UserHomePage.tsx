@@ -1,4 +1,3 @@
-import { useLocation } from "react-router-dom";
 import { useState } from "react";
 import MovieList from "../components/MovieList";
 import AuthorizeView from "../components/AuthorizeView";
@@ -9,8 +8,6 @@ function UserHomePage() {
   const [sortOrder, setSortOrder] = useState<string>("asc");
   const [searchTerm, setSearchTerm] = useState("");
 
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
   // const searchTerm = queryParams.get("search") || "";
 
   return (
