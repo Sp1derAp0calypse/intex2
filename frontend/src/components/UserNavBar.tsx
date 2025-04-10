@@ -84,8 +84,8 @@ function UserNavBar({
   }, []);
   return (
     <nav
-      className="navbar fixed-top border-bottom px-4 py-0 text-white"
-      style={{ backgroundColor: "#333333", height: "70px" }}
+      className="navbar fixed-top px-4 py-0 text-white"
+      style={{ backgroundColor: "#1a1a1a33", height: "70px" }}
     >
       <div
         className="container-fluid d-flex justify-content-between align-items-center w-100"
@@ -106,7 +106,7 @@ function UserNavBar({
               src={CineNicheLogo}
               alt="CineNiche Logo"
               style={{
-                height: "100px",
+                height: "55px",
                 marginTop: "0px",
                 objectFit: "contain",
                 zIndex: 2,
@@ -181,7 +181,7 @@ function UserNavBar({
         </div>
 
         {/* Center Section: Search Bar */}
-        <div className="flex-grow-1 d-flex justify-content-center">
+        <div className="flex-grow-2 d-flex justify-content-center">
           <div
             style={{
               marginRight: "100px",
