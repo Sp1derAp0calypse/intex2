@@ -52,18 +52,15 @@ function NavBar() {
 
   return (
     <nav
-      className="navbar fixed-top border-bottom px-4 py-0 text-white"
-      style={{ backgroundColor: "#333333", height: "70px" }}
+      className="navbar fixed-top px-4 py-0 text-white"
+      style={{ backgroundColor: "#1a1a1a33", height: "90px" }}
     >
       <div
         className="container-fluid d-flex justify-between align-items-center w-100"
         style={{ height: "100%" }}
       >
         {/* Left: Logo */}
-        <div
-          className="d-flex align-items-center gap-4"
-          style={{ height: "100%" }}
-        >
+        <div className="logo">
           <Link
             to="/"
             className="navbar-brand mb-0 d-flex align-items-center"
@@ -73,7 +70,7 @@ function NavBar() {
               src={CineNicheLogo}
               alt="CineNiche Logo"
               style={{
-                height: "100px",
+                height: "55px",
                 marginTop: "0px",
                 objectFit: "contain",
                 zIndex: 2,
@@ -115,7 +112,7 @@ function NavBar() {
               }}
             >
               <div
-                className="px-3 py-2 cursor-pointer"
+                className="px-3 py-2 cursor-pointer text-black"
                 onClick={() => {
                   setProfileMenuOpen(false);
                   console.log("Logging out...");
