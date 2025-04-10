@@ -7,6 +7,7 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import AuthorizeView from "../components/AuthorizeView.tsx";
 import MovieDetailsCard from "../components/MovieDetailsCard.tsx";
 import Rating from "../components/Rating.tsx";
+import NavBar from "../components/NavBar.tsx";
 
 const DetailsPage = () => {
   const { title } = useParams<{ title: string }>();
@@ -111,6 +112,7 @@ const DetailsPage = () => {
       }}
     >
       <AuthorizeView>
+        <NavBar />
         <h1 style={{ color: "white" }}>{title}</h1>
 
         <div

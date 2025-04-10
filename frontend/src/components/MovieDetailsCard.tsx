@@ -47,10 +47,10 @@ const MovieDetailsCard = ({ movie }: Props) => {
 
   return (
     <div
-      className="card mb-4"
+      className="card mb-4 "
       style={{
-        backgroundColor: "#e0ebf5", // gentle blue tone
-        color: "#1a1a1a",
+        backgroundColor: "#1a1a1a", // gentle blue tone
+        color: "white",
         fontSize: "1.1rem",
         textAlign: "left",
         borderRadius: "12px",
@@ -61,49 +61,81 @@ const MovieDetailsCard = ({ movie }: Props) => {
       <ul className="list-group list-group-flush">
         <li
           className="list-group-item"
-          style={{ backgroundColor: "transparent", border: "none" }}
+          style={{
+            backgroundColor: "transparent",
+            border: "none",
+            color: "white",
+          }}
         >
           <strong>Director:</strong> {movie.director}
         </li>
         <li
           className="list-group-item"
-          style={{ backgroundColor: "transparent", border: "none" }}
+          style={{
+            backgroundColor: "transparent",
+            border: "none",
+            color: "white",
+          }}
         >
           <strong>Cast:</strong> {movie.cast}
         </li>
         <li
           className="list-group-item"
-          style={{ backgroundColor: "transparent", border: "none" }}
+          style={{
+            backgroundColor: "transparent",
+            border: "none",
+            color: "white",
+          }}
         >
           <strong>Country:</strong> {movie.country}
         </li>
         <li
           className="list-group-item"
-          style={{ backgroundColor: "transparent", border: "none" }}
+          style={{
+            backgroundColor: "transparent",
+            border: "none",
+            color: "white",
+          }}
         >
           <strong>Release Year:</strong> {movie.releaseYear}
         </li>
         <li
           className="list-group-item"
-          style={{ backgroundColor: "transparent", border: "none" }}
+          style={{
+            backgroundColor: "transparent",
+            border: "none",
+            color: "white",
+          }}
         >
           <strong>Rating:</strong> {movie.rating}
         </li>
         <li
           className="list-group-item"
-          style={{ backgroundColor: "transparent", border: "none" }}
+          style={{
+            backgroundColor: "transparent",
+            border: "none",
+            color: "white",
+          }}
         >
           <strong>Duration:</strong> {movie.duration}
         </li>
         <li
           className="list-group-item"
-          style={{ backgroundColor: "transparent", border: "none" }}
+          style={{
+            backgroundColor: "transparent",
+            border: "none",
+            color: "white",
+          }}
         >
           <strong>Description:</strong> {movie.description}
         </li>
         <li
           className="list-group-item"
-          style={{ backgroundColor: "transparent", border: "none" }}
+          style={{
+            backgroundColor: "transparent",
+            border: "none",
+            color: "white",
+          }}
         >
           <strong>Genres:</strong> {genres.length ? genres.join(", ") : "N/A"}
         </li>
