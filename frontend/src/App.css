@@ -11,6 +11,7 @@
   margin: 0 auto;
   padding: 100px 2rem 2rem; /* ✅ Top padding = navbar height + breathing room */
   background-color: #111111;
+  overflow-x: hidden;
 }
 
 .main-layout {
@@ -143,4 +144,48 @@ footer .social-icons a {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+.custom-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 2rem;
+  background-color: transparent;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 50;
+  margin-left: -10px
+}
+
+.header-logo-img {
+  width: 200px;
+  margin-left: -50px;
+  height: auto;
+  padding: 0;
+  margin: 0;
+}
+
+.header-buttons {
+  display: flex;
+  gap: 1.25rem;
+  gap: 1rem; /* reduce the gap */
+  margin-right: 3rem; /* pull buttons closer to center/left */
+}
+
+.header-buttons .nav-link {
+  color: white;
+  font-weight: 500;
+  text-decoration: none;
+  border: 2px solid transparent;
+  border-radius: 6px;
+  padding: 0.4rem 1rem;
+  transition: all 0.2s ease;
+}
+
+.header-buttons .nav-link:hover {
+  /* background-color: white; */
+  color: black;
+  border-color: #c9a449;
 }

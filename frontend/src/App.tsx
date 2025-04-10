@@ -11,7 +11,7 @@ import UserHomePage from "./pages/UserHomePage";
 import CookieConsent from "react-cookie-consent";
 import RequireAdmin from "./components/RequireAdmin";
 import WelcomePage from "./pages/WelcomPage";
-import WelcomeNavBar from "./components/WelcomeNavBar";
+// import WelcomeNavBar from "./components/WelcomeNavBar";
 import LandingPage from "./pages/LandingPage";
 
 // import { useEffect } from "react";
@@ -30,7 +30,7 @@ function App() {
   // }, []);
   return (
     <Router>
-      <WelcomeNavBar />
+      {/* <WelcomeNavBar /> */}
       <div className="app-wrapper" style={{ flexGrow: 1 }}>
         <Routes>
           <Route path="/" element={<WelcomePage />} />
