@@ -20,7 +20,8 @@ const DetailsPage = () => {
   useEffect(() => {
     const fetchMovieDetails = async () => {
       const response = await fetch(
-        `https://intex2-315-backend-gxdsgxfwavhyc8ax.eastus-01.azurewebsites.net/Movie/getdetails/${title}`,
+        // `https://intex2-315-backend-gxdsgxfwavhyc8ax.eastus-01.azurewebsites.net/Movie/getdetails/${title}`,
+        `https://localhost:5000/Movie/getdetails/${title}`,
         {
           method: "GET",
           credentials: "include",

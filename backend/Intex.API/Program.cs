@@ -5,6 +5,8 @@ using Intex.API.Data;
 using Intex.API.Services;
 using Intex.API.Controllers;
 using RootkitAuth.API.Data;
+using Azure;
+using Microsoft.AspNetCore.Http;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,7 +16,8 @@ var movieDbPassword = Environment.GetEnvironmentVariable("DB_PASSWORD");
 var baseMovieConnectionString = builder.Configuration.GetConnectionString("MovieString");
 
 // Construct the full connection string
-var movieConnectionString = $"{baseMovieConnectionString};User ID={movieDbUser};Password={movieDbPassword}";
+var movieConnectionString = $"{baseMovieConnectionString}";
+    //$";User ID={movieDbUser};Password={movieDbPassword}";
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -133,7 +136,7 @@ app.MapPost("/logout", async (HttpContext context, SignInManager<IdentityUser> s
         Secure = true,
         SameSite = SameSiteMode.None
     });
-    
+
     return Results.Ok(new { message = "Logout successful" });
 }).RequireAuthorization();
 
