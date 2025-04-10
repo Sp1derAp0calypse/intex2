@@ -63,11 +63,14 @@ const RecommendedTitles = () => {
   };
 
   useEffect(() => {
-    // For each movie, fetch content recommendations
-    movies.forEach((movie) => {
-      fetchContentRecommendations(movie.title || "");
-    });
-  }, [movies]);
+    if (!recommendationsFetched && movies.length > 0) {
+      // Fetch content recommendations for each movie only once
+      movies.forEach((movie) => {
+        fetchContentRecommendations(movie.title || "");
+      });
+      setRecommendationsFetched(true);
+    }
+  }, [movies, recommendationsFetched]);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -79,7 +82,6 @@ const RecommendedTitles = () => {
 
   return (
     <div style={{ padding: "20px" }}>
-      <h1 style={{ color: "white" }}>Movie Recommendations</h1>
       <div>
         {movies.map((movie) => (
           <div
@@ -93,7 +95,7 @@ const RecommendedTitles = () => {
             }}
           >
             {/* Movie Poster on the left */}
-            <div style={{ flexShrink: 0 }}>
+            {/* <div style={{ flexShrink: 0 }}>
               <LazyLoadImage
                 src={movie?.poster_url || "/placeholder.png"}
                 alt={movie?.title || "Placeholder Title"}
@@ -111,12 +113,10 @@ const RecommendedTitles = () => {
                   e.currentTarget.src = "/placeholder.png";
                 }}
               />
-            </div>
+            </div> */}
 
             {/* Movie Title and Content Recommendations */}
             <div style={{ flex: "1 1 auto" }}>
-              <h2 style={{ color: "white" }}>{movie.title}</h2>
-
               {/* Content Recommendations */}
               <div
                 style={{
@@ -133,7 +133,7 @@ const RecommendedTitles = () => {
                   .map((recData, index) => (
                     <div key={index}>
                       <h3 style={{ color: "white" }}>
-                        Similar to {movie.title}
+                        Because you watched {movie.title}
                       </h3>
                       <div
                         style={{
@@ -155,9 +155,9 @@ const RecommendedTitles = () => {
                                   effect="blur"
                                   className="img-fluid rounded"
                                   style={{
-                                    width: "100%",
-                                    height: "auto",
-                                    objectFit: "contain",
+                                    width: "200px",
+                                    height: "300px",
+                                    objectFit: "cover",
                                   }}
                                   onError={(e) => {
                                     e.currentTarget.onerror = null;
