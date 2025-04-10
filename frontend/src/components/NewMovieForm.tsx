@@ -92,8 +92,8 @@ const NewMovieForm = ({ onSuccess, onCancel }: NewMovieFormProps) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Add New Movie</h2>
+    <form onSubmit={handleSubmit} style={{ color: "white" }}>
+      <h2 style={{ color: "white" }}>Add New Movie</h2>
 
       <label>
         Title:

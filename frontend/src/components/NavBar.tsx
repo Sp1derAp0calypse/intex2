@@ -84,7 +84,7 @@ function NavBar() {
 
         {/* Center: Only the search bar now (hamburger menu is inside SearchBar) */}
         <div className="d-flex align-items-center gap-3 flex-grow-1 justify-content-center">
-          <SearchBar movies={movies} redirectTo="/" />
+          <SearchBar movies={movies} redirectTo="/UserHomePage" />
         </div>
 
         {/* Right: Profile icon and dropdown */}

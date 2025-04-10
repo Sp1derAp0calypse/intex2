@@ -78,8 +78,8 @@ const EditMovieForm = ({ movie, onSuccess, onCancel }: EditMovieFormProps) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Edit Movie</h2>
+    <form onSubmit={handleSubmit} style={{ color: "white" }}>
+      <h2 style={{ color: "white" }}>Edit Movie</h2>
 
       <label>
         Show ID:

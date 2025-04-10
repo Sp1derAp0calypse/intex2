@@ -27,7 +27,7 @@ namespace Intex.API.Controllers
 
         [HttpGet("allmovies")]
         
-        public IActionResult GetMovies(int pageSize = 5, int pageNum = 1, [FromQuery] List<string>? movieTypes = null, [FromQuery] string? searchTerm = null)
+        public IActionResult GetMovies(int pageSize = 10, int pageNum = 1, [FromQuery] List<string>? movieTypes = null, [FromQuery] string? searchTerm = null)
         {
             string? favMovies = Request.Cookies["FavMovies"];
             Console.WriteLine("----COOKIE----\n"+favMovies);
