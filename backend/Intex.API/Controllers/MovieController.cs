@@ -357,8 +357,13 @@ namespace Intex.API.Controllers
             {
                 return BadRequest("Invalid genre property.");
             }
+
+            // Evaluate the value of the property before the query
+            var propertyValue = 1; // You can dynamically set this based on your genre logic
+
+            // Use the evaluated property value in the LINQ query
             var query = _movieContext.Movies
-                .Where(m => (int?)prop.GetValue(m) == 1)
+                .Where(m => EF.Property<int?>(m, genre) == propertyValue)
                 .Where(m => m.poster_url != null)
                 .Take(count)
                 .Select(m => new
@@ -367,8 +372,10 @@ namespace Intex.API.Controllers
                     PosterUrl = m.poster_url
                 })
                 .ToList();
+
             return Ok(query);
         }
+
 
 
 
