@@ -3,6 +3,7 @@ import NavBar from "../components/NavBar";
 import { Movie } from "../types/Movie";
 import { LazyLoadImage } from "react-lazy-load-image-component"; // Assuming you're using this component
 import { Link } from "react-router-dom"; // For routing to movie details
+import Back from "../components/Back";
 
 const RecommendedTitles = () => {
   const [movies, setMovies] = useState<Movie[]>([]);
@@ -167,6 +168,7 @@ const RecommendedTitles = () => {
   return (
     <div>
       <NavBar />
+      <Back />
       <div style={{ padding: "20px" }}>
         <div>
           {movies.map((movie) => (

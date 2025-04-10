@@ -4,6 +4,7 @@ import MovieList from "../components/MovieList";
 //import NavBar from "../components/NavBar";
 import { useLocation } from "react-router-dom";
 import NavBar from "../components/NavBar";
+import Back from "../components/Back";
 
 function HomePage() {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
@@ -15,6 +16,7 @@ function HomePage() {
     <>
       <div className="container mt-4">
         <NavBar />
+        <Back />
 
         <div className="row">
           <div className="col-md-3">

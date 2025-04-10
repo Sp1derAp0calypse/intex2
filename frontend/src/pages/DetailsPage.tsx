@@ -8,6 +8,7 @@ import AuthorizeView from "../components/AuthorizeView.tsx";
 import MovieDetailsCard from "../components/MovieDetailsCard.tsx";
 import Rating from "../components/Rating.tsx";
 import NavBar from "../components/NavBar.tsx";
+import Back from "../components/Back.tsx";
 
 const DetailsPage = () => {
   const { title } = useParams<{ title: string }>();
@@ -105,6 +106,7 @@ const DetailsPage = () => {
   return (
     <div>
       <NavBar />
+      <Back />
       <div
         style={{
           display: "flex",
