@@ -10,7 +10,7 @@ function UserNavBar() {
     const fetchMovies = async () => {
       try {
         const response = await fetch(
-          "https://intex2-315-backend-gxdsgxfwavhyc8ax.eastus-01.azurewebsites.net/Movie/allmovies",
+          "https://intex2-315-backend-gxdsgxfwavhyc8ax.eastus-01.azurewebsites.net/Movies/allmovies",
           {
             credentials: "include",
           }
