@@ -6,7 +6,6 @@ import NewMovieForm from "../components/NewMovieForm";
 import EditMovieForm from "../components/EditMovieForm";
 import AuthorizeView from "../components/AuthorizeView";
 import { FaUserCircle } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
 
 const AdminMoviesPage = () => {
   const [movies, setMovies] = useState<Movie[]>([]);
@@ -17,7 +16,6 @@ const AdminMoviesPage = () => {
   const [totalPages, setTotalPages] = useState<number>(0);
   const [showForm, setShowForm] = useState(false);
   const [editingMovie, setEditingMovie] = useState<Movie | null>(null);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const loadMovies = async () => {
@@ -100,12 +98,6 @@ const AdminMoviesPage = () => {
         >
           <div className="container-fluid d-flex justify-content-between align-items-center">
             <h4 className="mb-0 text-white">Admin Dashboard</h4>
-            <button
-              className="btn btn-outline-light"
-              onClick={() => navigate("/landingPage")}
-            >
-              Home
-            </button>
 
             <div
               ref={profileRef}
