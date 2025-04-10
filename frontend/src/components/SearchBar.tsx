@@ -93,7 +93,10 @@ const SearchBar: React.FC<SearchBarProps> = ({ movies, redirectTo }) => {
               }}
             >
               <div
-                className="px-4 py-2 cursor-pointer"
+                className="px-3 py-2 cursor-pointer text-black"
+                // style={{
+                //   fontSize: "14px", // 👈 Reduce font size just slightly
+                // }}
                 onClick={() => {
                   setMenuOpen(false);
                   navigate("/movies");
@@ -108,10 +111,10 @@ const SearchBar: React.FC<SearchBarProps> = ({ movies, redirectTo }) => {
                 Movies
               </div>
               <div
-                className="px-3 py-2 cursor-pointer"
-                style={{
-                  fontSize: "14px", // 👈 Reduce font size just slightly
-                }}
+                className="px-3 py-2 cursor-pointer text-black"
+                // style={{
+                //   fontSize: "14px", // 👈 Reduce font size just slightly
+                // }}
                 onClick={() => {
                   setMenuOpen(false);
                   navigate("/tvshows");
