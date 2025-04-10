@@ -4,6 +4,7 @@ import { Movie } from "../types/Movie";
 import { LazyLoadImage } from "react-lazy-load-image-component"; // Assuming you're using this component
 import { Link } from "react-router-dom"; // For routing to movie details
 import Back from "../components/Back";
+import AuthorizeView from "../components/AuthorizeView";
 
 const RecommendedTitles = () => {
   const [movies, setMovies] = useState<Movie[]>([]);
@@ -167,134 +168,137 @@ const RecommendedTitles = () => {
 
   return (
     <div>
-      <NavBar />
-      <Back />
-      <div style={{ padding: "20px" }}>
-        <div>
-          {movies.map((movie) => (
-            <div
-              key={movie.showId}
-              style={{
-                display: "flex",
-                gap: "40px",
-                alignItems: "flex-start",
-                flexWrap: "wrap",
-                marginBottom: "30px",
-              }}
-            >
-              {/* Movie Title and Content Recommendations */}
-              <div style={{ flex: "1 1 auto" }}>
-                {/* Content Recommendations */}
-                <div
-                  style={{
-                    display: "flex",
-                    gap: "15px",
-                    flexWrap: "wrap",
-                    marginBottom: "30px",
-                  }}
-                >
-                  {contentRecommend
-                    .filter(
-                      (recommendation) => recommendation.title === movie.title
-                    )
-                    .map((recData, index) => (
-                      <div key={index}>
-                        <h3 style={{ color: "white" }}>
-                          Because you watched {movie.title}
-                        </h3>
-                        <div
-                          style={{
-                            display: "flex",
-                            gap: "15px",
-                            flexWrap: "wrap",
-                          }}
-                        >
-                          {recData.recommendations?.map(
-                            (rec: any, idx: number) => (
-                              <div
-                                key={idx}
-                                style={{
-                                  maxWidth: "200px",
-                                  textAlign: "center",
-                                }}
-                              >
-                                <Link to={`/movie/details/${rec.title}`}>
-                                  <LazyLoadImage
-                                    src={rec.posterUrl}
-                                    alt={rec.title}
-                                    effect="blur"
-                                    className="img-fluid rounded"
-                                    style={{
-                                      width: "200px",
-                                      height: "300px",
-                                      objectFit: "cover",
-                                    }}
-                                    onError={(e) => {
-                                      e.currentTarget.onerror = null;
-                                      e.currentTarget.src = "/placeholder.png";
-                                    }}
-                                  />
-                                </Link>
-                              </div>
-                            )
-                          )}
+      <AuthorizeView>
+        <NavBar />
+        <Back />
+        <div style={{ padding: "20px" }}>
+          <div>
+            {movies.map((movie) => (
+              <div
+                key={movie.showId}
+                style={{
+                  display: "flex",
+                  gap: "40px",
+                  alignItems: "flex-start",
+                  flexWrap: "wrap",
+                  marginBottom: "30px",
+                }}
+              >
+                {/* Movie Title and Content Recommendations */}
+                <div style={{ flex: "1 1 auto" }}>
+                  {/* Content Recommendations */}
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: "15px",
+                      flexWrap: "wrap",
+                      marginBottom: "30px",
+                    }}
+                  >
+                    {contentRecommend
+                      .filter(
+                        (recommendation) => recommendation.title === movie.title
+                      )
+                      .map((recData, index) => (
+                        <div key={index}>
+                          <h3 style={{ color: "white" }}>
+                            Because you watched {movie.title}
+                          </h3>
+                          <div
+                            style={{
+                              display: "flex",
+                              gap: "15px",
+                              flexWrap: "wrap",
+                            }}
+                          >
+                            {recData.recommendations?.map(
+                              (rec: any, idx: number) => (
+                                <div
+                                  key={idx}
+                                  style={{
+                                    maxWidth: "200px",
+                                    textAlign: "center",
+                                  }}
+                                >
+                                  <Link to={`/movie/details/${rec.title}`}>
+                                    <LazyLoadImage
+                                      src={rec.posterUrl}
+                                      alt={rec.title}
+                                      effect="blur"
+                                      className="img-fluid rounded"
+                                      style={{
+                                        width: "200px",
+                                        height: "300px",
+                                        objectFit: "cover",
+                                      }}
+                                      onError={(e) => {
+                                        e.currentTarget.onerror = null;
+                                        e.currentTarget.src =
+                                          "/placeholder.png";
+                                      }}
+                                    />
+                                  </Link>
+                                </div>
+                              )
+                            )}
+                          </div>
                         </div>
+                      ))}
+                  </div>
+                </div>
+              </div>
+            ))}
+
+            {/* Genre-Based Recommendations */}
+            {loadingGenres ? (
+              <div>Loading genre-based recommendations...</div>
+            ) : errorGenres ? (
+              <div>Error: {errorGenres}</div>
+            ) : (
+              genreRecommendations.map((genreRec, index) => (
+                <div key={index}>
+                  <h3 style={{ color: "white" }}>
+                    {genreMap[genreRec.genre.toLowerCase()] || genreRec.genre}
+                  </h3>
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: "15px",
+                      flexWrap: "wrap",
+                      marginBottom: "30px",
+                    }}
+                  >
+                    {genreRec.recommendations.map((rec: any, idx: number) => (
+                      <div
+                        key={idx}
+                        style={{ maxWidth: "200px", textAlign: "center" }}
+                      >
+                        <Link to={`/movie/details/${rec.title}`}>
+                          <LazyLoadImage
+                            src={rec.poster_url}
+                            alt={rec.title}
+                            effect="blur"
+                            className="img-fluid rounded"
+                            style={{
+                              width: "200px",
+                              height: "300px",
+                              objectFit: "cover",
+                            }}
+                            onError={(e) => {
+                              e.currentTarget.onerror = null;
+                              e.currentTarget.src = "/placeholder.png";
+                            }}
+                          />
+                        </Link>
                       </div>
                     ))}
+                  </div>
                 </div>
-              </div>
-            </div>
-          ))}
-
-          {/* Genre-Based Recommendations */}
-          {loadingGenres ? (
-            <div>Loading genre-based recommendations...</div>
-          ) : errorGenres ? (
-            <div>Error: {errorGenres}</div>
-          ) : (
-            genreRecommendations.map((genreRec, index) => (
-              <div key={index}>
-                <h3 style={{ color: "white" }}>
-                  {genreMap[genreRec.genre.toLowerCase()] || genreRec.genre}
-                </h3>
-                <div
-                  style={{
-                    display: "flex",
-                    gap: "15px",
-                    flexWrap: "wrap",
-                    marginBottom: "30px",
-                  }}
-                >
-                  {genreRec.recommendations.map((rec: any, idx: number) => (
-                    <div
-                      key={idx}
-                      style={{ maxWidth: "200px", textAlign: "center" }}
-                    >
-                      <Link to={`/movie/details/${rec.title}`}>
-                        <LazyLoadImage
-                          src={rec.poster_url}
-                          alt={rec.title}
-                          effect="blur"
-                          className="img-fluid rounded"
-                          style={{
-                            width: "200px",
-                            height: "300px",
-                            objectFit: "cover",
-                          }}
-                          onError={(e) => {
-                            e.currentTarget.onerror = null;
-                            e.currentTarget.src = "/placeholder.png";
-                          }}
-                        />
-                      </Link>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ))
-          )}
+              ))
+            )}
+          </div>
         </div>
-      </div>
+      </AuthorizeView>
     </div>
   );
 };
