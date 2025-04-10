@@ -9,9 +9,12 @@ function UserNavBar() {
   useEffect(() => {
     const fetchMovies = async () => {
       try {
-        const response = await fetch("https://localhost:5000/Movie/allmovies", {
-          credentials: "include",
-        });
+        const response = await fetch(
+          "https://intex2-315-backend-gxdsgxfwavhyc8ax.eastus-01.azurewebsites.net/Movie/allmovies",
+          {
+            credentials: "include",
+          }
+        );
         const data = await response.json();
         setMovies(data.movies);
       } catch (error) {

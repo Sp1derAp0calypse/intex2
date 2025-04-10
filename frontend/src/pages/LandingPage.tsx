@@ -20,7 +20,7 @@ const LandingPage = () => {
       for (const genre of genreList) {
         try {
           const res = await fetch(
-            `https://localhost:5000/Movie/genre?genre=${genre}&count=5`,
+            `https://intex2-315-backend-gxdsgxfwavhyc8ax.eastus-01.azurewebsites.net/Movie/genre?genre=${genre}&count=5`,
             {
               credentials: "include",
             }
