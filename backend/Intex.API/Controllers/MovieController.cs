@@ -409,5 +409,52 @@ namespace Intex.API.Controllers
             Response.ContentType = "application/json";
             return Ok(movieTitles);
         }
+
+        [HttpPost("rate")]
+        public async Task<IActionResult> RateMovie(string showId, int rating)
+        {
+            Console.WriteLine($"Received rating request: showId = {showId}, rating = {rating}");
+
+            // Get the logged-in user's email (this might come from session, cookie, or headers)
+            var email = User.FindFirstValue(ClaimTypes.Email);
+            Console.WriteLine($"User email: {email}");
+
+            // Step 1: Validate the user and get the user_id from the MoviesUsers table
+            var user = await _movieContext.MoviesUsers
+                .FirstOrDefaultAsync(u => u.Email == email);
+
+            if (user == null)
+                return NotFound("User not found.");
+
+            var userId = user.UserId; // Get user_id from MoviesUsers table
+            Console.WriteLine($"Found user: {userId}");
+
+            // Step 2: Check if the user has already rated this movie
+            var existingRating = await _movieContext.MoviesRatings
+                .FirstOrDefaultAsync(r => r.UserId == userId && r.ShowId == showId);
+
+            if (existingRating != null)
+            {
+                // Update the existing rating
+                existingRating.Rating = rating;
+                _movieContext.MoviesRatings.Update(existingRating);
+            }
+            else
+            {
+                // Add a new rating entry
+                var newRating = new MoviesRating
+                {
+                    UserId = userId,
+                    ShowId = showId,
+                    Rating = rating,
+                };
+                await _movieContext.MoviesRatings.AddAsync(newRating);
+            }
+
+            await _movieContext.SaveChangesAsync(); // Save changes to the database
+
+            return Ok();
+        }
+
     }
 }
