@@ -7,6 +7,7 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import AuthorizeView from "../components/AuthorizeView.tsx";
 import MovieDetailsCard from "../components/MovieDetailsCard.tsx";
 import Rating from "../components/Rating.tsx";
+import NavBar from "../components/NavBar.tsx";
 
 const DetailsPage = () => {
   const { title } = useParams<{ title: string }>();
@@ -102,76 +103,126 @@ const DetailsPage = () => {
   }
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        gap: "20px",
-        padding: "20px",
-      }}
-    >
-      <AuthorizeView>
-        <h1 style={{ color: "white" }}>{title}</h1>
+    <div>
+      <NavBar />
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "20px",
+          padding: "20px",
+        }}
+      >
+        <AuthorizeView>
+          <h1 style={{ color: "white" }}>{title}</h1>
 
-        <div
-          style={{
-            display: "flex",
-            gap: "40px",
-            alignItems: "flex-start",
-            flexWrap: "wrap", // keeps it mobile-friendly
-            marginBottom: "30px",
-          }}
-        >
-          {/* Movie Poster on the left */}
-          <div style={{ flexShrink: 0 }}>
-            <LazyLoadImage
-              src={movie?.poster_url || "/placeholder.png"}
-              alt={movie?.title || "Placeholder Title"}
-              effect="blur"
-              className="img-fluid rounded"
-              style={{
-                width: "380px",
-                height: "520px",
-                objectFit: "cover",
-                borderRadius: "12px",
-                boxShadow: "0 4px 16px rgba(0, 0, 0, 0.5)",
-              }}
-              onError={(e) => {
-                e.currentTarget.onerror = null;
-                e.currentTarget.src = "/placeholder.png";
-              }}
-            />
+          <div
+            style={{
+              display: "flex",
+              gap: "40px",
+              alignItems: "flex-start",
+              flexWrap: "wrap", // keeps it mobile-friendly
+              marginBottom: "30px",
+            }}
+          >
+            {/* Movie Poster on the left */}
+            <div style={{ flexShrink: 0 }}>
+              <LazyLoadImage
+                src={movie?.poster_url || "/placeholder.png"}
+                alt={movie?.title || "Placeholder Title"}
+                effect="blur"
+                className="img-fluid rounded"
+                style={{
+                  width: "380px",
+                  height: "520px",
+                  objectFit: "cover",
+                  borderRadius: "12px",
+                  boxShadow: "0 4px 16px rgba(0, 0, 0, 0.5)",
+                }}
+                onError={(e) => {
+                  e.currentTarget.onerror = null;
+                  e.currentTarget.src = "/placeholder.png";
+                }}
+              />
+            </div>
+
+            {movie && (
+              <div style={{ maxWidth: "1200px", flex: "1 1 auto" }}>
+                <MovieDetailsCard movie={movie} />
+              </div>
+            )}
           </div>
 
           {movie && (
-            <div style={{ maxWidth: "1100px", flex: "1 1 auto" }}>
-              <MovieDetailsCard movie={movie} />
+            <div style={{ marginTop: "-40px", marginBottom: "20px" }}>
+              <Rating showId={movie.showId} />{" "}
+              {/* Pass the movie's showId to Rating */}
             </div>
           )}
-        </div>
 
-        {movie && (
-          <div style={{ marginTop: "-40px", marginBottom: "20px" }}>
-            <Rating showId={movie.showId} />{" "}
-            {/* Pass the movie's showId to Rating */}
+          <h2 style={{ color: "white", textAlign: "left", marginLeft: "0" }}>
+            Similar to {title}
+          </h2>
+
+          {/* Render Content Recommendations */}
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "15px" }}>
+            {contentRecommend ? (
+              contentRecommend.recommendations
+                .filter((rec) => rec !== null)
+                .map((rec, index) => (
+                  <div
+                    key={index}
+                    style={{ maxWidth: "200px", textAlign: "center" }}
+                  >
+                    {rec?.posterUrl && (
+                      <Link to={`/movie/details/${rec.title}`}>
+                        <LazyLoadImage
+                          src={rec.posterUrl}
+                          alt={rec.title}
+                          effect="blur"
+                          className="img-fluid rounded"
+                          style={{
+                            width: "200px",
+                            height: "300px",
+                            objectFit: "cover",
+                          }}
+                          onError={(e) => {
+                            e.currentTarget.onerror = null;
+                            e.currentTarget.src = "/placeholder.png";
+                          }}
+                        />
+                      </Link>
+                    )}
+                  </div>
+                ))
+            ) : (
+              <p style={{ color: "white" }}>
+                No content recommendations available
+              </p>
+            )}
           </div>
-        )}
 
-        <h2 style={{ color: "white", textAlign: "left", marginLeft: "0" }}>
-          Similar to {title}
-        </h2>
+          <h2
+            style={{
+              color: "white",
+              textAlign: "left",
+              marginLeft: "0",
+              marginTop: "40px",
+            }}
+          >
+            Fans of {title} also like
+          </h2>
 
-        {/* Render Content Recommendations */}
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "15px" }}>
-          {contentRecommend ? (
-            contentRecommend.recommendations
-              .filter((rec) => rec !== null)
-              .map((rec, index) => (
-                <div
-                  key={index}
-                  style={{ maxWidth: "200px", textAlign: "center" }}
-                >
-                  {rec?.posterUrl && (
+          {/* Render Collaborative Recommendations */}
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "15px" }}>
+            {collabRecommend ? (
+              collabRecommend.recommendations
+                .filter((rec) => rec !== null)
+                .map((rec, index) => (
+                  <div
+                    key={index}
+                    style={{ maxWidth: "200px", textAlign: "center" }}
+                  >
                     <Link to={`/movie/details/${rec.title}`}>
                       <LazyLoadImage
                         src={rec.posterUrl}
@@ -189,63 +240,16 @@ const DetailsPage = () => {
                         }}
                       />
                     </Link>
-                  )}
-                </div>
-              ))
-          ) : (
-            <p style={{ color: "white" }}>
-              No content recommendations available
-            </p>
-          )}
-        </div>
-
-        <h2
-          style={{
-            color: "white",
-            textAlign: "left",
-            marginLeft: "0",
-            marginTop: "40px",
-          }}
-        >
-          Fans of {title} also like
-        </h2>
-
-        {/* Render Collaborative Recommendations */}
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "15px" }}>
-          {collabRecommend ? (
-            collabRecommend.recommendations
-              .filter((rec) => rec !== null)
-              .map((rec, index) => (
-                <div
-                  key={index}
-                  style={{ maxWidth: "200px", textAlign: "center" }}
-                >
-                  <Link to={`/movie/details/${rec.title}`}>
-                    <LazyLoadImage
-                      src={rec.posterUrl}
-                      alt={rec.title}
-                      effect="blur"
-                      className="img-fluid rounded"
-                      style={{
-                        width: "200px",
-                        height: "300px",
-                        objectFit: "cover",
-                      }}
-                      onError={(e) => {
-                        e.currentTarget.onerror = null;
-                        e.currentTarget.src = "/placeholder.png";
-                      }}
-                    />
-                  </Link>
-                </div>
-              ))
-          ) : (
-            <p style={{ color: "white" }}>
-              No collaborative recommendations available
-            </p>
-          )}
-        </div>
-      </AuthorizeView>
+                  </div>
+                ))
+            ) : (
+              <p style={{ color: "white" }}>
+                No collaborative recommendations available
+              </p>
+            )}
+          </div>
+        </AuthorizeView>
+      </div>
     </div>
   );
 };

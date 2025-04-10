@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, SetStateAction } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Movie } from "../types/Movie";
 import SearchBar from "./SearchBar";
@@ -8,7 +8,6 @@ import CineNicheLogo from "../assets/CineNicheLogo.png";
 function NavBar() {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [profileMenuOpen, setProfileMenuOpen] = useState(false); // Profile dropdown state
-
   const profileRef = useRef<HTMLDivElement | null>(null);
   const navigate = useNavigate();
 
@@ -52,18 +51,15 @@ function NavBar() {
 
   return (
     <nav
-      className="navbar fixed-top border-bottom px-4 py-0 text-white"
-      style={{ backgroundColor: "#333333", height: "70px" }}
+      className="navbar fixed-top px-4 py-0 text-white"
+      style={{ backgroundColor: "#1a1a1a33", height: "90px" }}
     >
       <div
         className="container-fluid d-flex justify-between align-items-center w-100"
         style={{ height: "100%" }}
       >
         {/* Left: Logo */}
-        <div
-          className="d-flex align-items-center gap-4"
-          style={{ height: "100%" }}
-        >
+        <div className="logo">
           <Link
             to="/"
             className="navbar-brand mb-0 d-flex align-items-center"
@@ -73,7 +69,7 @@ function NavBar() {
               src={CineNicheLogo}
               alt="CineNiche Logo"
               style={{
-                height: "100px",
+                height: "55px",
                 marginTop: "0px",
                 objectFit: "contain",
                 zIndex: 2,
@@ -85,7 +81,13 @@ function NavBar() {
 
         {/* Center: Only the search bar now (hamburger menu is inside SearchBar) */}
         <div className="d-flex align-items-center gap-3 flex-grow-1 justify-content-center">
-          <SearchBar movies={movies} redirectTo="/UserHomePage" />
+          <SearchBar
+            movies={movies}
+            redirectTo="/userHomePage"
+            searchTerm={""}
+            setSearchTerm={function (value: SetStateAction<string>): void {
+            throw new Error("Function not implemented.");
+          } } />
         </div>
 
         {/* Right: Profile icon and dropdown */}
@@ -115,7 +117,7 @@ function NavBar() {
               }}
             >
               <div
-                className="px-3 py-2 cursor-pointer"
+                className="px-3 py-2 cursor-pointer text-black"
                 onClick={() => {
                   setProfileMenuOpen(false);
                   console.log("Logging out...");

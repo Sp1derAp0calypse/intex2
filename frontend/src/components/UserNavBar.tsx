@@ -10,11 +10,15 @@ function UserNavBar({
   setSelectedCategories,
   sortOrder,
   setSortOrder,
+  searchTerm,
+  setSearchTerm,
 }: {
   selectedCategories: string[];
   setSelectedCategories: React.Dispatch<React.SetStateAction<string[]>>;
   sortOrder: string;
   setSortOrder: React.Dispatch<React.SetStateAction<string>>;
+  searchTerm: string;
+  setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
 }) {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [profileMenuOpen, setProfileMenuOpen] = useState(false); // Profile dropdown state
@@ -80,8 +84,8 @@ function UserNavBar({
   }, []);
   return (
     <nav
-      className="navbar fixed-top border-bottom px-4 py-0 text-white"
-      style={{ backgroundColor: "#333333", height: "70px" }}
+      className="navbar fixed-top px-4 py-0 text-white"
+      style={{ backgroundColor: "#1a1a1a33", height: "70px" }}
     >
       <div
         className="container-fluid d-flex justify-content-between align-items-center w-100"
@@ -102,7 +106,7 @@ function UserNavBar({
               src={CineNicheLogo}
               alt="CineNiche Logo"
               style={{
-                height: "100px",
+                height: "55px",
                 marginTop: "0px",
                 objectFit: "contain",
                 zIndex: 2,
@@ -114,7 +118,7 @@ function UserNavBar({
           {/* Genre Filter Dropdown */}
           <div
             className="dropdown"
-            style={{ position: "relative", marginLeft: "100px" }}
+            style={{ position: "relative", marginLeft: "350px" }}
           >
             <button
               className="btn btn-secondary dropdown-toggle"
@@ -177,16 +181,21 @@ function UserNavBar({
         </div>
 
         {/* Center Section: Search Bar */}
-        <div className="flex-grow-1 d-flex justify-content-center">
+        <div className="flex-grow-2 d-flex justify-content-center">
           <div
             style={{
-              marginLeft: "175px",
+              marginRight: "100px",
               minWidth: "300px",
               maxWidth: "600px",
               width: "100%",
             }}
           >
-            <SearchBar movies={movies} redirectTo="/UserHomePage" />
+            <SearchBar
+              movies={movies}
+              searchTerm={searchTerm}
+              setSearchTerm={setSearchTerm}
+              redirectTo="/UserHomePage"
+            />
           </div>
         </div>
 

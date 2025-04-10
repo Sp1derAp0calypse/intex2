@@ -1,18 +1,23 @@
 import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Movie } from "../types/Movie";
-import { FaBars, FaSearch } from "react-icons/fa";
+import { FaSearch } from "react-icons/fa";
 
 interface SearchBarProps {
   movies: Movie[];
   redirectTo: string;
+  searchTerm: string;
+  setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({ movies, redirectTo }) => {
-  const [searchTerm, setSearchTermLocal] = useState("");
+const SearchBar: React.FC<SearchBarProps> = ({
+  movies,
+  redirectTo,
+  searchTerm,
+  setSearchTerm,
+}) => {
   const [filteredMovies, setFilteredMovies] = useState<Movie[]>([]);
   const [showDropdown, setShowDropdown] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false); // Embedded hamburger menu
   const menuRef = useRef<HTMLDivElement | null>(null);
   const navigate = useNavigate();
 
@@ -33,14 +38,12 @@ const SearchBar: React.FC<SearchBarProps> = ({ movies, redirectTo }) => {
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-        setMenuOpen(false);
+        setShowDropdown(false);
       }
     };
 
     document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -52,7 +55,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ movies, redirectTo }) => {
   };
 
   const handleSearchClick = (title: string) => {
-    setSearchTermLocal(title);
+    setSearchTerm(title);
     navigate(`${redirectTo}?search=${encodeURIComponent(title)}`);
     setShowDropdown(false);
   };
@@ -61,6 +64,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ movies, redirectTo }) => {
     <div
       className="position-relative"
       style={{ maxWidth: "350px", width: "100%" }}
+      ref={menuRef}
     >
       <form
         onSubmit={handleSubmit}
@@ -68,73 +72,16 @@ const SearchBar: React.FC<SearchBarProps> = ({ movies, redirectTo }) => {
           display: "flex",
           alignItems: "center",
           backgroundColor: "#B3B3B3",
-          borderRadius: "50px", // ✅ fully rounded
+          borderRadius: "50px",
           padding: "6px 12px",
           gap: "8px",
-          position: "relative",
         }}
       >
-        {/* Hamburger menu inside the search bar */}
-        <div ref={menuRef} className="position-relative">
-          <FaBars
-            className="cursor-pointer"
-            onClick={() => setMenuOpen(!menuOpen)}
-            style={{ color: "#333", fontSize: "18px" }}
-          />
-          {menuOpen && (
-            <div
-              className="position-absolute top-100 start-0 mt-2 z-3"
-              style={{
-                backgroundColor: "#B3B3B3",
-                borderRadius: "12px",
-                boxShadow: "0 4px 12px rgba(0,0,0,0.2)",
-                padding: "8px 0",
-                minWidth: "120px",
-              }}
-            >
-              <div
-                className="px-4 py-2 cursor-pointer"
-                onClick={() => {
-                  setMenuOpen(false);
-                  navigate("/movies");
-                }}
-                onMouseEnter={(e) =>
-                  (e.currentTarget.style.backgroundColor = "#999")
-                }
-                onMouseLeave={(e) =>
-                  (e.currentTarget.style.backgroundColor = "#B3B3B3")
-                }
-              >
-                Movies
-              </div>
-              <div
-                className="px-3 py-2 cursor-pointer"
-                style={{
-                  fontSize: "14px", // 👈 Reduce font size just slightly
-                }}
-                onClick={() => {
-                  setMenuOpen(false);
-                  navigate("/tvshows");
-                }}
-                onMouseEnter={(e) =>
-                  (e.currentTarget.style.backgroundColor = "#999")
-                }
-                onMouseLeave={(e) =>
-                  (e.currentTarget.style.backgroundColor = "#B3B3B3")
-                }
-              >
-                Series
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* Input field */}
         <input
           type="search"
           placeholder="Search by Title"
           value={searchTerm}
-          onChange={(e) => setSearchTermLocal(e.target.value)}
+          onChange={(e) => setSearchTerm(e.target.value)}
           onFocus={() => setShowDropdown(true)}
           style={{
             background: "transparent",
@@ -148,7 +95,6 @@ const SearchBar: React.FC<SearchBarProps> = ({ movies, redirectTo }) => {
         <FaSearch style={{ color: "#333", fontSize: "16px" }} />
       </form>
 
-      {/* Dropdown search suggestions */}
       {showDropdown && filteredMovies.length > 0 && (
         <ul
           className="position-absolute w-100 mt-2 z-3"

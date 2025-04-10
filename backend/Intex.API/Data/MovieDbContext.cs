@@ -109,7 +109,42 @@ public partial class MovieDbContext : DbContext
             entity.Property(e => e.TvComedies).HasColumnName("TV Comedies");
             entity.Property(e => e.TvDramas).HasColumnName("TV Dramas");
             entity.Property(e => e.Type).HasColumnName("type");
+
+            // Additional Genre Properties from MoviesTitle.cs
+            entity.Property(e => e.Action).HasColumnName("Action");
+            entity.Property(e => e.Adventure).HasColumnName("Adventure");
+            entity.Property(e => e.AnimeSeriesInternationalTvShows).HasColumnName("Anime Series International TV Shows");
+            entity.Property(e => e.BritishTvShowsDocuseriesInternationalTvShows).HasColumnName("British TV Shows Docuseries International TV Shows");
+            entity.Property(e => e.Children).HasColumnName("Children");
+            entity.Property(e => e.Comedies).HasColumnName("Comedies");
+            entity.Property(e => e.ComediesDramasInternationalMovies).HasColumnName("Comedies Dramas International Movies");
+            entity.Property(e => e.ComediesInternationalMovies).HasColumnName("Comedies International Movies");
+            entity.Property(e => e.ComediesRomanticMovies).HasColumnName("Comedies Romantic Movies");
+            entity.Property(e => e.CrimeTvShowsDocuseries).HasColumnName("Crime TV Shows Docuseries");
+            entity.Property(e => e.Documentaries).HasColumnName("Documentaries");
+            entity.Property(e => e.DocumentariesInternationalMovies).HasColumnName("Documentaries International Movies");
+            entity.Property(e => e.Docuseries).HasColumnName("Docuseries");
+            entity.Property(e => e.Dramas).HasColumnName("Dramas");
+            entity.Property(e => e.DramasInternationalMovies).HasColumnName("Dramas International Movies");
+            entity.Property(e => e.DramasRomanticMovies).HasColumnName("Dramas Romantic Movies");
+            entity.Property(e => e.FamilyMovies).HasColumnName("Family Movies");
+            entity.Property(e => e.Fantasy).HasColumnName("Fantasy");
+            entity.Property(e => e.HorrorMovies).HasColumnName("Horror Movies");
+            entity.Property(e => e.InternationalMoviesThrillers).HasColumnName("International Movies Thrillers");
+            entity.Property(e => e.InternationalTvShowsRomanticTvShowsTvDramas).HasColumnName("International TV Shows Romantic TV Shows TV Dramas");
+            entity.Property(e => e.KidsTv).HasColumnName("Kids' TV");
+            entity.Property(e => e.LanguageTvShows).HasColumnName("Language TV Shows");
+            entity.Property(e => e.Musicals).HasColumnName("Musicals");
+            entity.Property(e => e.NatureTv).HasColumnName("Nature TV");
+            entity.Property(e => e.RealityTv).HasColumnName("Reality TV");
+            entity.Property(e => e.Spirituality).HasColumnName("Spirituality");
+            entity.Property(e => e.TvAction).HasColumnName("TV Action");
+            entity.Property(e => e.TvComedies).HasColumnName("TV Comedies");
+            entity.Property(e => e.TvDramas).HasColumnName("TV Dramas");
+            entity.Property(e => e.TalkShowsTvComedies).HasColumnName("Talk Shows TV Comedies");
+            entity.Property(e => e.Thrillers).HasColumnName("Thrillers");
         });
+
 
         modelBuilder.Entity<MoviesUser>(entity =>
         {
