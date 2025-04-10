@@ -10,11 +10,15 @@ function UserNavBar({
   setSelectedCategories,
   sortOrder,
   setSortOrder,
+  searchTerm,
+  setSearchTerm,
 }: {
   selectedCategories: string[];
   setSelectedCategories: React.Dispatch<React.SetStateAction<string[]>>;
   sortOrder: string;
   setSortOrder: React.Dispatch<React.SetStateAction<string>>;
+  searchTerm: string;
+  setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
 }) {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [profileMenuOpen, setProfileMenuOpen] = useState(false); // Profile dropdown state
@@ -114,7 +118,7 @@ function UserNavBar({
           {/* Genre Filter Dropdown */}
           <div
             className="dropdown"
-            style={{ position: "relative", marginLeft: "100px" }}
+            style={{ position: "relative", marginLeft: "350px" }}
           >
             <button
               className="btn btn-secondary dropdown-toggle"
@@ -180,13 +184,18 @@ function UserNavBar({
         <div className="flex-grow-1 d-flex justify-content-center">
           <div
             style={{
-              marginLeft: "175px",
+              marginRight: "100px",
               minWidth: "300px",
               maxWidth: "600px",
               width: "100%",
             }}
           >
-            <SearchBar movies={movies} redirectTo="/UserHomePage" />
+            <SearchBar
+              movies={movies}
+              searchTerm={searchTerm}
+              setSearchTerm={setSearchTerm}
+              redirectTo="/UserHomePage"
+            />
           </div>
         </div>
 

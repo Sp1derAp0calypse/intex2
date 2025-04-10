@@ -1,4 +1,3 @@
-import { useLocation } from "react-router-dom";
 import { useState } from "react";
 import MovieList from "../components/MovieList";
 import AuthorizeView from "../components/AuthorizeView";
@@ -7,10 +6,9 @@ import UserNavBar from "../components/UserNavBar";
 function UserHomePage() {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [sortOrder, setSortOrder] = useState<string>("asc");
+  const [searchTerm, setSearchTerm] = useState("");
 
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  const searchTerm = queryParams.get("search") || "";
+  // const searchTerm = queryParams.get("search") || "";
 
   return (
     <AuthorizeView>
@@ -19,6 +17,8 @@ function UserHomePage() {
         setSelectedCategories={setSelectedCategories}
         sortOrder={sortOrder}
         setSortOrder={setSortOrder}
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
       />
 
       <MovieList
