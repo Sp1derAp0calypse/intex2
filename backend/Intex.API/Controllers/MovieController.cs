@@ -456,5 +456,78 @@ namespace Intex.API.Controllers
             return Ok();
         }
 
+        [HttpGet("genrerecommendations")]
+        public async Task<IActionResult> GetGenreRecommendations([FromQuery] string genre)
+        {
+            try
+            {
+                // Normalize the genre input (remove spaces and convert to lowercase)
+                var genreColumnName = genre.Replace(" ", string.Empty).ToLower(); // Remove spaces and match property names
+
+                // Define the valid genres and their corresponding column names
+                var genreColumnMappings = new Dictionary<string, string>
+        {
+            { "animeseriesinternationaltvshows", "AnimeSeriesInternationalTvShows" },
+            { "britishtvshowsdocuseriesinternationaltvshows", "BritishTvShowsDocuseriesInternationalTvShows" },
+            { "children", "Children" },
+            { "comedies", "Comedies" },
+            { "comediesdramasinternationalmovies", "ComediesDramasInternationalMovies" },
+            { "comediesinternationalmovies", "ComediesInternationalMovies" },
+            { "comediesromanticmovies", "ComediesRomanticMovies" },
+            { "crimetvshowsdocuseries", "CrimeTvShowsDocuseries" },
+            { "documentaries", "Documentaries" },
+            { "documentariesinternationalmovies", "DocumentariesInternationalMovies" },
+            { "docuseries", "Docuseries" },
+            { "dramas", "Dramas" },
+            { "dramasinternationalmovies", "DramasInternationalMovies" },
+            { "dramasromanticmovies", "DramasRomanticMovies" },
+            { "familymovies", "FamilyMovies" },
+            { "fantasy", "Fantasy" },
+            { "horrormovies", "HorrorMovies" },
+            { "internationalmoviesthrillers", "InternationalMoviesThrillers" },
+            { "internationaltvshowsromantictvshowstvdramas", "InternationalTvShowsRomanticTvShowsTvDramas" },
+            { "kidstv", "KidsTv" },
+            { "languagetvshows", "LanguageTvShows" },
+            { "musicals", "Musicals" },
+            { "naturetv", "NatureTv" },
+            { "realitytv", "RealityTv" },
+            { "spirituality", "Spirituality" },
+            { "tvaction", "TvAction" },
+            { "tvcomedies", "TvComedies" },
+            { "tvdramas", "TvDramas" },
+            { "talkshowstvcomedies", "TalkShowsTvComedies" },
+            { "thrillers", "Thrillers" }
+        };
+
+                // Check if the genre is valid and exists in the column mappings
+                if (!genreColumnMappings.ContainsKey(genreColumnName))
+                {
+                    return BadRequest("Invalid genre");
+                }
+
+                // Get the correct database column name based on the genre
+                var genreDbColumnName = genreColumnMappings[genreColumnName];
+
+                // Query to get movies where the genre column is set to 1 (true)
+                var movies = await _movieContext.Movies
+                    .Where(m => EF.Property<int>(m, genreDbColumnName) == 1)
+                    .Select(m => new
+                    {
+                        m.Title,
+                        m.poster_url
+                    })
+                    .Take(7)
+                    .ToListAsync();
+
+                // Return the matched movies
+                return Ok(new { movies });
+            }
+            catch (Exception ex)
+            {
+                // Log and return the error
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
     }
 }
