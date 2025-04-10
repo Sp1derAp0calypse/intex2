@@ -67,68 +67,94 @@ function Register() {
   };
 
   return (
-    <div className="container">
-      <div className="row">
-        <div className="card border-0 shadow rounded-3 ">
-          <div className="card-body p-4 p-sm-5">
-            <h5 className="card-title text-center mb-5 fw-light fs-5">
-              Register
-            </h5>
-            <form onSubmit={handleSubmit}>
-              <div className="form-floating mb-3">
-                <input
-                  className="form-control"
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={email}
-                  onChange={handleChange}
-                />
-                <label htmlFor="email">Email address</label>
-              </div>
-              <div className="form-floating mb-3">
-                <input
-                  className="form-control"
-                  type="password"
-                  id="password"
-                  name="password"
-                  value={password}
-                  onChange={handleChange}
-                />
-                <label htmlFor="password">Password</label>
-              </div>
-              <div className="form-floating mb-3">
-                <input
-                  className="form-control"
-                  type="password"
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  value={confirmPassword}
-                  onChange={handleChange}
-                />
-                <label htmlFor="confirmPassword">Confirm Password</label>
-              </div>
-
-              <div className="d-grid mb-2">
-                <button
-                  className="btn btn-primary btn-login text-uppercase fw-bold"
-                  type="submit"
-                >
-                  Register
-                </button>
-              </div>
-              <div className="d-grid mb-2">
-                <button
-                  className="btn btn-primary btn-login text-uppercase fw-bold"
-                  onClick={handleLoginClick}
-                >
-                  Go to Login
-                </button>
-              </div>
-            </form>
-            <strong>{error && <p className="error">{error}</p>}</strong>
+    <div
+      className="login-wrapper"
+      style={{
+        minHeight: "100vh",
+        width: "100vw",
+        backgroundImage: "url('/placeholdeHomeNew.png')",
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "center",
+        position: "fixed",
+        top: 0,
+        left: 0,
+      }}
+    >
+      <div className="login-card">
+        <h5 className="text-center mb-4">Register</h5>
+        <form onSubmit={handleSubmit}>
+          <div className="form-floating mb-3 text-white">
+            <input
+              className="form-control"
+              type="email"
+              id="email"
+              name="email"
+              value={email}
+              onChange={handleChange}
+            />
+            <label htmlFor="email" className="text-white">
+              Email address
+            </label>
           </div>
-        </div>
+          <div className="form-floating mb-3">
+            <input
+              className="form-control"
+              type="password"
+              id="password"
+              name="password"
+              value={password}
+              onChange={handleChange}
+            />
+            <label htmlFor="password" className="text-white">
+              Password
+            </label>
+          </div>
+          <div className="form-floating mb-3 text-white">
+            <input
+              className="form-control"
+              type="password"
+              id="confirmPassword"
+              name="confirmPassword"
+              value={confirmPassword}
+              onChange={handleChange}
+            />
+            <label htmlFor="confirmPassword" className="text-white">
+              Confirm Password
+            </label>
+          </div>
+          <br />
+
+          <div className="d-flex justify-content-center mb-3">
+            <button
+              className="nav-buttons"
+              type="submit"
+              style={{
+                backgroundColor: "#c9a449", // Your logo yellow
+                color: "black",
+                padding: "0.75rem 1.5rem",
+                borderRadius: "0.375rem",
+                fontWeight: 600,
+                border: "none",
+                width: "100%"
+              }}
+            >
+              Register
+            </button>
+          </div>
+
+          <div className="d-flex justify-content-center">
+            <button
+              className="nav-buttons bg-dark text-white"
+              type="button"
+              onClick={handleLoginClick}
+              style={{ borderRadius: "5px", width: "100%" }}
+            >
+              Go to Login
+            </button>
+          </div>
+        </form>
+        <strong>{error && <p className="error">{error}</p>}</strong>
       </div>
     </div>
   );
