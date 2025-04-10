@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, SetStateAction } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Movie } from "../types/Movie";
 import SearchBar from "./SearchBar";
@@ -10,6 +10,8 @@ function NavBar() {
   const [profileMenuOpen, setProfileMenuOpen] = useState(false); // Profile dropdown state
   const profileRef = useRef<HTMLDivElement | null>(null);
   const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState<string>("");
+
 
   // Fetch movies for the search bar
   useEffect(() => {
@@ -84,10 +86,13 @@ function NavBar() {
           <SearchBar
             movies={movies}
             redirectTo="/userHomePage"
-            searchTerm={""}
-            setSearchTerm={function (value: SetStateAction<string>): void {
-            throw new Error("Function not implemented.");
-          } } />
+            searchTerm={searchTerm}
+            setSearchTerm={setSearchTerm}
+            //   searchTerm={""}
+            //   setSearchTerm={function (value: SetStateAction<string>): void {
+            //   throw new Error("Function not implemented.");
+            // } }
+          />
         </div>
 
         {/* Right: Profile icon and dropdown */}
