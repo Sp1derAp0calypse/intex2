@@ -1,10 +1,12 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Movie } from "../types/Movie";
 import { deleteMovie, fetchMovies } from "../api/MoviesApi";
 import Pagination from "../components/Pagination";
 import NewMovieForm from "../components/NewMovieForm";
 import EditMovieForm from "../components/EditMovieForm";
 import AuthorizeView from "../components/AuthorizeView";
+import { FaUserCircle } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const AdminMoviesPage = () => {
   const [movies, setMovies] = useState<Movie[]>([]);
@@ -15,6 +17,7 @@ const AdminMoviesPage = () => {
   const [totalPages, setTotalPages] = useState<number>(0);
   const [showForm, setShowForm] = useState(false);
   const [editingMovie, setEditingMovie] = useState<Movie | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const loadMovies = async () => {
@@ -32,6 +35,25 @@ const AdminMoviesPage = () => {
 
     loadMovies();
   }, [pageSize, pageNum]);
+
+  const [profileMenuOpen, setProfileMenuOpen] = useState(false);
+  const profileRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        profileRef.current &&
+        !profileRef.current.contains(event.target as Node)
+      ) {
+        setProfileMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const handleDelete = async (showId: string | undefined) => {
     const confirmDelete = window.confirm(
@@ -72,7 +94,64 @@ const AdminMoviesPage = () => {
   return (
     <>
       <AuthorizeView>
-        <h1 style={{ color: "white" }}>Admin - Movie List</h1>
+        <nav
+          className="navbar border-bottom px-4 py-2"
+          style={{ backgroundColor: "#1a1a1a", color: "white" }}
+        >
+          <div className="container-fluid d-flex justify-content-between align-items-center">
+            <h4 className="mb-0 text-white">Admin Dashboard</h4>
+            <button
+              className="btn btn-outline-light"
+              onClick={() => navigate("/landingPage")}
+            >
+              Home
+            </button>
+
+            <div
+              ref={profileRef}
+              className="d-flex align-items-center gap-3 position-relative"
+            >
+              {/* Profile Icon */}
+              <FaUserCircle
+                className="cursor-pointer"
+                style={{ color: "#B3B3B3", fontSize: "28px" }}
+                title="Profile"
+                onClick={() => setProfileMenuOpen(!profileMenuOpen)}
+              />
+
+              {/* Dropdown */}
+              {profileMenuOpen && (
+                <div
+                  className="position-absolute top-100 end-0 mt-2 z-3"
+                  style={{
+                    backgroundColor: "#B3B3B3",
+                    borderRadius: "12px",
+                    boxShadow: "0 4px 12px rgba(0,0,0,0.2)",
+                    minWidth: "120px",
+                    padding: "8px 0",
+                  }}
+                >
+                  <div
+                    className="px-3 py-2 cursor-pointer"
+                    onClick={() => {
+                      setProfileMenuOpen(false);
+                      window.location.href = "/login"; // or use navigate("/login");
+                    }}
+                    style={{ fontSize: "14px" }}
+                    onMouseEnter={(e) =>
+                      (e.currentTarget.style.backgroundColor = "#999")
+                    }
+                    onMouseLeave={(e) =>
+                      (e.currentTarget.style.backgroundColor = "#B3B3B3")
+                    }
+                  >
+                    Logout
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </nav>
 
         {!showForm && (
           <button

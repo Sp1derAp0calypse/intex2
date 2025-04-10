@@ -50,7 +50,6 @@ const EditMovieForm = ({ movie, onSuccess, onCancel }: EditMovieFormProps) => {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value, type } = e.target;
-
     if (type === "checkbox") {
       setFormData((prev) => ({
         ...prev,
@@ -66,10 +65,8 @@ const EditMovieForm = ({ movie, onSuccess, onCancel }: EditMovieFormProps) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
     try {
-      console.log("Submitting updated movie:", formData);
-      await updateMovie(formData.showId!, formData); // ✅ leave it as string
+      await updateMovie(formData.showId!, formData);
       onSuccess();
     } catch (error) {
       console.error("Failed to update movie:", error);
@@ -78,140 +75,105 @@ const EditMovieForm = ({ movie, onSuccess, onCancel }: EditMovieFormProps) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ color: "white" }}>
-      <h2 style={{ color: "white" }}>Edit Movie</h2>
-
-      <label>
-        Show ID:
-        <input
-          type="text"
-          name="showId"
-          value={formData.showId ?? ""}
-          onChange={handleChange}
-          required
-        />
-      </label>
-
-      <label>
-        Title:
-        <input
-          type="text"
-          name="title"
-          value={formData.title ?? ""}
-          onChange={handleChange}
-          required
-        />
-      </label>
-
-      <label>
-        Type:
-        <input
-          type="text"
-          name="type"
-          value={formData.type ?? ""}
-          onChange={handleChange}
-        />
-      </label>
-
-      <label>
-        Director:
-        <input
-          type="text"
-          name="director"
-          value={formData.director ?? ""}
-          onChange={handleChange}
-        />
-      </label>
-
-      <label>
-        Cast:
-        <input
-          type="text"
-          name="cast"
-          value={formData.cast ?? ""}
-          onChange={handleChange}
-        />
-      </label>
-
-      <label>
-        Country:
-        <input
-          type="text"
-          name="country"
-          value={formData.country ?? ""}
-          onChange={handleChange}
-        />
-      </label>
-
-      <label>
-        Release Year:
-        <input
-          type="number"
-          name="releaseYear"
-          value={formData.releaseYear ?? new Date().getFullYear()}
-          onChange={handleChange}
-        />
-      </label>
-
-      <label>
-        Rating:
-        <input
-          type="text"
-          name="rating"
-          value={formData.rating ?? ""}
-          onChange={handleChange}
-        />
-      </label>
-
-      <label>
-        Duration:
-        <input
-          type="text"
-          name="duration"
-          value={formData.duration ?? ""}
-          onChange={handleChange}
-        />
-      </label>
-
-      <label>
-        Description:
-        <textarea
-          name="description"
-          value={formData.description ?? ""}
-          onChange={handleChange}
-        />
-      </label>
-
-      <br />
-      <br />
-      <fieldset>
-        <legend>Genres</legend>
-        <br />
-        <div className="row">
-          {genreFields.map((genre) => (
-            <div className="col-4" key={genre}>
-              <label>
-                <input
-                  type="checkbox"
-                  name={genre}
-                  checked={formData[genre] === 1}
-                  onChange={handleChange}
-                />
-                {genre
-                  .replace(/([A-Z])/g, " $1")
-                  .replace(/^./, (str) => str.toUpperCase())}
-              </label>
+    <div className="card p-4 mb-4 shadow-sm" style={{ backgroundColor: "white", borderRadius: "12px" }}>
+      <h2 className="mb-4 text-dark">Edit Movie</h2>
+      <form onSubmit={handleSubmit}>
+        <div className="row g-3">
+          <div className="col-md-6">
+            <label className="form-label">Show ID</label>
+            <input
+              type="text"
+              name="showId"
+              value={formData.showId ?? ""}
+              onChange={handleChange}
+              className="form-control"
+              required
+              disabled
+            />
+          </div>
+  
+          <div className="col-md-6">
+            <label className="form-label">Title</label>
+            <input
+              type="text"
+              name="title"
+              value={formData.title ?? ""}
+              onChange={handleChange}
+              className="form-control"
+              required
+            />
+          </div>
+  
+          {[
+            { label: "Type", name: "type" },
+            { label: "Director", name: "director" },
+            { label: "Cast", name: "cast" },
+            { label: "Country", name: "country" },
+            { label: "Release Year", name: "releaseYear", type: "number" },
+            { label: "Rating", name: "rating" },
+            { label: "Duration", name: "duration" },
+          ].map(({ label, name, type = "text" }) => (
+            <div className="col-md-6" key={name}>
+              <label className="form-label">{label}</label>
+              <input
+                type={type}
+                name={name}
+                value={(formData as any)[name] ?? ""}
+                onChange={handleChange}
+                className="form-control"
+              />
             </div>
           ))}
+  
+          <div className="col-12">
+            <label className="form-label">Description</label>
+            <textarea
+              name="description"
+              value={formData.description ?? ""}
+              onChange={handleChange}
+              className="form-control"
+              rows={3}
+            />
+          </div>
         </div>
-      </fieldset>
-
-      <button type="submit">Update Movie</button>
-      <button type="button" onClick={onCancel}>
-        Cancel
-      </button>
-    </form>
+  
+        <fieldset className="mt-4">
+          <legend className="text-dark">Genres</legend>
+          <div className="row">
+            {genreFields.map((genre) => (
+              <div className="col-md-4" key={genre}>
+                <div className="form-check">
+                  <input
+                    type="checkbox"
+                    name={genre}
+                    id={genre}
+                    checked={formData[genre] === 1}
+                    onChange={handleChange}
+                    className="form-check-input"
+                  />
+                  <label className="form-check-label" htmlFor={genre}>
+                    {genre
+                      .replace(/([A-Z])/g, " $1")
+                      .replace(/^./, (str) => str.toUpperCase())}
+                  </label>
+                </div>
+              </div>
+            ))}
+          </div>
+        </fieldset>
+  
+        <div className="mt-4 d-flex justify-content-end gap-2">
+          <button type="submit" className="btn btn-success">
+            Update Movie
+          </button>
+          <button type="button" onClick={onCancel} className="btn btn-secondary">
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
   );
+  
 };
 
 export default EditMovieForm;
