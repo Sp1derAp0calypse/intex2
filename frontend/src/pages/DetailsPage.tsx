@@ -43,7 +43,8 @@ const DetailsPage = () => {
       if (title) {
         const encodedTitle = encodeURIComponent(title); // URL-encode the title
         const response = await fetch(
-          `https://intex2-315-backend-gxdsgxfwavhyc8ax.eastus-01.azurewebsites.net/Movie/collabrecommendations?title=${encodedTitle}`, // Correct URL for collaborative recommendations
+          // `https://intex2-315-backend-gxdsgxfwavhyc8ax.eastus-01.azurewebsites.net/Movie/collabrecommendations?title=${encodedTitle}`, // Correct URL for collaborative recommendations
+          `https://localhost:5000/Movie/collabrecommendations?title=${encodedTitle}`,
           {
             method: "GET",
             credentials: "include",
@@ -71,7 +72,8 @@ const DetailsPage = () => {
       if (title) {
         const encodedTitle = encodeURIComponent(title);
         const response = await fetch(
-          `https://intex2-315-backend-gxdsgxfwavhyc8ax.eastus-01.azurewebsites.net/Movie/contentrecommendations?title=${encodedTitle}`,
+          // `https://intex2-315-backend-gxdsgxfwavhyc8ax.eastus-01.azurewebsites.net/Movie/contentrecommendations?title=${encodedTitle}`,
+          `https://localhost:5000/Movie/contentrecommendations?title=${encodedTitle}`,
           {
             method: "GET",
             credentials: "include",
@@ -176,9 +178,9 @@ const DetailsPage = () => {
                         effect="blur"
                         className="img-fluid rounded"
                         style={{
-                          width: "100%",
-                          height: "auto",
-                          objectFit: "contain",
+                          width: "200px",
+                          height: "300px",
+                          objectFit: "cover",
                         }}
                         onError={(e) => {
                           e.currentTarget.onerror = null;
@@ -224,9 +226,9 @@ const DetailsPage = () => {
                       effect="blur"
                       className="img-fluid rounded"
                       style={{
-                        width: "100%",
-                        height: "auto",
-                        objectFit: "contain",
+                        width: "200px",
+                        height: "300px",
+                        objectFit: "cover",
                       }}
                       onError={(e) => {
                         e.currentTarget.onerror = null;
