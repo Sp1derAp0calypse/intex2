@@ -12,11 +12,8 @@ var builder = WebApplication.CreateBuilder(args);
 var movieDbUser = Environment.GetEnvironmentVariable("DB_USER");
 var movieDbPassword = Environment.GetEnvironmentVariable("DB_PASSWORD");
 var movieConnectionString = builder.Configuration.GetConnectionString("MovieString")
-    .Replace("{DB_USER}", movieDbUser)
-    .Replace("{PASSWORD}", movieDbPassword);
-
-Console.WriteLine($"DB_USER: {movieDbUser}");
-Console.WriteLine($"DB_PASSWORD: {movieDbPassword}");
+    .Replace("{DB_USER}", "cinanicheadmin")
+    .Replace("{PASSWORD}", "sp1DERap0CALypse042");
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
