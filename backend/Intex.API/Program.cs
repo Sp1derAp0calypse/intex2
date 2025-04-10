@@ -9,7 +9,11 @@ using RootkitAuth.API.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+var movieDbUser = Environment.GetEnvironmentVariable("DB_USER");
+var movieDbPassword = Environment.GetEnvironmentVariable("DB_PASSWORD");
+var movieConnectionString = builder.Configuration.GetConnectionString("MovieString")
+    .Replace("{MOVIE_DB_USER}", movieDbUser)
+    .Replace("{MOVIE_DB_PASSWORD}", movieDbPassword);
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -21,7 +25,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("IdentityConnection")));
 
 builder.Services.AddDbContext<MovieDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("MovieConnection")));
+    options.UseSqlServer(movieConnectionString));
 
 
 // using authorization 
