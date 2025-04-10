@@ -601,5 +601,37 @@ namespace Intex.API.Controllers
             }
         }
 
+        [HttpGet("getaveragerating/{title}")]
+        public IActionResult GetAverageRating(string title)
+        {
+            // Search for the movie by title in the Movies table
+            var movie = _movieContext.Movies
+                .FirstOrDefault(m => m.Title.ToLower() == title.ToLower());
+
+            // If no movie is found, return a 404 Not Found response
+            if (movie == null)
+            {
+                return NotFound(new { message = $"Movie with title '{title}' not found" });
+            }
+
+            // Use the showId to fetch ratings from the MoviesRating table
+            var ratings = _movieContext.MoviesRatings
+                .Where(mr => mr.ShowId == movie.ShowId)
+                .ToList(); // Get all ratings for the given showId
+
+            // If there are no ratings, return 0 as the average
+            if (ratings.Count == 0)
+            {
+                return Ok(new { AverageRating = 0 });
+            }
+
+            // Calculate the average rating (considering Rating is nullable)
+            var averageRating = ratings.Average(mr => mr.Rating ?? 0);
+
+            // Return the average rating as JSON
+            return Ok(new { AverageRating = averageRating });
+        }
+
+
     }
 }

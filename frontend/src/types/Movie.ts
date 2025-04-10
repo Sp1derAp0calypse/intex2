@@ -42,4 +42,5 @@ export interface Movie {
   talkShowsTvComedies?: number;
   thrillers?: number;
   poster_url?: string;
+  average_rating?: number;
 }

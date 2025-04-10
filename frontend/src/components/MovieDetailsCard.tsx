@@ -1,4 +1,6 @@
+import { useEffect, useState } from "react";
 import { Movie } from "../types/Movie";
+import { FaStar } from "react-icons/fa";
 
 interface Props {
   movie: Movie;
@@ -45,6 +47,34 @@ const MovieDetailsCard = ({ movie }: Props) => {
     .filter(([key]) => (movie as any)[key] === 1)
     .map(([_, label]) => label);
 
+  const [averageRating, setAverageRating] = useState<number | null>(null);
+
+  useEffect(() => {
+    const fetchAverageRating = async () => {
+      try {
+        const response = await fetch(
+          `https://localhost:5000/Movie/getaveragerating/${movie.title}`,
+          {
+            method: "GET",
+            credentials: "include", // Include credentials if necessary
+          }
+        );
+        if (response.ok) {
+          const data = await response.json();
+          console.log("Fetched data:", data); // Log the response to the console
+          setAverageRating(data.averageRating);
+        } else {
+          console.error("Error fetching average rating");
+        }
+      } catch (error) {
+        console.error("Error fetching average rating:", error);
+      }
+    };
+
+    // Call the fetch function when the component mounts
+    fetchAverageRating();
+  }, []); // Empty dependency array, so it runs once when the component mounts
+
   return (
     <div
       className="card mb-4"
@@ -64,6 +94,30 @@ const MovieDetailsCard = ({ movie }: Props) => {
           style={{ backgroundColor: "transparent", border: "none" }}
         >
           <strong>Director:</strong> {movie.director}
+        </li>
+        <li
+          className="list-group-item"
+          style={{ backgroundColor: "transparent", border: "none" }}
+        >
+          <strong>Average Rating:</strong>{" "}
+          <div style={{ textAlign: "center", marginTop: "10px" }}>
+            {averageRating !== null ? (
+              <div>
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <FaStar
+                    key={star}
+                    size={30}
+                    style={{ marginRight: 8 }}
+                    color={averageRating >= star ? "#f5c518" : "#ccc"} // Color based on average rating
+                  />
+                ))}
+              </div>
+            ) : (
+              <p style={{ color: "lightgrey" }}>
+                No user ratings found. Be the first!
+              </p>
+            )}
+          </div>
         </li>
         <li
           className="list-group-item"
