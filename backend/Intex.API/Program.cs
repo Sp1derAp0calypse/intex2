@@ -73,7 +73,8 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowFrontend",
         policy =>
         {
-            policy.WithOrigins("http://localhost:3000", "white-beach-0e9046f1e.6.azurestaticapps.net", "cinaniche.com") // Replace with your frontend URL
+            policy.AllowAnyOrigin()
+            //  .WithOrigins("http://localhost:3000", "white-beach-0e9046f1e.6.azurestaticapps.net", "cinaniche.com") // Replace with your frontend URL
                 .AllowCredentials() // Required to allow cookies
                 .AllowAnyMethod()
                 .AllowAnyHeader()
