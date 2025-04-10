@@ -152,7 +152,8 @@ const DetailsPage = () => {
 
         {movie && (
           <div style={{ marginTop: "-40px", marginBottom: "20px" }}>
-            <Rating showId={movie.showId} />
+            <Rating showId={movie.showId} />{" "}
+            {/* Pass the movie's showId to Rating */}
           </div>
         )}
 

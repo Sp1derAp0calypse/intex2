@@ -61,8 +61,10 @@ public partial class MovieDbContext : DbContext
         modelBuilder.Entity<MoviesRating>(entity =>
         {
             entity
-                .HasNoKey()
                 .ToTable("movies_ratings");
+
+            // Define composite key (UserId and ShowId together)
+            entity.HasKey(e => new { e.UserId, e.ShowId });
 
             entity.Property(e => e.Rating).HasColumnName("rating");
             entity.Property(e => e.ShowId).HasColumnName("show_id");
