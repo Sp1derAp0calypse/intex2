@@ -1,6 +1,14 @@
+import { useNavigate } from "react-router-dom";
+
 function Privacy() {
+  const navigate = useNavigate();
+
   return (
     <div className="p-6 max-w-4xl mx-auto text-white text-left !text-left">
+      <div className="header-buttons" onClick={() => navigate(-1)}>
+        <button className="nav-button">Go back</button>
+      </div>
+      <br />
       <h1 className="text-3xl font-bold mb-6">
         Terms of Use and Privacy Statement
       </h1>

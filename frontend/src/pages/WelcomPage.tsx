@@ -21,10 +21,10 @@ function WelcomePage() {
 
         {/* Right - Buttons */}
         <div className="header-buttons">
-          <Link className="nav-link text-white" to="/subscribe">
+          <Link className="nav-button" to="/subscribe">
             Subscribe
           </Link>
-          <Link className="nav-link text-white" to="/login">
+          <Link className="nav-button" to="/login">
             Login
           </Link>
         </div>
