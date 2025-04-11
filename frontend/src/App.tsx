@@ -77,7 +77,6 @@ function App() {
       >
         This website uses cookies to enhance the user experience.
       </CookieConsent>
-
       <Footer />
     </Router>
   );

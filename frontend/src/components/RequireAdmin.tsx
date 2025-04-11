@@ -8,8 +8,8 @@ const RequireAdmin = ({ children }: { children: JSX.Element }) => {
     const checkAdmin = async () => {
       try {
         const response = await fetch(
-          // "https://intex2-315-backend-gxdsgxfwavhyc8ax.eastus-01.azurewebsites.net/pingauth",
           "https://localhost:5000/pingauth",
+          // "https://intex2-315-backend-gxdsgxfwavhyc8ax.eastus-01.azurewebsites.net/pingauth",
           {
             credentials: "include",
           }
