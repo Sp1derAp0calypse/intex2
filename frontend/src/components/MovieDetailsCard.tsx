@@ -121,7 +121,7 @@ const MovieDetailsCard = ({ movie }: Props) => {
                 ))}
               </div>
             ) : (
-              <p style={{ color: "lightgrey" }}>
+              <p style={{ color: "#c9a449" }}>
                 No user ratings found. Be the first!
               </p>
             )}
@@ -129,7 +129,11 @@ const MovieDetailsCard = ({ movie }: Props) => {
         </li>
         <li
           className="list-group-item"
-          style={{ backgroundColor: "transparent", border: "none" }}
+          style={{
+            backgroundColor: "transparent",
+            border: "none",
+            color: "white",
+          }}
         >
           <strong>Cast:</strong> {movie.cast}
         </li>
