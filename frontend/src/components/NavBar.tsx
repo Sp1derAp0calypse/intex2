@@ -55,7 +55,7 @@ function NavBar() {
   return (
     <nav
       className="navbar fixed-top px-4 py-0 text-white"
-      style={{ backgroundColor: "rgba(26, 26, 26, 0.6)", height: "90px" }}
+      style={{ backgroundColor: "rgba(26, 26, 26, 0.7)", height: "90px" }}
     >
       <div
         className="container-fluid d-flex justify-between align-items-center w-100"
