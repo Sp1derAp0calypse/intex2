@@ -57,10 +57,18 @@ function App() {
       </div>
       <CookieConsent
         enableDeclineButton
+        sameSite="Lax"
+        hideOnAccept={true}
+        hideOnDecline={true}
         onAccept={() => {
+          Cookies.set("userCookieConsent", "true", { path: "/", expires: 365 });
           console.log("User accepted cookies");
         }}
         onDecline={() => {
+          Cookies.set("userCookieConsent", "false", {
+            path: "/",
+            expires: 365,
+          });
           console.log("User declined cookies");
         }}
         buttonStyle={{
@@ -78,9 +86,8 @@ function App() {
           padding: "8px 16px",
         }}
         expires={365}
-      >
-        This website uses cookies to enhance the user experience.
-      </CookieConsent>
+      />
+
       <Footer />
     </Router>
   );
