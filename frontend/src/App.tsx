@@ -53,39 +53,28 @@ function App() {
         </Routes>
       </div>
       <CookieConsent
-        cookieName="userCookieConsent"
+        location="bottom"
         enableDeclineButton
-        sameSite="Lax"
-        onAccept={() => {
-          Cookies.set("userCookieConsent", "true", { path: "/", expires: 365 });
-          console.log("User accepted cookies");
-        }}
-        onDecline={() => {
-          Cookies.set("userCookieConsent", "false", {
-            path: "/",
-            expires: 365,
-          });
-          console.log("User declined cookies");
-        }}
-        buttonText="Accept"
         declineButtonText="Decline"
-        buttonStyle={{
-          color: "#4e503b",
-          fontSize: "13px",
-          backgroundColor: "#c9a449",
-          borderRadius: "6px",
-          padding: "8px 16px",
-        }}
+        buttonText="Accept All"
+        cookieName="userCookieConsent"
+        style={{ background: "#000" }}
+        buttonStyle={{ color: "#fff", fontSize: "14px" }}
         declineButtonStyle={{
-          color: "white",
-          backgroundColor: "#888",
-          fontSize: "13px",
-          borderRadius: "6px",
-          padding: "8px 16px",
+          color: "#fff",
+          background: "#c0392b",
+          fontSize: "14px",
         }}
         expires={365}
+        onAccept={() => {
+          console.log("Cookies accepted");
+        }}
+        onDecline={() => {
+          console.log("Cookies declined");
+        }}
       >
-        This website uses cookies to enhance the user experience.
+        We use cookies to improve user experience. By clicking "Accept All," you
+        consent to the use of cookies.
       </CookieConsent>
 
       <Footer />
