@@ -21,17 +21,15 @@ function App() {
     const consent = Cookies.get("userCookieConsent");
 
     if (consent === "true") {
-      // Safe to initialize tracking/analytics
       console.log("Consent given. Loading analytics...");
-      Cookies.set("userCookieConsent", "true", { path: "/", expires: 365 });
       // initGoogleAnalytics(); or similar
     } else if (consent === "false") {
       console.log("No consent, not loading trackers.");
-      Cookies.set("userCookieConsent", "false", { path: "/", expires: 365 });
     } else {
       console.log("User hasn't made a cookie choice yet");
     }
   }, []);
+
   return (
     <Router>
       {/* <WelcomeNavBar /> */}
@@ -71,6 +69,8 @@ function App() {
           });
           console.log("User declined cookies");
         }}
+        buttonText="Accept"
+        declineButtonText="Decline"
         buttonStyle={{
           color: "#4e503b",
           fontSize: "13px",
@@ -86,7 +86,9 @@ function App() {
           padding: "8px 16px",
         }}
         expires={365}
-      />
+      >
+        This website uses cookies to enhance the user experience.
+      </CookieConsent>
 
       <Footer />
     </Router>
