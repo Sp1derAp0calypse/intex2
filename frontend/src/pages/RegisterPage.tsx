@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import BackButton from "../components/Back";
 
 function Register() {
   // state variables for email and passwords
@@ -81,6 +82,8 @@ function Register() {
         left: 0,
       }}
     >
+      {" "}
+      <BackButton />
       <div className="login-card">
         <h5 className="text-center mb-4">Register</h5>
         <form onSubmit={handleSubmit}>
