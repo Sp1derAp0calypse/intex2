@@ -4,6 +4,7 @@ import { Movie } from "../types/Movie";
 import SearchBar from "./SearchBar";
 import { FaUserCircle } from "react-icons/fa";
 import CineNicheLogo from "../assets/CineNicheLogo.png";
+import RequireAdmin from "./RequireAdmin";
 
 function UserNavBar({
   selectedCategories,
@@ -203,10 +204,22 @@ function UserNavBar({
         >
           <button
             className="btn btn-outline-light"
-            onClick={() => navigate("/landingPage")}
+            onClick={() => {
+              setSearchTerm("");
+              navigate("/landingPage");
+            }}
           >
             Home
           </button>
+
+          <RequireAdmin>
+            <button
+              className="btn btn-outline-light"
+              onClick={() => navigate("/adminmovies")}
+            >
+              Admin Page
+            </button>
+          </RequireAdmin>
 
           <FaUserCircle
             className="cursor-pointer"
