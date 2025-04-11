@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import NavBar from "../components/NavBar";
 import { Movie } from "../types/Movie";
 import { LazyLoadImage } from "react-lazy-load-image-component"; // Assuming you're using this component
-import { Link } from "react-router-dom"; // For routing to movie details
+import { Link, useLocation } from "react-router-dom"; // For routing to movie details
 import Back from "../components/Back";
 import AuthorizeView from "../components/AuthorizeView";
 

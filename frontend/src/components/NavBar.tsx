@@ -4,6 +4,7 @@ import { Movie } from "../types/Movie";
 import SearchBar from "./SearchBar";
 import { FaUserCircle } from "react-icons/fa";
 import CineNicheLogo from "../assets/CineNicheLogo.png";
+import RequireAdmin from "./RequireAdmin";
 
 function NavBar() {
   const [movies, setMovies] = useState<Movie[]>([]);
@@ -95,9 +96,24 @@ function NavBar() {
             All Movies
           </Link>
         </div>
-
+        <div style={{ marginLeft: "20px"}}>
+          <RequireAdmin>
+            <Link
+              className="nav-button"
+              style={{
+                backgroundColor: hovered ? "#c8af6f" : "#c9a449",
+                color: "black",
+              }}
+              to="/adminmovies"
+              onMouseEnter={() => setHovered(true)}
+              onMouseLeave={() => setHovered(false)}
+            >
+              Admin Page
+            </Link>
+          </RequireAdmin>
+        </div>
         {/* Center: Only the search bar now (hamburger menu is inside SearchBar) */}
-        <div className="d-flex align-items-center gap-3 flex-grow-1 justify-content-center">
+        <div style={{ marginRight: "300px"}} className="d-flex align-items-center gap-3 flex-grow-1 justify-content-center">
           <SearchBar
             movies={movies}
             redirectTo="/userHomePage"

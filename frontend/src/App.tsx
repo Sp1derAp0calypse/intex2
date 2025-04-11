@@ -7,26 +7,27 @@ import DetailsPage from "./pages/DetailsPage";
 import Privacy from "./components/Privacy";
 import AdminMoviesPage from "./pages/AdminMovieList";
 import UserHomePage from "./pages/UserHomePage";
-import CookieConsent from "react-cookie-consent";
+import CookieConsent, { Cookies } from "react-cookie-consent";
 import RequireAdmin from "./components/RequireAdmin";
 import WelcomePage from "./pages/WelcomPage";
 // import WelcomeNavBar from "./components/WelcomeNavBar";
 import LandingPage from "./pages/LandingPage";
+import { useEffect } from "react";
 
 // import { useEffect } from "react";
 
 function App() {
-  // useEffect(() => {
-  //   const consent = Cookies.get('userCookieConsent');
+  useEffect(() => {
+    const consent = Cookies.get("userCookieConsent");
 
-  //   if (consent === 'true') {
-  //     // Safe to initialize tracking/analytics
-  //     console.log("Consent given. Loading analytics...");
-  //     // initGoogleAnalytics(); or similar
-  //   } else {
-  //     console.log("No consent, not loading trackers.");
-  //   }
-  // }, []);
+    if (consent === "true") {
+      // Safe to initialize tracking/analytics
+      console.log("Consent given. Loading analytics...");
+      // initGoogleAnalytics(); or similar
+    } else {
+      console.log("No consent, not loading trackers.");
+    }
+  }, []);
   return (
     <Router>
       {/* <WelcomeNavBar /> */}
@@ -50,10 +51,38 @@ function App() {
           <Route path="/landingPage" element={<LandingPage />} />
         </Routes>
       </div>
-      <CookieConsent>
+      import CookieConsent from "react-cookie-consent";
+      <CookieConsent
+        enableDeclineButton
+        onAccept={() => {
+          console.log("✅ User accepted cookies");
+          // You could initialize analytics or save cookie preferences
+        }}
+        onDecline={() => {
+          console.log("❌ User declined cookies");
+          // Don't initialize anything that uses cookies
+        }}
+        buttonText="Accept"
+        declineButtonText="Decline"
+        style={{ background: "#2B373B" }}
+        buttonStyle={{
+          color: "#4e503b",
+          fontSize: "13px",
+          backgroundColor: "#c9a449",
+          borderRadius: "6px",
+          padding: "8px 16px",
+        }}
+        declineButtonStyle={{
+          color: "white",
+          backgroundColor: "#888",
+          fontSize: "13px",
+          borderRadius: "6px",
+          padding: "8px 16px",
+        }}
+        expires={365}
+      >
         This website uses cookies to enhance the user experience.
       </CookieConsent>
-
       <Footer />
     </Router>
   );

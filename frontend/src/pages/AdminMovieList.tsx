@@ -6,6 +6,7 @@ import NewMovieForm from "../components/NewMovieForm";
 import EditMovieForm from "../components/EditMovieForm";
 import AuthorizeView from "../components/AuthorizeView";
 import { FaUserCircle } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const AdminMoviesPage = () => {
   const [movies, setMovies] = useState<Movie[]>([]);
@@ -16,6 +17,7 @@ const AdminMoviesPage = () => {
   const [totalPages, setTotalPages] = useState<number>(0);
   const [showForm, setShowForm] = useState(false);
   const [editingMovie, setEditingMovie] = useState<Movie | null>(null);
+  const [hovered, setHovered] = useState(false);
 
   useEffect(() => {
     const loadMovies = async () => {
@@ -103,6 +105,30 @@ const AdminMoviesPage = () => {
               ref={profileRef}
               className="d-flex align-items-center gap-3 position-relative"
             >
+              <Link
+                className="nav-button"
+                style={{
+                  backgroundColor: hovered ? "#c8af6f" : "#c9a449",
+                  color: "black",
+                }}
+                to="/landingPage"
+                onMouseEnter={() => setHovered(true)}
+                onMouseLeave={() => setHovered(false)}
+              >
+                Home
+              </Link>
+              <Link
+                className="nav-button"
+                style={{
+                  backgroundColor: hovered ? "#c8af6f" : "#c9a449",
+                  color: "black",
+                }}
+                to="/userHomePage"
+                onMouseEnter={() => setHovered(true)}
+                onMouseLeave={() => setHovered(false)}
+              >
+                All Movies
+              </Link>
               {/* Profile Icon */}
               <FaUserCircle
                 className="cursor-pointer"
@@ -110,7 +136,6 @@ const AdminMoviesPage = () => {
                 title="Profile"
                 onClick={() => setProfileMenuOpen(!profileMenuOpen)}
               />
-
               {/* Dropdown */}
               {profileMenuOpen && (
                 <div
@@ -138,7 +163,7 @@ const AdminMoviesPage = () => {
                     }
                   >
                     Logout
-                  </div>
+                  </div>{" "}
                 </div>
               )}
             </div>

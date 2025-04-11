@@ -23,29 +23,6 @@ function MovieList({
   const observerRef = useRef<IntersectionObserver | null>(null);
   const navigate = useNavigate();
   const pageSize = 18;
-  const [hasRestored, setHasRestored] = useState(false);
-
-  useEffect(() => {
-    if (hasRestored) return; // skip reset if we just restored
-    setPageNum(1);
-    setMovies([]);
-  }, [selectedCategories, searchTerm, sortOrder, hasRestored]);
-
-  useEffect(() => {
-    const saved = sessionStorage.getItem("savedMovies");
-    const savedPage = sessionStorage.getItem("savedPageNum");
-    const savedScroll = sessionStorage.getItem("scrollY");
-
-    if (saved && savedPage && !hasRestored) {
-      setMovies(JSON.parse(saved));
-      setPageNum(Number(savedPage));
-      setHasRestored(true);
-
-      setTimeout(() => {
-        if (savedScroll) window.scrollTo(0, parseInt(savedScroll));
-      }, 0);
-    }
-  }, [hasRestored]);
 
   // Fetch movies when pageNum or filters change
   useEffect(() => {
@@ -72,13 +49,6 @@ function MovieList({
 
     loadMovies();
   }, [pageNum, selectedCategories, searchTerm]);
-
-  // Reset movie list when filters or sort change
-  useEffect(() => {
-    if (hasRestored) return; // skip reset if we just restored
-    setPageNum(1);
-    setMovies([]);
-  }, [selectedCategories, searchTerm, sortOrder, hasRestored]);
 
   // Infinite scroll observer
   useEffect(() => {
@@ -136,15 +106,6 @@ function MovieList({
                 className="col d-flex justify-content-center"
                 style={{ cursor: "pointer" }}
                 onClick={() => {
-                  sessionStorage.setItem("scrollY", window.scrollY.toString());
-                  sessionStorage.setItem("savedPageNum", pageNum.toString());
-                  sessionStorage.setItem("savedMovies", JSON.stringify(movies));
-                  sessionStorage.setItem(
-                    "savedCategories",
-                    JSON.stringify(selectedCategories)
-                  );
-                  sessionStorage.setItem("savedSortOrder", sortOrder || "asc");
-                  sessionStorage.setItem("savedSearch", searchTerm || "");
                   navigate(`/Movie/details/${m.title}`, {
                     state: { movie: m },
                   });
