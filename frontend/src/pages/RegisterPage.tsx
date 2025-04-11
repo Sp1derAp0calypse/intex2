@@ -136,7 +136,7 @@ function Register() {
                 borderRadius: "0.375rem",
                 fontWeight: 600,
                 border: "none",
-                width: "100%"
+                width: "100%",
               }}
             >
               Register
