@@ -23,9 +23,11 @@ function App() {
     if (consent === "true") {
       // Safe to initialize tracking/analytics
       console.log("Consent given. Loading analytics...");
+      Cookies.set("userCookieConsent", "true", { path: "/", expires: 365 });
       // initGoogleAnalytics(); or similar
     } else {
       console.log("No consent, not loading trackers.");
+      Cookies.set("userCookieConsent", "false", { path: "/", expires: 365 });
     }
   }, []);
   return (
