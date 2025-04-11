@@ -28,8 +28,14 @@ const RecommendedTitles = () => {
             credentials: "include",
           }
         );
-        if (!res.ok) {
+        if (res.status === 404) {
+          // No personalized recommendations found — not an error
+          setMovies([]);
+        } else if (!res.ok) {
           throw new Error("Failed to fetch recommended titles");
+        } else {
+          const data: Movie[] = await res.json();
+          setMovies(data);
         }
 
         const data: Movie[] = await res.json();
@@ -162,8 +168,8 @@ const RecommendedTitles = () => {
     return <div>Loading...</div>;
   }
 
-  if (error) {
-    return <div>Error: {error}</div>;
+  {
+    error && <div style={{ color: "red" }}>Warning: {error}</div>;
   }
 
   return (
@@ -172,84 +178,88 @@ const RecommendedTitles = () => {
         <NavBar />
         <Back />
         <div style={{ padding: "20px" }}>
-          <div>
-            {movies.map((movie) => (
-              <div
-                key={movie.showId}
-                style={{
-                  display: "flex",
-                  gap: "40px",
-                  alignItems: "flex-start",
-                  flexWrap: "wrap",
-                  marginBottom: "30px",
-                }}
-              >
-                {/* Movie Title and Content Recommendations */}
-                <div style={{ flex: "1 1 auto" }}>
-                  {/* Content Recommendations */}
-                  <div
-                    style={{
-                      display: "flex",
-                      gap: "15px",
-                      flexWrap: "wrap",
-                      marginBottom: "30px",
-                    }}
-                  >
-                    {contentRecommend
-                      .filter(
-                        (recommendation) => recommendation.title === movie.title
-                      )
-                      .map((recData, index) => (
-                        <div key={index}>
-                          <h3 style={{ color: "white" }}>
-                            Because you watched {movie.title}
-                          </h3>
-                          <div
-                            style={{
-                              display: "flex",
-                              gap: "15px",
-                              flexWrap: "wrap",
-                            }}
-                          >
-                            {recData.recommendations?.map(
-                              (rec: any, idx: number) => (
-                                <div
-                                  key={idx}
-                                  style={{
-                                    maxWidth: "200px",
-                                    textAlign: "center",
-                                  }}
-                                >
-                                  <Link to={`/movie/details/${rec.title}`}>
-                                    <LazyLoadImage
-                                      src={rec.posterUrl}
-                                      alt={rec.title}
-                                      effect="blur"
-                                      className="img-fluid rounded"
-                                      style={{
-                                        width: "200px",
-                                        height: "300px",
-                                        objectFit: "cover",
-                                      }}
-                                      onError={(e) => {
-                                        e.currentTarget.onerror = null;
-                                        e.currentTarget.src =
-                                          "/placeholder.png";
-                                      }}
-                                    />
-                                  </Link>
-                                </div>
-                              )
-                            )}
+          {/* Content Recommendations Section (only shown if movies exist) */}
+          {movies.length > 0 && (
+            <div>
+              {movies.map((movie) => (
+                <div
+                  key={movie.showId}
+                  style={{
+                    display: "flex",
+                    gap: "40px",
+                    alignItems: "flex-start",
+                    flexWrap: "wrap",
+                    marginBottom: "30px",
+                  }}
+                >
+                  <div style={{ flex: "1 1 auto" }}>
+                    <div
+                      style={{
+                        display: "flex",
+                        gap: "15px",
+                        flexWrap: "wrap",
+                        marginBottom: "30px",
+                      }}
+                    >
+                      {contentRecommend
+                        .filter(
+                          (recommendation) =>
+                            recommendation.title === movie.title
+                        )
+                        .map((recData, index) => (
+                          <div key={index}>
+                            <h3 style={{ color: "white" }}>
+                              Because you watched {movie.title}
+                            </h3>
+                            <div
+                              style={{
+                                display: "flex",
+                                gap: "15px",
+                                flexWrap: "wrap",
+                              }}
+                            >
+                              {recData.recommendations?.map(
+                                (rec: any, idx: number) => (
+                                  <div
+                                    key={idx}
+                                    style={{
+                                      maxWidth: "200px",
+                                      textAlign: "center",
+                                    }}
+                                  >
+                                    <Link to={`/movie/details/${rec.title}`}>
+                                      <LazyLoadImage
+                                        src={rec.posterUrl}
+                                        alt={rec.title}
+                                        effect="blur"
+                                        className="img-fluid rounded"
+                                        style={{
+                                          width: "200px",
+                                          height: "300px",
+                                          objectFit: "cover",
+                                        }}
+                                        onError={(e) => {
+                                          e.currentTarget.onerror = null;
+                                          e.currentTarget.src =
+                                            "/placeholder.png";
+                                        }}
+                                      />
+                                    </Link>
+                                  </div>
+                                )
+                              )}
+                            </div>
                           </div>
-                        </div>
-                      ))}
+                        ))}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
+          )}
 
-            {/* Genre-Based Recommendations */}
+          {/* Always Show Genre-Based Recommendations */}
+          <div>
             {loadingGenres ? (
               <div>Loading genre-based recommendations...</div>
             ) : errorGenres ? (
