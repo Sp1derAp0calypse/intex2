@@ -53,7 +53,8 @@ const MovieDetailsCard = ({ movie }: Props) => {
     const fetchAverageRating = async () => {
       try {
         const response = await fetch(
-          `https://localhost:5000/Movie/getaveragerating/${movie.title}`,
+          // `https://localhost:5000/Movie/getaveragerating/${movie.title}`,
+          `https://intex2-315-backend-gxdsgxfwavhyc8ax.eastus-01.azurewebsites.net/Movie/getaveragerating/${movie.title}`,
           {
             method: "GET",
             credentials: "include", // Include credentials if necessary

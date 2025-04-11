@@ -21,8 +21,8 @@ const RecommendedTitles = () => {
     const fetchRecommendedTitles = async () => {
       try {
         const res = await fetch(
-          // `https://intex2-315-backend-gxdsgxfwavhyc8ax.eastus-01.azurewebsites.net/Movie/recommended-titles`,
-          `https://localhost:5000/Movie/recommended-titles`,
+          `https://intex2-315-backend-gxdsgxfwavhyc8ax.eastus-01.azurewebsites.net/Movie/recommended-titles`,
+          // `https://localhost:5000/Movie/recommended-titles`,
           {
             method: "GET",
             credentials: "include",
@@ -53,8 +53,8 @@ const RecommendedTitles = () => {
   const fetchContentRecommendations = async (title: string) => {
     const encodedTitle = encodeURIComponent(title);
     const response = await fetch(
-      // `https://intex2-315-backend-gxdsgxfwavhyc8ax.eastus-01.azurewebsites.net/Movie/contentrecommendations?title=${encodedTitle}`,
-      `https://localhost:5000/Movie/contentrecommendations?title=${encodedTitle}`,
+      `https://intex2-315-backend-gxdsgxfwavhyc8ax.eastus-01.azurewebsites.net/Movie/contentrecommendations?title=${encodedTitle}`,
+      // `https://localhost:5000/Movie/contentrecommendations?title=${encodedTitle}`,
       {
         method: "GET",
         credentials: "include",
@@ -96,7 +96,8 @@ const RecommendedTitles = () => {
   // Function to fetch genre recommendations from the backend
   const fetchGenreRecommendations = async (genre: string) => {
     const response = await fetch(
-      `https://localhost:5000/Movie/genrerecommendations?genre=${encodeURIComponent(genre)}`,
+      // `https://localhost:5000/Movie/genrerecommendations?genre=${encodeURIComponent(genre)}`,
+      `https://intex2-315-backend-gxdsgxfwavhyc8ax.eastus-01.azurewebsites.net/Movie/genrerecommendations?genre=${encodeURIComponent(genre)}`,
       {
         method: "GET",
         credentials: "include",
