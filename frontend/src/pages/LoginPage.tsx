@@ -39,10 +39,10 @@ function LoginPage() {
     }
 
     const loginUrl = rememberme
-      ? // "https://intex2-315-backend-gxdsgxfwavhyc8ax.eastus-01.azurewebsites.net/login?useCookies=true"
-        "https://localhost:5000/login?useCookies=true"
-      : // "https://intex2-315-backend-gxdsgxfwavhyc8ax.eastus-01.azurewebsites.net/login?useSessionCookies=true";
-        "https://localhost:5000/login?useSessionCookies=true";
+      ? "https://intex2-315-backend-gxdsgxfwavhyc8ax.eastus-01.azurewebsites.net/login?useCookies=true"
+      : // "https://localhost:5000/login?useCookies=true"
+        "https://intex2-315-backend-gxdsgxfwavhyc8ax.eastus-01.azurewebsites.net/login?useSessionCookies=true";
+    // "https://localhost:5000/login?useSessionCookies=true";
 
     try {
       // Step 1: Log the user in
@@ -66,8 +66,8 @@ function LoginPage() {
 
       // Step 2: Fetch current user's roles
       const roleResponse = await fetch(
-        // "https://intex2-315-backend-gxdsgxfwavhyc8ax.eastus-01.azurewebsites.net/pingauth",
-        "https://localhost:5000/pingauth",
+        "https://intex2-315-backend-gxdsgxfwavhyc8ax.eastus-01.azurewebsites.net/pingauth",
+        // "https://localhost:5000/pingauth",
         {
           method: "GET",
           credentials: "include", // Important for accessing secure identity info

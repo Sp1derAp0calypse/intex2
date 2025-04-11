@@ -19,8 +19,8 @@ function NavBar() {
     const fetchAllMovies = async () => {
       try {
         const res = await fetch(
-          // "https://intex2-315-backend-gxdsgxfwavhyc8ax.eastus-01.azurewebsites.net/Movie/allmovies",
-          "https://localhost:5000/Movie/allmovies",
+          "https://intex2-315-backend-gxdsgxfwavhyc8ax.eastus-01.azurewebsites.net/Movie/allmovies",
+          // "https://localhost:5000/Movie/allmovies",
           {
             credentials: "include",
           }

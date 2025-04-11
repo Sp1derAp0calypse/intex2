@@ -21,8 +21,8 @@ const DetailsPage = () => {
   useEffect(() => {
     const fetchMovieDetails = async () => {
       const response = await fetch(
-        // `https://intex2-315-backend-gxdsgxfwavhyc8ax.eastus-01.azurewebsites.net/Movie/getdetails/${title}`,
-        `https://localhost:5000/Movie/getdetails/${title}`,
+        `https://intex2-315-backend-gxdsgxfwavhyc8ax.eastus-01.azurewebsites.net/Movie/getdetails/${title}`,
+        // `https://localhost:5000/Movie/getdetails/${title}`,
         {
           method: "GET",
           credentials: "include",
@@ -44,8 +44,8 @@ const DetailsPage = () => {
       if (title) {
         const encodedTitle = encodeURIComponent(title); // URL-encode the title
         const response = await fetch(
-          // `https://intex2-315-backend-gxdsgxfwavhyc8ax.eastus-01.azurewebsites.net/Movie/collabrecommendations?title=${encodedTitle}`, // Correct URL for collaborative recommendations
-          `https://localhost:5000/Movie/collabrecommendations?title=${encodedTitle}`,
+          `https://intex2-315-backend-gxdsgxfwavhyc8ax.eastus-01.azurewebsites.net/Movie/collabrecommendations?title=${encodedTitle}`, // Correct URL for collaborative recommendations
+          // `https://localhost:5000/Movie/collabrecommendations?title=${encodedTitle}`,
           {
             method: "GET",
             credentials: "include",
@@ -73,8 +73,8 @@ const DetailsPage = () => {
       if (title) {
         const encodedTitle = encodeURIComponent(title);
         const response = await fetch(
-          // `https://intex2-315-backend-gxdsgxfwavhyc8ax.eastus-01.azurewebsites.net/Movie/contentrecommendations?title=${encodedTitle}`,
-          `https://localhost:5000/Movie/contentrecommendations?title=${encodedTitle}`,
+          `https://intex2-315-backend-gxdsgxfwavhyc8ax.eastus-01.azurewebsites.net/Movie/contentrecommendations?title=${encodedTitle}`,
+          // `https://localhost:5000/Movie/contentrecommendations?title=${encodedTitle}`,
           {
             method: "GET",
             credentials: "include",

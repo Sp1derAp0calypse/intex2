@@ -14,8 +14,8 @@ function CategoryFilter({
     const fetchCategories = async () => {
       try {
         const response = await fetch(
-          // "https://intex2-315-backend-gxdsgxfwavhyc8ax.eastus-01.azurewebsites.net/Movie/getmovietypes",
-          "https://localhost:5000/Movie/getmovietypes",
+          "https://intex2-315-backend-gxdsgxfwavhyc8ax.eastus-01.azurewebsites.net/Movie/getmovietypes",
+          // "https://localhost:5000/Movie/getmovietypes",
           {
             credentials: "include",
           }
