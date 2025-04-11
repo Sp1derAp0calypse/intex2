@@ -56,8 +56,6 @@ function App() {
       <CookieConsent
         enableDeclineButton
         sameSite="Lax"
-        hideOnAccept={true}
-        hideOnDecline={true}
         onAccept={() => {
           Cookies.set("userCookieConsent", "true", { path: "/", expires: 365 });
           console.log("User accepted cookies");
