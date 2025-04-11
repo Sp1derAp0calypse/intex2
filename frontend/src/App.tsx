@@ -25,9 +25,11 @@ function App() {
       console.log("Consent given. Loading analytics...");
       Cookies.set("userCookieConsent", "true", { path: "/", expires: 365 });
       // initGoogleAnalytics(); or similar
-    } else {
+    } else if (consent === "false") {
       console.log("No consent, not loading trackers.");
       Cookies.set("userCookieConsent", "false", { path: "/", expires: 365 });
+    } else {
+      console.log("User hasn't made a cookie choice yet");
     }
   }, []);
   return (
