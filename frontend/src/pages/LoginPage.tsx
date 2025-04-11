@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import BackButton from "../components/Back";
 
 function LoginPage() {
   // state variables for email and passwords
@@ -107,6 +108,7 @@ function LoginPage() {
         left: 0,
       }}
     >
+      <BackButton />
       <div className="login-card text-white">
         <h5 className="text-center mb-4">Sign In</h5>
         <form onSubmit={handleSubmit}>
@@ -181,9 +183,6 @@ function LoginPage() {
               Register
             </button>
           </div>
-
-
-
         </form>
         {error && <p className="text-danger text-center mt-3">{error}</p>}
       </div>

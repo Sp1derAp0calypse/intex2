@@ -580,15 +580,16 @@ namespace Intex.API.Controllers
                 // Get the correct database column name based on the genre
                 var genreDbColumnName = genreColumnMappings[genreColumnName];
 
-                // Query to get movies where the genre column is set to 1 (true)
+                // Query to get movies where the genre column is set to 1 (true) and order randomly
                 var movies = await _movieContext.Movies
                     .Where(m => EF.Property<int>(m, genreDbColumnName) == 1)
+                    .OrderBy(m => Guid.NewGuid()) // Randomize the results
                     .Select(m => new
                     {
                         m.Title,
                         m.poster_url
                     })
-                    .Take(7)
+                    .Take(6) // Limit the results to 6
                     .ToListAsync();
 
                 // Return the matched movies
@@ -600,6 +601,7 @@ namespace Intex.API.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
+
 
         [HttpGet("getaveragerating/{title}")]
         public IActionResult GetAverageRating(string title)
