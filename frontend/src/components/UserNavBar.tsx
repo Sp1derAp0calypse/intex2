@@ -133,6 +133,7 @@ function UserNavBar({
                 className="dropdown-menu show p-2"
                 style={{
                   maxHeight: "300px",
+                  width: "300px",
                   overflowY: "auto",
                   backgroundColor: "#f8f9fa",
                   borderRadius: "8px",
