@@ -1,7 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import FaqList from "../components/FaqList";
 import CineNicheLogo from "../assets/CineNicheLogo.png";
-import Back from "../components/Back";
 function WelcomePage() {
   const navigate = useNavigate();
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -10,7 +9,6 @@ function WelcomePage() {
   };
   return (
     <>
-      <Back />
       <div className="custom-header">
         {/* Left - Logo */}
         <div className="header-logo">
