@@ -19,7 +19,6 @@ import { useEffect } from "react";
 function App() {
   useEffect(() => {
     const consent = Cookies.get("userCookieConsent");
-
     if (consent === "true") {
       console.log("Consent given. Loading analytics...");
       // initGoogleAnalytics(); or similar
@@ -54,6 +53,7 @@ function App() {
         </Routes>
       </div>
       <CookieConsent
+        cookieName="userCookieConsent"
         enableDeclineButton
         sameSite="Lax"
         onAccept={() => {
